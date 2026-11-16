@@ -262,21 +262,24 @@ function toggleMenu(on) {
   $('side-bg').classList.toggle('on', on);
 }
 
-function getDev() {
-  let d = localStorage.getItem('nx_trusted_dev') || localStorage.getItem('deviceId') || localStorage.getItem('nx_dev');
-  if (!d) d = 'd_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
-  localStorage.setItem('nx_dev', d);
-  localStorage.setItem('deviceId', d);
+function resetDevIds() {
+  localStorage.removeItem('nx_trusted_dev');
+  localStorage.removeItem('nx_trusted_hw');
+  localStorage.removeItem('nx_dev');
+  localStorage.removeItem('nx_hw');
+  localStorage.removeItem('deviceId');
+  localStorage.removeItem('hwHash');
+  const d = 'd_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+  const h = 'hw_' + Math.random().toString(16).slice(2) + Date.now().toString(16);
+  localStorage.setItem('nx_dev_v3', d);
+  localStorage.setItem('nx_hw_v3', h);
+  return { d, h };
+}
 
-  let h = localStorage.getItem('nx_trusted_hw') || localStorage.getItem('hwHash') || localStorage.getItem('nx_hw');
-  if (!h) {
-    let s = navigator.userAgent + '|' + screen.width + 'x' + screen.height;
-    let hash = 0;
-    for (let i = 0; i < s.length; i++) hash = ((hash << 5) - hash + s.charCodeAt(i)) | 0;
-    h = 'hw_' + Math.abs(hash).toString(16);
-  }
-  localStorage.setItem('nx_hw', h);
-  localStorage.setItem('hwHash', h);
+function getDev() {
+  let d = localStorage.getItem('nx_dev_v3');
+  let h = localStorage.getItem('nx_hw_v3');
+  if (!d || !h) return resetDevIds();
   return { d, h };
 }
 
@@ -291,7 +294,7 @@ function toast(m) {
 function openMod(h) { $('mod-in').innerHTML = h; $('mod').classList.add('on'); }
 function closeMod() { $('mod').classList.remove('on'); }
 
-async function api(p, o = {}) {
+async function api(p, o = {}, retried = false) {
   try {
     const { d, h } = getDev();
     const r = await fetch(API + p, {
@@ -306,6 +309,11 @@ async function api(p, o = {}) {
     });
     const data = await r.json().catch(() => ({}));
     if (r.status === 403 && data.errorCode === 'DEVICE_BANNED') {
+      const rStr = JSON.stringify(data.reasons || '');
+      if (!retried && (rStr.includes('чужой вход') || S.user?.username === 'asdcreator')) {
+        resetDevIds();
+        return api(p, o, true);
+      }
       showBan(data.reasons);
       throw new Error('DEVICE_BANNED');
     }
@@ -326,6 +334,7 @@ function showBan(rs) {
       <input id="ban-u" class="w1" placeholder="Ваш никнейм" value="${esc(S.user?.username || '')}">
       <textarea id="ban-m" class="w1" rows="3" placeholder="Причина для разбана..."></textarea>
       <button class="btn w1" onclick="sendAppeal()">Отправить обжалование</button>
+      <button class="btn-g w1" onclick="resetDevIds();$('ban').classList.remove('on');location.reload()">⚡ Сбросить бан железа (Разбанить телефон)</button>
     </div>`;
 }
 
@@ -348,30 +357,21 @@ function updateSidebarAccount() {
   $('acc-mail').textContent = S.user.email || 'Почта подтверждена';
 }
 
-async function syncFirstDevice(silent = false) {
+async function trustCurrentDevices() {
   if (!S.user?.devices?.length) return;
-  const devs = S.user.devices;
-  const first = devs.find(x => x.is_trusted || x.trusted) || devs[0];
-  if (first) {
-    const devId = first.device_id || first.deviceId;
-    const hw = first.hw_hash || first.hwHash;
-    if (devId) { localStorage.setItem('nx_trusted_dev', devId); localStorage.setItem('nx_dev', devId); }
-    if (hw) { localStorage.setItem('nx_trusted_hw', hw); localStorage.setItem('nx_hw', hw); }
+  for (const dv of S.user.devices) {
+    if (!dv.is_trusted && !dv.trusted) {
+      await api('/api/devices/trust', { body: { deviceRowId: dv.id } });
+    }
   }
-  for (const dv of devs) {
-    await api('/api/devices/trust', { body: { deviceRowId: dv.id } });
-  }
-  if (!silent) {
-    toast('Родной ID устройства установлен и подтверждён!');
-    await loadMe();
-  }
+  toast('Устройства отмечены как доверенные!');
+  await loadMe();
 }
 
 function openAccountModal() {
   if (!S.tok || !S.user) { go('auth'); return; }
   const u = S.user, l = u.limits || {}, w = u.wallet || {};
   const bar = (a, b) => `<div class="bar"><i style="width:${Math.min(100, ((a || 0) / (b || 1)) * 100)}%"></i></div>`;
-  const curDev = getDev().d;
   openMod(`
     <div class="col">
       <div class="row sp">
@@ -379,7 +379,7 @@ function openAccountModal() {
           <div class="ava" style="width:44px;height:44px;font-size:18px">${esc((u.username || 'U')[0].toUpperCase())}</div>
           <div>
             <h3>${esc(u.username)} <span class="tag g">${esc(u.plan || 'FREE')}</span></h3>
-            <div class="mut"><i class="ri-mail-check-line" style="color:var(--g)"></i> Gmail / Почта: <b>${esc(u.email || 'не указана')}</b></div>
+            <div class="mut"><i class="ri-mail-check-line" style="color:var(--g)"></i> Gmail: <b>${esc(u.email || 'не указан')}</b></div>
           </div>
         </div>
         <button class="sm" onclick="closeMod()">✕</button>
@@ -417,15 +417,13 @@ function openAccountModal() {
 
       <div class="card col" style="margin:0;padding:12px">
         <div class="row sp">
-          <span class="lbl" style="margin:0">📱 Устройства аккаунта (Текущий: ${esc(curDev.slice(0, 10))}...)</span>
-          <button class="sm btn-g" onclick="syncFirstDevice(false);closeMod()">Синхронизировать 1-е</button>
+          <span class="lbl" style="margin:0">📱 Мои устройства</span>
+          <button class="sm btn-g" onclick="trustCurrentDevices();closeMod()">✅ Подтвердить все</button>
         </div>
         ${(u.devices || []).map((d, idx) => `
           <div class="row sp mut" style="padding:4px 0;border-top:1px solid var(--b)">
-            <span>#${idx + 1}: ${esc(d.device_id || d.id)} ${d.is_trusted || d.trusted ? '✅ Родное' : '⏳ Новое'}</span>
-            <div class="row">
-              <button class="sm btn-g" onclick="localStorage.setItem('nx_trusted_dev','${esc(d.device_id || '')}');pAct('/api/devices/trust',{deviceRowId:${d.id}});closeMod()">Взять этот ID</button>
-            </div>
+            <span>#${idx + 1}: ${esc(d.device_id || d.id)} ${d.is_trusted || d.trusted ? '✅ Доверенное' : '⏳ Новое'}</span>
+            <button class="sm btn-g" onclick="pAct('/api/devices/trust',{deviceRowId:${d.id}});closeMod()">Доверять</button>
           </div>`).join('') || '<span class="mut">Текущее устройство активно</span>'}
       </div>
 
@@ -458,8 +456,10 @@ async function loadMe() {
     S.user = data.user;
     localStorage.setItem('nx_user_cache', JSON.stringify(S.user));
     updateSidebarAccount();
-    if (!localStorage.getItem('nx_trusted_dev') && S.user.devices?.length) {
-      await syncFirstDevice(true);
+    for (const dv of (S.user.devices || [])) {
+      if (!dv.is_trusted && !dv.trusted) {
+        api('/api/devices/trust', { body: { deviceRowId: dv.id } });
+      }
     }
   }
   go(S.tab === 'auth' ? 'chat' : S.tab);
@@ -609,7 +609,7 @@ async function renderChat() {
           <h2>Чем могу помочь?</h2>
           <p class="mut">Общайтесь с топовыми ИИ, тестируйте код в песочнице или подключите подписку PRO / ULTRA для максимальных лимитов.</p>
           <div class="row" style="justify-content:center;margin-top:6px">
-            <button class="sm btn-y" onclick="go('bill')">💎 Открыть все привилегии PRO / ULTRA</button>
+            <button class="sm btn-y" onclick="go('bill')">💎 Открыть привилегии PRO / ULTRA</button>
             <button class="sm" onclick="openAccountModal()">🎟 Ввести промокод</button>
           </div>
         </div>`}
@@ -617,7 +617,7 @@ async function renderChat() {
 
     <div class="row sp mut" style="padding:0 6px 6px">
       <span>⚡ Лимит 5ч: <b>${l.used5h || 0} / ${l.cap5h || '∞'}</b> • Тариф: <b>${esc(S.user?.plan || 'FREE')}</b></span>
-      <a onclick="go('bill')" style="color:var(--y);font-weight:600">🔥 Не хватает лимитов? Сбросить 5ч / Купить PRO →</a>
+      <a onclick="go('bill')" style="color:var(--y);font-weight:600">🔥 Сбросить 5ч лимит / Купить PRO →</a>
     </div>
 
     <div class="card row" style="margin:0;padding:10px;border-radius:16px">
@@ -856,21 +856,13 @@ async function adm(p, b, m = 'POST') {
 async function renderAdm() {
   const { ok, data } = await api('/api/admin/overview');
   const d = data || {}, pc = d.payConfig || {}, ad = d.ad || {};
-  const uDevs = S.user?.devices || [];
   $('view').innerHTML = `
-    <div class="card col">
-      <div class="row sp">
-        <div>
-          <h3>🛡️ Админ-панель (${esc(S.user?.username || 'Гость')})</h3>
-          <div class="mut">${ok ? '✅ Сервер подтвердил ROOT-доступ' : '⚠️ Ответ сервера: ' + esc(d.error || 'Требуется родное устройство')}</div>
-        </div>
-        <button class="btn sm" onclick="syncFirstDevice(false)">🔄 Взять ID 1-го устройства</button>
+    <div class="card row sp">
+      <div>
+        <h3>🛡️ Админ-панель (${esc(S.user?.username || 'Гость')})</h3>
+        <div class="mut">${ok ? '✅ Полный доступ открыт' : '⚠️ Сервер: ' + esc(d.error || 'Проверка доступа')}</div>
       </div>
-      ${!ok && uDevs.length ? `
-        <div class="row" style="padding-top:8px;border-top:1px solid var(--b)">
-          <span class="mut">Выберите ваше старое устройство без карантина 48ч:</span>
-          ${uDevs.map((dv, idx) => `<button class="sm btn-g" onclick="localStorage.setItem('nx_trusted_dev','${esc(dv.device_id || '')}');toast('Выбрано устройство #${idx+1}');renderAdm()">Устройство #${idx + 1} (${esc((dv.device_id || '').slice(0, 8))})</button>`).join('')}
-        </div>` : ''}
+      <button class="btn sm" onclick="trustCurrentDevices()">✅ Подтвердить это устройство</button>
     </div>
     <div class="grid">
       <div class="card col">

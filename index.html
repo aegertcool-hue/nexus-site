@@ -3,189 +3,62 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>NEXUS AI — Arena & Studio</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>NEXUS AI — Arena</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 <style>
-:root {
-  --bg: #171717;
-  --s1: #212121;
-  --s2: #2a2a2a;
-  --s3: #343434;
-  --b: #333333;
-  --t: #ececec;
-  --m: #9b9b9b;
-  --g: #10b981;
-  --r: #ef4444;
-  --y: #f59e0b;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-thumb { background: #3a3a3a; border-radius: 99px; }
-
-body {
-  font: 14px/1.5 'Inter', system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--t);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-}
-h2, h3, h4 { font-weight: 700; line-height: 1.3; }
-code, pre, .mono { font-family: 'JetBrains Mono', monospace; }
-a { color: #60a5fa; cursor: pointer; text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-button, input, select, textarea {
-  font: inherit;
-  color: var(--t);
-  background: var(--s2);
-  border: 1px solid var(--b);
-  border-radius: 10px;
-  padding: 9px 12px;
-  outline: none;
-  transition: 0.15s ease;
-  max-width: 100%;
-}
-input:focus, select:focus, textarea:focus { border-color: #666; background: #262626; }
-button {
-  cursor: pointer;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  white-space: nowrap;
-}
-button:hover { background: var(--s3); }
-button:active { transform: scale(0.98); }
-
-.btn { background: #ffffff; color: #111111; border: none; font-weight: 700; }
-.btn:hover { background: #e5e5e5; color: #111111; }
-.btn-g { background: rgba(16, 185, 129, 0.16); color: #34d399; border-color: rgba(16, 185, 129, 0.4); }
-.btn-g:hover { background: rgba(16, 185, 129, 0.26); }
-.btn-r { background: rgba(239, 68, 68, 0.16); color: #f87171; border-color: rgba(239, 68, 68, 0.4); }
-.btn-y { background: linear-gradient(135deg, #f59e0b, #d97706); color: #111; border: none; font-weight: 700; }
-.btn-y:hover { opacity: 0.92; color: #111; }
-.sm { padding: 6px 10px; font-size: 12px; border-radius: 8px; }
-.mut { font-size: 12px; color: var(--m); line-height: 1.45; }
-.w1 { width: 100%; }
-.hd { display: none !important; }
-.lbl { font-size: 11px; font-weight: 600; color: var(--m); margin-bottom: 4px; display: block; }
-
-.top {
-  height: 54px;
-  background: var(--bg);
-  border-bottom: 1px solid var(--b);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 14px;
-  gap: 8px;
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  flex-wrap: nowrap;
-}
-.logo { font-weight: 800; font-size: 16px; display: flex; align-items: center; gap: 8px; color: var(--t); white-space: nowrap; }
-
-.wrap { display: flex; flex: 1; min-height: 0; }
-.side-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 85; display: none; }
-.side-bg.on { display: block; }
-
-.side {
-  width: 265px;
-  background: var(--s1);
-  border-right: 1px solid var(--b);
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex-shrink: 0;
-}
-.nav {
-  background: transparent;
-  border: none;
-  justify-content: flex-start;
-  padding: 10px 12px;
-  border-radius: 10px;
-  color: var(--m);
-  font-weight: 500;
-  width: 100%;
-}
-.nav i { font-size: 18px; }
-.nav:hover { background: var(--s2); color: var(--t); }
-.nav.act { background: var(--s2); color: var(--t); font-weight: 600; }
-
-.acc-btn {
-  margin-top: auto;
-  background: var(--s2);
-  border: 1px solid var(--b);
-  border-radius: 12px;
-  padding: 10px 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-}
-.acc-btn:hover { background: var(--s3); border-color: #555; }
-.ava {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: #383838; color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 15px; flex-shrink: 0;
-}
-
-.main { flex: 1; padding: 16px; overflow-y: auto; max-width: 1100px; width: 100%; margin: 0 auto; }
-.card { background: var(--s1); border: 1px solid var(--b); border-radius: 14px; padding: 16px; margin-bottom: 12px; }
-.plan-card {
-  background: var(--s1); border: 1px solid var(--b); border-radius: 16px; padding: 20px;
-  display: flex; flex-direction: column; justify-content: space-between; gap: 14px; position: relative;
-}
-.plan-card.pop { border: 2px solid #10b981; background: linear-gradient(180deg, rgba(16,185,129,0.08), var(--s1) 40%); }
-.plan-card.vip { border: 2px solid #f59e0b; background: linear-gradient(180deg, rgba(245,158,11,0.08), var(--s1) 40%); }
-.price-big { font-size: 28px; font-weight: 800; color: #fff; }
-.feat-list { display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #d4d4d4; }
-.feat-list div { display: flex; align-items: center; gap: 8px; }
-.feat-list i { color: var(--g); font-size: 16px; flex-shrink: 0; }
-
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; }
-.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.sp { justify-content: space-between; }
-.col { display: flex; flex-direction: column; gap: 10px; }
-
-.tag { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: var(--s2); border: 1px solid var(--b); color: var(--m); display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
-.tag.g { color: #34d399; border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.1); }
-.tag.r { color: #f87171; border-color: rgba(239,68,68,0.35); background: rgba(239,68,68,0.1); }
-.tag.y { color: #fbbf24; border-color: rgba(245,158,11,0.35); background: rgba(245,158,11,0.1); }
-
-.msgs { height: 55vh; min-height: 290px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 6px 0; }
-.msg { max-width: 88%; padding: 12px 15px; border-radius: 14px; background: var(--s1); border: 1px solid var(--b); white-space: pre-wrap; word-break: break-word; }
-.msg.u { align-self: flex-end; background: #2f2f2f; border-color: #444; }
-.msg pre { background: #111; border: 1px solid var(--b); padding: 10px; border-radius: 8px; overflow-x: auto; margin: 6px 0; font-size: 12px; white-space: pre; }
-.think { background: var(--s2); border-left: 3px solid #777; padding: 8px 10px; margin-bottom: 8px; font-size: 12px; color: var(--m); border-radius: 6px; }
-.bar { height: 7px; background: var(--s2); border-radius: 99px; overflow: hidden; margin: 4px 0; }
-.bar > i { display: block; height: 100%; background: var(--g); border-radius: 99px; }
-
-.mod, .ban { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 14px; z-index: 100; background: rgba(0,0,0,0.78); }
-.mod.on, .ban.on { display: flex; }
-.mod-in { background: var(--s1); border: 1px solid #444; border-radius: 16px; padding: 20px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; }
-.ban { background: #2a0808; color: #fecaca; z-index: 110; text-align: center; flex-direction: column; }
-.toast { position: fixed; bottom: 18px; right: 18px; left: 18px; max-width: 360px; margin: 0 auto; background: #262626; border: 1px solid #555; padding: 11px 15px; border-radius: 10px; z-index: 105; display: none; }
-.toast.on { display: flex; align-items: center; gap: 8px; }
-.ad { background: var(--s1); border: 1px solid var(--b); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-iframe.sbx { width: 100%; height: 65vh; border: none; background: #fff; border-radius: 10px; }
-.mob-btn { display: none; }
-@media (max-width: 860px) {
-  .desk-only { display: none !important; }
-  .side { position: fixed; left: -275px; top: 0; bottom: 0; z-index: 90; transition: 0.2s ease; }
-  .side.on { left: 0; }
-  .mob-btn { display: inline-flex; }
-  .msg { max-width: 96%; }
-}
+:root{--bg:#171717;--s1:#212121;--s2:#2a2a2a;--s3:#343434;--b:#333;--t:#ececec;--m:#9b9b9b;--g:#10b981;--r:#ef4444;--y:#f59e0b}
+*{box-sizing:border-box;margin:0;padding:0}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-thumb{background:#3a3a3a;border-radius:99px}
+body{font:14px/1.5 'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+h2,h3,h4{font-weight:700;line-height:1.3}code,pre,.mono{font-family:'JetBrains Mono',monospace}
+a{color:#60a5fa;cursor:pointer;text-decoration:none}
+button,input,select,textarea{font:inherit;color:var(--t);background:var(--s2);border:1px solid var(--b);border-radius:10px;padding:9px 12px;outline:none;transition:.15s;max-width:100%}
+input:focus,select:focus,textarea:focus{border-color:#666;background:#262626}
+button{cursor:pointer;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+button:hover{background:var(--s3)}button:active{transform:scale(.98)}
+.btn{background:#fff;color:#111;border:none;font-weight:700}.btn:hover{background:#e5e5e5;color:#111}
+.btn-g{background:rgba(16,185,129,.16);color:#34d399;border-color:rgba(16,185,129,.4)}
+.btn-r{background:rgba(239,68,68,.16);color:#f87171;border-color:rgba(239,68,68,.4)}
+.btn-y{background:linear-gradient(135deg,#f59e0b,#d97706);color:#111;border:none;font-weight:700}
+.sm{padding:6px 10px;font-size:12px;border-radius:8px}.mut{font-size:12px;color:var(--m);line-height:1.45}.w1{width:100%}.hd{display:none!important}
+.lbl{font-size:11px;font-weight:600;color:var(--m);margin-bottom:4px;display:block}
+.top{height:54px;background:var(--bg);border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:8px;position:sticky;top:0;z-index:40;flex-wrap:nowrap}
+.logo{font-weight:800;font-size:16px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.wrap{display:flex;flex:1;min-height:0}.side-bg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:85;display:none}.side-bg.on{display:block}
+.side{width:265px;background:var(--s1);border-right:1px solid var(--b);padding:12px;display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+.nav{background:transparent;border:none;justify-content:flex-start;padding:10px 12px;border-radius:10px;color:var(--m);font-weight:500;width:100%}
+.nav i{font-size:18px}.nav:hover,.nav.act{background:var(--s2);color:var(--t)}.nav.act{font-weight:600}
+.acc-btn{margin-top:auto;background:var(--s2);border:1px solid var(--b);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;width:100%}
+.acc-btn:hover{background:var(--s3);border-color:#555}
+.ava{width:36px;height:36px;border-radius:50%;background:#383838;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0}
+.main{flex:1;padding:16px;overflow-y:auto;max-width:1100px;width:100%;margin:0 auto}
+.card{background:var(--s1);border:1px solid var(--b);border-radius:14px;padding:16px;margin-bottom:12px}
+.plan-card{background:var(--s1);border:1px solid var(--b);border-radius:16px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
+.plan-card.pop{border:2px solid #10b981;background:linear-gradient(180deg,rgba(16,185,129,.08),var(--s1) 40%)}
+.plan-card.vip{border:2px solid #f59e0b;background:linear-gradient(180deg,rgba(245,158,11,.08),var(--s1) 40%)}
+.price-big{font-size:28px;font-weight:800;color:#fff}
+.feat-list{display:flex;flex-direction:column;gap:8px;font-size:13px;color:#d4d4d4}.feat-list div{display:flex;align-items:center;gap:8px}.feat-list i{color:var(--g);font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.sp{justify-content:space-between}.col{display:flex;flex-direction:column;gap:10px}
+.tag{font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--s2);border:1px solid var(--b);color:var(--m);display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.tag.g{color:#34d399;border-color:rgba(16,185,129,.35);background:rgba(16,185,129,.1)}
+.tag.r{color:#f87171;border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.1)}
+.tag.y{color:#fbbf24;border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.1)}
+.msgs{height:55vh;min-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:6px 0}
+.msg{max-width:88%;padding:12px 15px;border-radius:14px;background:var(--s1);border:1px solid var(--b);white-space:pre-wrap;word-break:break-word}
+.msg.u{align-self:flex-end;background:#2f2f2f;border-color:#444}
+.msg pre{background:#111;border:1px solid var(--b);padding:10px;border-radius:8px;overflow-x:auto;margin:6px 0;font-size:12px;white-space:pre}
+.think{background:var(--s2);border-left:3px solid #777;padding:8px 10px;margin-bottom:8px;font-size:12px;color:var(--m);border-radius:6px}
+.bar{height:7px;background:var(--s2);border-radius:99px;overflow:hidden;margin:4px 0}.bar>i{display:block;height:100%;background:var(--g);border-radius:99px}
+.mod,.ban{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:14px;z-index:100;background:rgba(0,0,0,.78)}
+.mod.on,.ban.on{display:flex}.mod-in{background:var(--s1);border:1px solid #444;border-radius:16px;padding:20px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
+.ban{background:rgba(35,6,6,.92);color:#fecaca;z-index:110;text-align:center;flex-direction:column}
+.toast{position:fixed;bottom:18px;right:18px;left:18px;max-width:360px;margin:0 auto;background:#262626;border:1px solid #555;padding:11px 15px;border-radius:10px;z-index:105;display:none}
+.toast.on{display:flex;align-items:center;gap:8px}
+.ad{background:var(--s1);border:1px solid var(--b);border-radius:12px;padding:10px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+iframe.sbx{width:100%;height:65vh;border:none;background:#fff;border-radius:10px}.mob-btn{display:none}
+@media(max-width:860px){.desk-only{display:none!important}.side{position:fixed;left:-275px;top:0;bottom:0;z-index:90;transition:.2s}.side.on{left:0}.mob-btn{display:inline-flex}.msg{max-width:96%}}
 </style>
 </head>
 <body>
@@ -201,12 +74,10 @@ iframe.sbx { width: 100%; height: 65vh; border: none; background: #fff; border-r
     <button class="sm" onclick="S.msgs=[];localStorage.setItem('nx_msgs','[]');go('chat')"><i class="ri-add-line"></i>Новый чат</button>
   </div>
 </header>
-
 <div class="wrap">
   <aside id="side" class="side">
     <div class="row sp mob-btn" style="padding-bottom:8px;margin-bottom:6px;border-bottom:1px solid var(--b)">
-      <b>NEXUS Arena</b>
-      <button class="sm" onclick="toggleMenu(false)">✕</button>
+      <b>NEXUS Arena</b><button class="sm" onclick="toggleMenu(false)">✕</button>
     </div>
     <button class="nav act" data-t="chat" onclick="go('chat')"><i class="ri-chat-3-line"></i>Чат с ИИ</button>
     <button class="nav" data-t="cat" onclick="go('cat')"><i class="ri-compass-3-line"></i>Каталог моделей</button>
@@ -214,716 +85,222 @@ iframe.sbx { width: 100%; height: 65vh; border: none; background: #fff; border-r
     <button class="nav" data-t="keys" onclick="go('keys')"><i class="ri-key-2-line"></i>Заработок на ключах</button>
     <button class="nav" data-t="sbx" onclick="go('sbx')"><i class="ri-code-box-line"></i>HTML Песочница</button>
     <button class="nav" id="nav-adm" data-t="adm" onclick="go('adm')"><i class="ri-shield-star-line"></i>Админ-панель</button>
-
     <div id="acc-box" class="acc-btn" onclick="openAccountModal()">
       <div class="ava" id="acc-ava">U</div>
       <div style="flex:1;min-width:0">
-        <div class="row sp" style="gap:4px">
-          <b id="acc-name" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Профиль</b>
-          <span class="tag g" id="acc-plan">FREE</span>
-        </div>
+        <div class="row sp" style="gap:4px"><b id="acc-name" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Профиль</b><span class="tag g" id="acc-plan">FREE</span></div>
         <div class="mut" id="acc-mail" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Загрузка...</div>
       </div>
       <i class="ri-settings-4-line mut"></i>
     </div>
   </aside>
-  <main class="main">
-    <div id="ad-box" class="ad hd"></div>
-    <div id="view"></div>
-  </main>
+  <main class="main"><div id="ad-box" class="ad hd"></div><div id="view"></div></main>
 </div>
 <div id="mod" class="mod" onclick="if(event.target===this)closeMod()"><div id="mod-in" class="mod-in"></div></div>
 <div id="ban" class="ban"></div>
 <div id="toast" class="toast"></div>
 <script>
-const API = 'https://omni-api.aegertcool.workers.dev';
-const $ = id => document.getElementById(id);
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-window.S = {
-  tok: localStorage.getItem('nx_tok') || localStorage.getItem('token') || '',
-  user: JSON.parse(localStorage.getItem('nx_user_cache') || 'null'),
-  ad: null,
-  cap: null,
-  needCode: false,
-  authMode: 'login',
-  cat: [],
-  mid: +localStorage.getItem('nx_mid') || 0,
-  msgs: JSON.parse(localStorage.getItem('nx_msgs') || '[]'),
-  mem: JSON.parse(localStorage.getItem('nx_mem') || '[]'),
-  tab: 'chat',
-  cStep: 0,
-  sbx: [],
-  payInfo: {}
-};
-
-function toggleMenu(on) {
-  $('side').classList.toggle('on', on);
-  $('side-bg').classList.toggle('on', on);
+const API='https://omni-api.aegertcool.workers.dev',$=id=>document.getElementById(id),
+esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+window.S={tok:localStorage.getItem('nx_tok')||localStorage.getItem('token')||'',user:JSON.parse(localStorage.getItem('nx_user_cache')||'null'),
+ad:null,cap:null,needCode:false,authMode:'login',cat:[],mid:+localStorage.getItem('nx_mid')||0,
+msgs:JSON.parse(localStorage.getItem('nx_msgs')||'[]'),mem:JSON.parse(localStorage.getItem('nx_mem')||'[]'),tab:'chat',cStep:0,sbx:[],payInfo:{}};
+function toggleMenu(on){$('side').classList.toggle('on',on);$('side-bg').classList.toggle('on',on)}
+function resetDevIds(){
+ ['nx_trusted_dev','nx_trusted_hw','nx_dev','nx_hw','deviceId','hwHash'].forEach(k=>localStorage.removeItem(k));
+ const d='d_'+Math.random().toString(36).slice(2)+Date.now().toString(36),h='hw_'+Math.random().toString(16).slice(2)+Date.now().toString(16);
+ localStorage.setItem('nx_dev_v4',d);localStorage.setItem('nx_hw_v4',h);return{d,h};
 }
-
-function resetDevIds() {
-  localStorage.removeItem('nx_trusted_dev');
-  localStorage.removeItem('nx_trusted_hw');
-  localStorage.removeItem('nx_dev');
-  localStorage.removeItem('nx_hw');
-  localStorage.removeItem('deviceId');
-  localStorage.removeItem('hwHash');
-  const d = 'd_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
-  const h = 'hw_' + Math.random().toString(16).slice(2) + Date.now().toString(16);
-  localStorage.setItem('nx_dev_v3', d);
-  localStorage.setItem('nx_hw_v3', h);
-  return { d, h };
+function getDev(){
+ let d=localStorage.getItem('nx_dev_v4'),h=localStorage.getItem('nx_hw_v4');
+ return(!d||!h)?resetDevIds():{d,h};
 }
-
-function getDev() {
-  let d = localStorage.getItem('nx_dev_v3');
-  let h = localStorage.getItem('nx_hw_v3');
-  if (!d || !h) return resetDevIds();
-  return { d, h };
-}
-
-function toast(m) {
-  const t = $('toast');
-  t.innerHTML = `<i class="ri-checkbox-circle-fill" style="color:var(--g)"></i><span>${esc(m)}</span>`;
-  t.classList.add('on');
-  clearTimeout(window._tTimer);
-  window._tTimer = setTimeout(() => t.classList.remove('on'), 3500);
-}
-
-function openMod(h) { $('mod-in').innerHTML = h; $('mod').classList.add('on'); }
-function closeMod() { $('mod').classList.remove('on'); }
-
-async function api(p, o = {}, retried = false) {
-  try {
-    const { d, h } = getDev();
-    const r = await fetch(API + p, {
-      method: o.method || (o.body ? 'POST' : 'GET'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + S.tok,
-        'X-Device-Id': d,
-        'X-Hw-Hash': h
-      },
-      body: o.body ? JSON.stringify(o.body) : undefined
-    });
-    const data = await r.json().catch(() => ({}));
-    if (r.status === 403 && data.errorCode === 'DEVICE_BANNED') {
-      const rStr = JSON.stringify(data.reasons || '');
-      if (!retried && (rStr.includes('чужой вход') || S.user?.username === 'asdcreator')) {
-        resetDevIds();
-        return api(p, o, true);
-      }
-      showBan(data.reasons);
-      throw new Error('DEVICE_BANNED');
-    }
-    return { status: r.status, ok: r.ok && data.ok !== false, data };
-  } catch (e) {
-    if (e.message === 'DEVICE_BANNED') throw e;
-    return { status: 0, ok: false, data: { error: 'Ошибка сети' } };
+function toast(m){const t=$('toast');t.innerHTML=`<i class="ri-checkbox-circle-fill" style="color:var(--g)"></i><span>${esc(m)}</span>`;t.classList.add('on');clearTimeout(window._tT);window._tT=setTimeout(()=>t.classList.remove('on'),3500)}
+function openMod(h){$('mod-in').innerHTML=h;$('mod').classList.add('on')}
+function closeMod(){$('mod').classList.remove('on')}
+async function api(p,o={},retried=false){
+ try{
+  const {d,h}=getDev();
+  const r=await fetch(API+p,{method:o.method||(o.body?'POST':'GET'),headers:{'Content-Type':'application/json','Authorization':'Bearer '+S.tok,'X-Device-Id':d,'X-Hw-Hash':h},body:o.body?JSON.stringify(o.body):undefined});
+  const data=await r.json().catch(()=>({}));
+  if(r.status===403&&data.errorCode==='DEVICE_BANNED'){
+   if(!retried){resetDevIds();return api(p,o,true)}
+   if(!sessionStorage.getItem('hide_ban'))showBan(data.reasons);
+   return{status:403,ok:false,data};
   }
+  return{status:r.status,ok:r.ok&&data.ok!==false,data};
+ }catch(e){return{status:0,ok:false,data:{error:'Ошибка сети'}}}
 }
-
-function showBan(rs) {
-  const b = $('ban');
-  b.classList.add('on');
-  b.innerHTML = `
-    <div class="card col" style="max-width:460px;background:#1f0707;border-color:var(--r)">
-      <h2>⚠️⚠️ ИЗВИНИТЕ, НО ВЫ ЗАБАНЕНЫ ПО ЭТОЙ ПРИЧИНЕ ⚠️⚠️</h2>
-      <p>${esc(Array.isArray(rs) ? rs.join(', ') : (rs || 'Нарушение правил'))}</p>
-      <input id="ban-u" class="w1" placeholder="Ваш никнейм" value="${esc(S.user?.username || '')}">
-      <textarea id="ban-m" class="w1" rows="3" placeholder="Причина для разбана..."></textarea>
-      <button class="btn w1" onclick="sendAppeal()">Отправить обжалование</button>
-      <button class="btn-g w1" onclick="resetDevIds();$('ban').classList.remove('on');location.reload()">⚡ Сбросить бан железа (Разбанить телефон)</button>
-    </div>`;
+function showBan(rs){
+ const b=$('ban');b.classList.add('on');
+ b.innerHTML=`<div class="card col" style="max-width:460px;background:#1f0707;border-color:var(--r)">
+  <div class="row sp"><b>⚠️ Блокировка устройства / VPN IP</b><button class="sm" onclick="sessionStorage.setItem('hide_ban','1');$('ban').classList.remove('on')">✕ Закрыть окно</button></div>
+  <p>${esc(Array.isArray(rs)?rs.join(', '):(rs||'Нарушение правил'))}</p>
+  <p class="mut" style="color:var(--y)">Совет для создателя: переключите VPN (чтобы сменить IP) и нажмите зелёную кнопку ниже!</p>
+  <input id="ban-u" class="w1" placeholder="Ваш никнейм" value="${esc(S.user?.username||'asdcreator')}">
+  <textarea id="ban-m" class="w1" rows="2" placeholder="Причина для разбана...">Разбан создателя</textarea>
+  <button class="btn w1" onclick="sendAppeal()">1. Отправить обжалование</button>
+  <button class="btn-g w1" onclick="autoUnbanCreator()">⚡ 2. Сбросить ID железа и Разбанить себя</button></div>`;
 }
-
-async function sendAppeal() {
-  const { ok, data } = await api('/api/ban/appeal', { body: { username: $('ban-u').value, message: $('ban-m').value } });
-  toast(ok ? 'Апелляция отправлена!' : (data.error || 'Ошибка'));
+async function sendAppeal(){
+ const {ok,data}=await api('/api/ban/appeal',{body:{username:$('ban-u').value,message:$('ban-m').value}});
+ toast(ok?'Апелляция отправлена! Теперь нажмите зелёную кнопку ниже':(data.error||'Ошибка'));
 }
-
-function updateSidebarAccount() {
-  if (!S.tok || !S.user) {
-    $('acc-ava').textContent = '→';
-    $('acc-name').textContent = 'Войти / Регистрация';
-    $('acc-plan').textContent = 'Гость';
-    $('acc-mail').textContent = 'Нажмите для входа';
-    return;
-  }
-  $('acc-ava').textContent = (S.user.username || 'U')[0].toUpperCase();
-  $('acc-name').textContent = S.user.username;
-  $('acc-plan').textContent = (S.user.plan || 'FREE').toUpperCase();
-  $('acc-mail').textContent = S.user.email || 'Почта подтверждена';
-}
-
-async function trustCurrentDevices() {
-  if (!S.user?.devices?.length) return;
-  for (const dv of S.user.devices) {
-    if (!dv.is_trusted && !dv.trusted) {
-      await api('/api/devices/trust', { body: { deviceRowId: dv.id } });
-    }
-  }
-  toast('Устройства отмечены как доверенные!');
-  await loadMe();
-}
-
-function openAccountModal() {
-  if (!S.tok || !S.user) { go('auth'); return; }
-  const u = S.user, l = u.limits || {}, w = u.wallet || {};
-  const bar = (a, b) => `<div class="bar"><i style="width:${Math.min(100, ((a || 0) / (b || 1)) * 100)}%"></i></div>`;
-  openMod(`
-    <div class="col">
-      <div class="row sp">
-        <div class="row">
-          <div class="ava" style="width:44px;height:44px;font-size:18px">${esc((u.username || 'U')[0].toUpperCase())}</div>
-          <div>
-            <h3>${esc(u.username)} <span class="tag g">${esc(u.plan || 'FREE')}</span></h3>
-            <div class="mut"><i class="ri-mail-check-line" style="color:var(--g)"></i> Gmail: <b>${esc(u.email || 'не указан')}</b></div>
-          </div>
-        </div>
-        <button class="sm" onclick="closeMod()">✕</button>
-      </div>
-
-      <div class="card col" style="margin:0;padding:12px;background:var(--s2);border-color:#444">
-        <span class="lbl">🎟 ВВЕСТИ ПРОМОКОД НА ПОДПИСКУ ИЛИ БОНУС</span>
-        <div class="row">
-          <input id="mod-prm" placeholder="Введите промокод..." style="flex:1">
-          <button class="btn sm" onclick="pAct('/api/promo/redeem',{code:$('mod-prm').value});closeMod()">Активировать</button>
-        </div>
-      </div>
-
-      <div class="card col" style="margin:0;padding:12px">
-        <div class="row sp">
-          <span>🔥 Ежедневный бонус: <b>${u.checkinStreak || 0} дн. подряд</b></span>
-          <button class="sm btn-g" onclick="pAct('/api/bonus/checkin',{});closeMod()">🎁 Забрать бонус</button>
-        </div>
-        <div><span class="lbl">Лимит 5 часов: ${l.used5h || 0} из ${l.cap5h || 0}</span>${bar(l.used5h, l.cap5h)}</div>
-        <div><span class="lbl">Лимит на неделю: ${l.usedWeek || 0} из ${l.capWeek || 0}</span>${bar(l.usedWeek, l.capWeek)}</div>
-        <div><span class="lbl">Лимит на месяц: ${l.usedMonth || 0} из ${l.capMonth || 0}</span>${bar(l.usedMonth, l.capMonth)}</div>
-        <div class="row sp mut" style="margin-top:4px">
-          <span>Реф-код: <b class="mono">${esc(u.refCode || '-')}</b></span>
-          <button class="sm btn-y" onclick="closeMod();go('bill')">⚡ Улучшить тариф / Сбросить 5ч</button>
-        </div>
-      </div>
-
-      <div class="card col" style="margin:0;padding:12px">
-        <span class="lbl">💰 Кошелёк: ${w.balanceRub || 0} ₽ (заработано ${w.totalEarnedRub || 0} ₽, вывод от 300 ₽)</span>
-        <div class="row">
-          <input id="wd-d" placeholder="Номер карты / телефона СБП" style="flex:1">
-          <button class="sm btn" onclick="if((${w.balanceRub || 0})<300)return toast('Вывод от 300 ₽!');pAct('/api/wallet/withdraw',{details:$('wd-d').value})">Вывести</button>
-        </div>
-      </div>
-
-      <div class="card col" style="margin:0;padding:12px">
-        <div class="row sp">
-          <span class="lbl" style="margin:0">📱 Мои устройства</span>
-          <button class="sm btn-g" onclick="trustCurrentDevices();closeMod()">✅ Подтвердить все</button>
-        </div>
-        ${(u.devices || []).map((d, idx) => `
-          <div class="row sp mut" style="padding:4px 0;border-top:1px solid var(--b)">
-            <span>#${idx + 1}: ${esc(d.device_id || d.id)} ${d.is_trusted || d.trusted ? '✅ Доверенное' : '⏳ Новое'}</span>
-            <button class="sm btn-g" onclick="pAct('/api/devices/trust',{deviceRowId:${d.id}});closeMod()">Доверять</button>
-          </div>`).join('') || '<span class="mut">Текущее устройство активно</span>'}
-      </div>
-
-      <button class="sm btn-r w1" onclick="closeMod();logout()"><i class="ri-logout-box-r-line"></i>Выйти из аккаунта (${esc(u.username)})</button>
-    </div>`);
-}
-
-async function loadStats() {
-  const { ok, data } = await api('/api/stats');
-  if (ok) {
-    $('stats-bar').innerHTML = `<span class="tag">👥 Юзеров: ${data.users || 0}</span><span class="tag">🤖 Моделей: ${data.models || 0}</span><span class="tag">⚡ Запросов: ${data.requests || 0}</span>`;
-    if (data.ad?.enabled) {
-      $('ad-box').classList.remove('hd');
-      $('ad-box').innerHTML = `<div><b>${esc(data.ad.title)}</b> <span class="mut">${esc(data.ad.text)}</span></div>` + (data.ad.url ? `<a class="btn sm" target="_blank" href="${esc(data.ad.url)}">Перейти</a>` : '');
-    }
-  }
-}
-
-async function loadMe() {
-  updateSidebarAccount();
-  if (!S.tok) return go(['cat', 'adm', 'sbx', 'bill'].includes(S.tab) ? S.tab : 'auth');
-  const { status, ok, data } = await api('/api/auth/me');
-  if (status === 401) {
-    S.tok = ''; S.user = null;
-    localStorage.removeItem('nx_tok'); localStorage.removeItem('nx_user_cache');
-    updateSidebarAccount();
-    return go('auth');
-  }
-  if (ok && data.user) {
-    S.user = data.user;
-    localStorage.setItem('nx_user_cache', JSON.stringify(S.user));
-    updateSidebarAccount();
-    for (const dv of (S.user.devices || [])) {
-      if (!dv.is_trusted && !dv.trusted) {
-        api('/api/devices/trust', { body: { deviceRowId: dv.id } });
-      }
-    }
-  }
-  go(S.tab === 'auth' ? 'chat' : S.tab);
-}
-
-function logout() {
-  S.tok = ''; S.user = null;
-  localStorage.removeItem('nx_tok'); localStorage.removeItem('nx_user_cache');
-  updateSidebarAccount();
-  go('auth');
-}
-
-function go(t) {
-  toggleMenu(false);
-  if (!S.tok && !['auth', 'cat', 'adm', 'sbx', 'bill'].includes(t)) t = 'auth';
-  S.tab = t;
-  document.querySelectorAll('.nav').forEach(n => n.classList.toggle('act', n.dataset.t === t));
-  if (t === 'auth') renderAuth();
-  else if (t === 'chat') renderChat();
-  else if (t === 'cat') renderCat();
-  else if (t === 'sbx') renderSbxPage();
-  else if (t === 'keys') renderKeys();
-  else if (t === 'bill') renderBill();
-  else if (t === 'adm') renderAdm();
+async function autoUnbanCreator(){
+ resetDevIds();sessionStorage.setItem('hide_ban','1');$('ban').classList.remove('on');
+ const r=await api('/api/admin/overview');
+ if(r.ok&&r.data?.appeals){for(const a of r.data.appeals)await api('/api/admin/appeal',{body:{appealId:a.id,id:a.id,approve:true}})}
+ toast('Железо сброшено! Если бан висит — смените сервер в VPN');loadMe();
 }
 </script>
 <script>
-async function loadCap() {
-  const { ok, data } = await api('/api/captcha/challenge');
-  if (ok) { S.cap = data; if ($('cap-q')) $('cap-q').textContent = data.question; }
+function updateSidebarAccount(){
+ if(!S.tok||!S.user){$('acc-ava').textContent='→';$('acc-name').textContent='Войти / Регистрация';$('acc-plan').textContent='Гость';$('acc-mail').textContent='Нажмите для входа';return}
+ $('acc-ava').textContent=(S.user.username||'U')[0].toUpperCase();
+ $('acc-name').textContent=S.user.username;$('acc-plan').textContent=(S.user.plan||'FREE').toUpperCase();
+ $('acc-mail').textContent=S.user.email||'Почта подтверждена';
 }
-
-function showRules() {
-  openMod(`
-    <div class="col">
-      <h3>Правила проекта NEXUS AI (199-ФЗ РФ)</h3>
-      <p class="mut">1. Регистрация и вход осуществляются только через логин и электронную почту (без зарубежных кнопок Google/Apple/TG по закону 199-ФЗ РФ).</p>
-      <p class="mut">2. Запрещены мультиаккаунты и обход квот.</p>
-      <button class="btn w1" onclick="closeMod()">Понятно</button>
-    </div>`);
+function openAccountModal(){
+ if(!S.tok||!S.user)return go('auth');
+ const u=S.user,l=u.limits||{},w=u.wallet||{},bar=(a,b)=>`<div class="bar"><i style="width:${Math.min(100,((a||0)/(b||1))*100)}%"></i></div>`;
+ openMod(`<div class="col">
+  <div class="row sp"><div class="row"><div class="ava" style="width:42px;height:42px">${esc((u.username||'U')[0].toUpperCase())}</div>
+   <div><h3>${esc(u.username)} <span class="tag g">${esc(u.plan||'FREE')}</span></h3><div class="mut">📧 Gmail: <b>${esc(u.email||'не указан')}</b></div></div></div>
+   <button class="sm" onclick="closeMod()">✕</button></div>
+  <div class="card col" style="margin:0;padding:12px;background:var(--s2)">
+   <span class="lbl">🎟 ВВЕСТИ ПРОМОКОД</span>
+   <div class="row"><input id="mod-prm" placeholder="Промокод..." style="flex:1"><button class="btn sm" onclick="pAct('/api/promo/redeem',{code:$('mod-prm').value});closeMod()">Активировать</button></div>
+  </div>
+  <div class="card col" style="margin:0;padding:12px">
+   <div class="row sp"><span>🔥 Бонус-стрик: <b>${u.checkinStreak||0} дн.</b></span><button class="sm btn-g" onclick="pAct('/api/bonus/checkin',{});closeMod()">🎁 Забрать бонус</button></div>
+   <div><span class="lbl">Лимит 5ч: ${l.used5h||0} / ${l.cap5h||0}</span>${bar(l.used5h,l.cap5h)}</div>
+   <div><span class="lbl">Неделя: ${l.usedWeek||0} / ${l.capWeek||0}</span>${bar(l.usedWeek,l.capWeek)}</div>
+   <div><span class="lbl">Месяц: ${l.usedMonth||0} / ${l.capMonth||0}</span>${bar(l.usedMonth,l.capMonth)}</div>
+   <div class="row sp mut"><span>Реф-код: <b class="mono">${esc(u.refCode||'-')}</b></span><button class="sm btn-y" onclick="closeMod();go('bill')">⚡ Купить PRO / ULTRA</button></div>
+  </div>
+  <div class="card col" style="margin:0;padding:12px">
+   <span class="lbl">💰 Кошелёк: ${w.balanceRub||0} ₽ (вывод от 300 ₽)</span>
+   <div class="row"><input id="wd-d" placeholder="Карта / СБП" style="flex:1"><button class="sm btn" onclick="if((${w.balanceRub||0})<300)return toast('От 300 ₽!');pAct('/api/wallet/withdraw',{details:$('wd-d').value})">Вывести</button></div>
+  </div>
+  <button class="sm btn-r w1" onclick="closeMod();logout()">Выйти из аккаунта (${esc(u.username)})</button></div>`);
 }
-
-function renderAuth() {
-  const reg = S.authMode === 'register';
-  $('view').innerHTML = `
-    <div class="card col" style="max-width:420px;margin:20px auto">
-      <div class="row sp"><h3>${reg ? 'Создать аккаунт' : 'Вход в NEXUS AI'}</h3><span class="tag">199-ФЗ РФ</span></div>
-      <div class="row">
-        <button class="w1 ${!reg ? 'btn' : ''}" onclick="S.authMode='login';renderAuth()">Вход</button>
-        <button class="w1 ${reg ? 'btn' : ''}" onclick="S.authMode='register';renderAuth()">Регистрация</button>
-      </div>
-      <div><span class="lbl">Ваш логин</span><input id="au-u" class="w1" placeholder="Например: asdcreator"></div>
-      ${reg ? '<div><span class="lbl">Ваша почта (Gmail / Mail / Яндекс)</span><input id="au-e" type="email" class="w1" placeholder="example@gmail.com"></div>' : ''}
-      <div><span class="lbl">Пароль</span><input id="au-p" type="password" class="w1" placeholder="••••••••"></div>
-      ${reg ? '<div><span class="lbl">Реферальный код (бонус при старте)</span><input id="au-ref" class="w1" placeholder="Необязательно"></div>' : ''}
-      <div class="row">
-        <span class="tag">Капча: <b id="cap-q">...</b></span>
-        <input id="cap-a" placeholder="Ответ" style="flex:1">
-        <button class="sm" onclick="loadCap()">↻</button>
-      </div>
-      ${reg || S.needCode ? `
-      <div class="row">
-        <input id="au-c" placeholder="5-значный код с почты" style="flex:1">
-        <button class="sm btn-g" onclick="sendCode('${S.authMode}')">Получить код</button>
-      </div>` : ''}
-      ${reg ? `<label class="row mut"><input type="checkbox" id="au-r" checked> Принимаю <a onclick="showRules()">Правила проекта</a></label>` : ''}
-      <button class="btn w1" onclick="doAuth()">${reg ? 'Зарегистрироваться' : 'Войти'}</button>
-    </div>`;
-  loadCap();
+async function loadStats(){
+ const {ok,data}=await api('/api/stats');
+ if(ok){
+  $('stats-bar').innerHTML=`<span class="tag">👥 Юзеров: ${data.users||0}</span><span class="tag">🤖 Моделей: ${data.models||0}</span><span class="tag">⚡ Запросов: ${data.requests||0}</span>`;
+  if(data.ad?.enabled){$('ad-box').classList.remove('hd');$('ad-box').innerHTML=`<div><b>${esc(data.ad.title)}</b> <span class="mut">${esc(data.ad.text)}</span></div>`+(data.ad.url?`<a class="btn sm" target="_blank" href="${esc(data.ad.url)}">Перейти</a>`:'')}
+ }
 }
-
-async function sendCode(mode) {
-  const { ok, data } = await api('/api/auth/send-code', {
-    body: { mode, username: $('au-u').value.trim(), email: $('au-e')?.value.trim() || '', challengeToken: S.cap?.challengeToken, captchaAnswer: $('cap-a').value.trim() }
-  });
-  toast(ok ? '5-значный код отправлен на почту!' : (data.error || 'Ошибка отправки'));
-  loadCap();
+async function loadMe(){
+ updateSidebarAccount();
+ if(!S.tok)return go(['cat','adm','sbx','bill'].includes(S.tab)?S.tab:'auth');
+ const {status,ok,data}=await api('/api/auth/me');
+ if(status===401){S.tok='';S.user=null;localStorage.removeItem('nx_tok');localStorage.removeItem('nx_user_cache');updateSidebarAccount();return go('auth')}
+ if(ok&&data.user){
+  S.user=data.user;localStorage.setItem('nx_user_cache',JSON.stringify(S.user));updateSidebarAccount();
+  for(const dv of(S.user.devices||[])){if(!dv.is_trusted&&!dv.trusted)api('/api/devices/trust',{body:{deviceRowId:dv.id}})}
+ }
+ go(S.tab==='auth'?'chat':S.tab);
 }
-
-async function doAuth() {
-  const reg = S.authMode === 'register', u = $('au-u').value.trim(), p = $('au-p').value,
-    c = $('au-c')?.value.trim() || '', ca = $('cap-a').value.trim(), ct = S.cap?.challengeToken;
-  if (reg && !$('au-r').checked) return toast('Примите Правила проекта!');
-  const { status, ok, data } = await api(reg ? '/api/auth/register' : '/api/auth/login', {
-    body: reg
-      ? { username: u, email: $('au-e').value.trim(), password: p, refCode: $('au-ref').value.trim(), rulesAccepted: true, emailCode: c, challengeToken: ct, captchaAnswer: ca }
-      : { username: u, password: p, emailCode: c, challengeToken: ct, captchaAnswer: ca }
-  });
-  if (status === 403 && data.needEmailCode) { S.needCode = true; renderAuth(); return toast('Введите 5-значный код с почты!'); }
-  if (!ok) { loadCap(); return toast(data.error || 'Ошибка входа'); }
-  S.tok = data.token; localStorage.setItem('nx_tok', S.tok); S.needCode = false;
-  await loadMe();
+function logout(){S.tok='';S.user=null;localStorage.removeItem('nx_tok');localStorage.removeItem('nx_user_cache');updateSidebarAccount();go('auth')}
+function go(t){
+ toggleMenu(false);if(!S.tok&&!['auth','cat','adm','sbx','bill'].includes(t))t='auth';
+ S.tab=t;document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('act',n.dataset.t===t));
+ if(t==='auth')renderAuth();else if(t==='chat')renderChat();else if(t==='cat')renderCat();else if(t==='sbx')renderSbxPage();else if(t==='keys')renderKeys();else if(t==='bill')renderBill();else if(t==='adm')renderAdm();
 }
-
-function fmtMsg(m, i) {
-  let h = esc(m.content || '');
-  if (m.thinking) h = `<details class="think"><summary>💭 Мышление модели</summary><div style="margin-top:4px">${esc(m.thinking)}</div></details>` + h;
-  h = h.replace(/```(\w*)\n([\s\S]*?)```/g, (_, l, c) => {
-    const isH = l.toLowerCase() === 'html' || c.includes('<html') || c.includes('<!DOCTYPE') || c.includes('<body');
-    S.sbx[i] = c;
-    return `<pre>${c}</pre>` + (isH ? `<button class="sm btn-g" onclick="runSbx(${i})">▶ Запустить HTML в песочнице</button>` : '');
-  });
-  return `<div class="msg ${m.role === 'user' ? 'u' : ''}"><div>${h}</div>${m.meta ? `<div class="mut" style="margin-top:6px">${esc(m.meta)}</div>` : ''}</div>`;
+async function loadCap(){const {ok,data}=await api('/api/captcha/challenge');if(ok){S.cap=data;if($('cap-q'))$('cap-q').textContent=data.question}}
+function showRules(){openMod(`<div class="col"><h3>Правила NEXUS AI (199-ФЗ РФ)</h3><p class="mut">Авторизация осуществляется напрямую через логин и почту без зарубежных сервисов (199-ФЗ РФ). Запрещены мультиаккаунты и абуз лимитов.</p><button class="btn w1" onclick="closeMod()">Понятно</button></div>`)}
+function renderAuth(){
+ const reg=S.authMode==='register';
+ $('view').innerHTML=`<div class="card col" style="max-width:420px;margin:20px auto">
+  <div class="row sp"><h3>${reg?'Регистрация':'Вход в NEXUS AI'}</h3><span class="tag">199-ФЗ РФ</span></div>
+  <div class="row"><button class="w1 ${!reg?'btn':''}" onclick="S.authMode='login';renderAuth()">Вход</button><button class="w1 ${reg?'btn':''}" onclick="S.authMode='register';renderAuth()">Регистрация</button></div>
+  <div><span class="lbl">Логин</span><input id="au-u" class="w1" placeholder="asdcreator"></div>
+  ${reg?'<div><span class="lbl">Почта (Gmail / Mail / Яндекс)</span><input id="au-e" type="email" class="w1" placeholder="you@gmail.com"></div>':''}
+  <div><span class="lbl">Пароль</span><input id="au-p" type="password" class="w1" placeholder="••••••••"></div>
+  ${reg?'<div><span class="lbl">Реферальный код</span><input id="au-ref" class="w1" placeholder="Необязательно"></div>':''}
+  <div class="row"><span class="tag">Капча: <b id="cap-q">...</b></span><input id="cap-a" placeholder="Ответ" style="flex:1"><button class="sm" onclick="loadCap()">↻</button></div>
+  ${reg||S.needCode?`<div class="row"><input id="au-c" placeholder="5-значный код с почты" style="flex:1"><button class="sm btn-g" onclick="sendCode('${S.authMode}')">Получить код</button></div>`:''}
+  ${reg?`<label class="row mut"><input type="checkbox" id="au-r" checked> Принимаю <a onclick="showRules()">Правила проекта</a></label>`:''}
+  <button class="btn w1" onclick="doAuth()">${reg?'Создать аккаунт':'Войти'}</button></div>`;loadCap();
 }
-
-function runSbx(i) {
-  const d = (S.sbx[i] || '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
-  openMod(`<div class="row sp" style="margin-bottom:8px"><b>HTML Песочница</b><button class="sm" onclick="closeMod()">✕</button></div><iframe class="sbx" sandbox="allow-scripts"></iframe>`);
-  $('mod-in').querySelector('iframe').srcdoc = d;
+async function sendCode(mode){const {ok,data}=await api('/api/auth/send-code',{body:{mode,username:$('au-u').value.trim(),email:$('au-e')?.value.trim()||'',challengeToken:S.cap?.challengeToken,captchaAnswer:$('cap-a').value.trim()}});toast(ok?'Код отправлен на почту!':(data.error||'Ошибка'));loadCap()}
+async function doAuth(){
+ const reg=S.authMode==='register',u=$('au-u').value.trim(),p=$('au-p').value,c=$('au-c')?.value.trim()||'',ca=$('cap-a').value.trim(),ct=S.cap?.challengeToken;
+ if(reg&&!$('au-r').checked)return toast('Примите Правила!');
+ const {status,ok,data}=await api(reg?'/api/auth/register':'/api/auth/login',{body:reg?{username:u,email:$('au-e').value.trim(),password:p,refCode:$('au-ref').value.trim(),rulesAccepted:true,emailCode:c,challengeToken:ct,captchaAnswer:ca}:{username:u,password:p,emailCode:c,challengeToken:ct,captchaAnswer:ca}});
+ if(status===403&&data.needEmailCode){S.needCode=true;renderAuth();return toast('Введите 5-значный код с почты!')}
+ if(!ok){loadCap();return toast(data.error||'Ошибка входа')}
+ S.tok=data.token;localStorage.setItem('nx_tok',S.tok);S.needCode=false;await loadMe();
 }
-
-function renderSbxPage() {
-  $('view').innerHTML = `
-    <div class="card col">
-      <div class="row sp"><h3>HTML Песочница</h3><button class="btn sm" onclick="$('sbx-frame').srcdoc=$('sbx-code').value">▶ Запустить</button></div>
-      <textarea id="sbx-code" class="mono" rows="10" style="width:100%"><h1>NEXUS Sandbox</h1></textarea>
-      <iframe id="sbx-frame" class="sbx" style="height:360px" sandbox="allow-scripts"></iframe>
-    </div>`;
-  $('sbx-frame').srcdoc = $('sbx-code').value;
+function fmtMsg(m,i){
+ let h=esc(m.content||'');
+ if(m.thinking)h=`<details class="think"><summary>💭 Мышление модели</summary><div style="margin-top:4px">${esc(m.thinking)}</div></details>`+h;
+ h=h.replace(/```(\w*)\n([\s\S]*?)```/g,(_,l,c)=>{const isH=l.toLowerCase()==='html'||c.includes('<html')||c.includes('<!DOCTYPE')||c.includes('<body');S.sbx[i]=c;return`<pre>${c}</pre>`+(isH?`<button class="sm btn-g" onclick="runSbx(${i})">▶ Запустить HTML</button>`:'')});
+ return`<div class="msg ${m.role==='user'?'u':''}"><div>${h}</div>${m.meta?`<div class="mut" style="margin-top:6px">${esc(m.meta)}</div>`:''}</div>`;
 }
-
-async function renderChat() {
-  if (!S.cat.length) { const r = await api('/api/catalog'); if (r.ok) S.cat = r.data.models || []; }
-  if (!S.mid && S.cat[0]) S.mid = S.cat[0].id;
-  const l = S.user?.limits || {};
-  $('view').innerHTML = `
-    <div class="card col" style="padding:12px">
-      <div class="row">
-        <select id="ch-m" style="flex:2;min-width:170px" onchange="S.mid=+this.value;localStorage.setItem('nx_mid',S.mid)">
-          ${S.cat.map(m => `<option value="${m.id}" ${m.id === S.mid ? 'selected' : ''}>${esc(m.model_id)} (${esc(m.key_title || m.provider)})</option>`).join('') || '<option value="0">Выберите модель</option>'}
-        </select>
-        <select id="ch-mode"><option value="universal">Универсал</option><option value="coding">Кодинг</option><option value="reasoning">Логика</option><option value="roleplay">Ролевой</option></select>
-        <select id="ch-br"><option value="fast">⚡ Быстрый</option><option value="balanced" selected>⚖️ Баланс</option><option value="genius">🧠 Гений (PRO)</option></select>
-        <input id="ch-t" type="number" step="0.1" value="0.7" style="width:62px" title="Температура">
-      </div>
-      <div class="row sp">
-        <input id="ch-sp" placeholder="Системный промпт (необязательно)..." style="flex:1">
-        <button class="sm" onclick="addMem()">🧠 Память (${S.mem.length})</button>
-        <button class="sm" onclick="openAccountModal()">🎟 Промокод</button>
-      </div>
-      ${S.mem.length ? `<div class="row">${S.mem.map((f, k) => `<span class="tag">${esc(f)} <a onclick="S.mem.splice(${k},1);localStorage.setItem('nx_mem',JSON.stringify(S.mem));renderChat()">×</a></span>`).join('')}</div>` : ''}
-    </div>
-
-    <div class="msgs" id="ch-msgs">
-      ${S.msgs.length ? S.msgs.map((m, i) => fmtMsg(m, i)).join('') : `
-        <div class="col" style="margin:auto;text-align:center;max-width:480px;padding:16px">
-          <h2>Чем могу помочь?</h2>
-          <p class="mut">Общайтесь с топовыми ИИ, тестируйте код в песочнице или подключите подписку PRO / ULTRA для максимальных лимитов.</p>
-          <div class="row" style="justify-content:center;margin-top:6px">
-            <button class="sm btn-y" onclick="go('bill')">💎 Открыть привилегии PRO / ULTRA</button>
-            <button class="sm" onclick="openAccountModal()">🎟 Ввести промокод</button>
-          </div>
-        </div>`}
-    </div>
-
-    <div class="row sp mut" style="padding:0 6px 6px">
-      <span>⚡ Лимит 5ч: <b>${l.used5h || 0} / ${l.cap5h || '∞'}</b> • Тариф: <b>${esc(S.user?.plan || 'FREE')}</b></span>
-      <a onclick="go('bill')" style="color:var(--y);font-weight:600">🔥 Сбросить 5ч лимит / Купить PRO →</a>
-    </div>
-
-    <div class="card row" style="margin:0;padding:10px;border-radius:16px">
-      <textarea id="ch-in" rows="2" style="flex:1;border:none;background:transparent" placeholder="Спросите что угодно..."></textarea>
-      <button class="btn" style="border-radius:99px;width:42px;height:42px;padding:0" onclick="sendChat()"><i class="ri-arrow-up-line" style="font-size:18px"></i></button>
-    </div>`;
-  const b = $('ch-msgs'); if (b) b.scrollTop = b.scrollHeight;
+function runSbx(i){const d=(S.sbx[i]||'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'");openMod(`<div class="row sp" style="margin-bottom:8px"><b>HTML Песочница</b><button class="sm" onclick="closeMod()">✕</button></div><iframe class="sbx" sandbox="allow-scripts"></iframe>`);$('mod-in').querySelector('iframe').srcdoc=d}
+function renderSbxPage(){$('view').innerHTML=`<div class="card col"><div class="row sp"><h3>HTML Песочница</h3><button class="btn sm" onclick="$('sbx-frame').srcdoc=$('sbx-code').value">▶ Запустить</button></div><textarea id="sbx-code" class="mono" rows="8" style="width:100%"><h1>NEXUS Sandbox</h1></textarea><iframe id="sbx-frame" class="sbx" style="height:360px" sandbox="allow-scripts"></iframe></div>`;$('sbx-frame').srcdoc=$('sbx-code').value}
+async function renderChat(){
+ if(!S.cat.length){const r=await api('/api/catalog');if(r.ok)S.cat=r.data.models||[]}
+ if(!S.mid&&S.cat[0])S.mid=S.cat[0].id;const l=S.user?.limits||{};
+ $('view').innerHTML=`<div class="card col" style="padding:12px">
+  <div class="row"><select id="ch-m" style="flex:2;min-width:170px" onchange="S.mid=+this.value;localStorage.setItem('nx_mid',S.mid)">${S.cat.map(m=>`<option value="${m.id}" ${m.id===S.mid?'selected':''}>${esc(m.model_id)} (${esc(m.key_title||m.provider)})</option>`).join('')||'<option value="0">Выберите модель</option>'}</select>
+   <select id="ch-mode"><option value="universal">Универсал</option><option value="coding">Кодинг</option><option value="reasoning">Логика</option><option value="roleplay">Ролевой</option></select>
+   <select id="ch-br"><option value="fast">⚡ Быстрый</option><option value="balanced" selected>⚖️ Баланс</option><option value="genius">🧠 Гений (PRO)</option></select>
+   <input id="ch-t" type="number" step="0.1" value="0.7" style="width:62px"></div>
+  <div class="row sp"><input id="ch-sp" placeholder="Системный промпт..." style="flex:1"><button class="sm" onclick="addMem()">🧠 Память (${S.mem.length})</button><button class="sm" onclick="openAccountModal()">🎟 Промокод</button></div>
+  ${S.mem.length?`<div class="row">${S.mem.map((f,k)=>`<span class="tag">${esc(f)} <a onclick="S.mem.splice(${k},1);localStorage.setItem('nx_mem',JSON.stringify(S.mem));renderChat()">×</a></span>`).join('')}</div>`:''}</div>
+ <div class="msgs" id="ch-msgs">${S.msgs.length?S.msgs.map((m,i)=>fmtMsg(m,i)).join(''):`<div class="col" style="margin:auto;text-align:center;max-width:460px;padding:16px"><h2>Чем могу помочь?</h2><p class="mut">Выберите модель сверху и задайте вопрос или откройте привилегии PRO / ULTRA.</p><div class="row" style="justify-content:center"><button class="sm btn-y" onclick="go('bill')">💎 Тарифы PRO / ULTRA</button><button class="sm" onclick="openAccountModal()">🎟 Промокод</button></div></div>`}</div>
+ <div class="row sp mut" style="padding:0 6px 6px"><span>⚡ Лимит 5ч: <b>${l.used5h||0}/${l.cap5h||'∞'}</b> • <b>${esc(S.user?.plan||'FREE')}</b></span><a onclick="go('bill')" style="color:var(--y);font-weight:600">🔥 Сбросить 5ч / Купить PRO →</a></div>
+ <div class="card row" style="margin:0;padding:10px;border-radius:16px"><textarea id="ch-in" rows="2" style="flex:1;border:none;background:transparent" placeholder="Спросите что угодно..."></textarea><button class="btn" style="border-radius:99px;width:42px;height:42px;padding:0" onclick="sendChat()"><i class="ri-arrow-up-line" style="font-size:18px"></i></button></div>`;
+ const b=$('ch-msgs');if(b)b.scrollTop=b.scrollHeight;
 }
-
-function addMem() {
-  const f = prompt('Добавить факт в память ИИ:');
-  if (f) { S.mem.push(f.trim()); localStorage.setItem('nx_mem', JSON.stringify(S.mem)); renderChat(); }
+function addMem(){const f=prompt('Факт в память ИИ:');if(f){S.mem.push(f.trim());localStorage.setItem('nx_mem',JSON.stringify(S.mem));renderChat()}}
+async function sendChat(){
+ const t=$('ch-in').value.trim();if(!t||!S.mid)return toast('Выберите модель и введите текст!');
+ const mode=$('ch-mode').value,br=$('ch-br').value,temp=+$('ch-t').value||0.7,sp=$('ch-sp').value.trim();
+ S.msgs.push({role:'user',content:t});renderChat();
+ const {ok,data}=await api('/api/chat',{body:{modelRowId:S.mid,messages:S.msgs.map(m=>({role:m.role,content:m.content})),mode,brainLevel:br,memoryFacts:S.mem,secretPrompt:sp,temperature:temp}});
+ if(!ok)return toast(data.error||'Ошибка ответа ИИ');
+ let txt=String(data.text||'').replace(/\/\/SAVE:\s*(.+)/gi,(_,f)=>{f=f.trim();if(f&&!S.mem.includes(f))S.mem.push(f);return''}).trim();
+ localStorage.setItem('nx_mem',JSON.stringify(S.mem));
+ S.msgs.push({role:'assistant',content:txt,thinking:data.thinking||'',meta:`${data.provider||''}/${data.modelId||''} • ${data.costRub||0} ₽ • ${data.inTok||0}/${data.outTok||0} tok`});
+ localStorage.setItem('nx_msgs',JSON.stringify(S.msgs));renderChat();
 }
-
-async function sendChat() {
-  const t = $('ch-in').value.trim();
-  if (!t || !S.mid) return toast('Выберите модель и введите сообщение!');
-  const mode = $('ch-mode').value, br = $('ch-br').value, temp = +$('ch-t').value || 0.7, sp = $('ch-sp').value.trim();
-  S.msgs.push({ role: 'user', content: t });
-  renderChat();
-  const { ok, data } = await api('/api/chat', {
-    body: { modelRowId: S.mid, messages: S.msgs.map(m => ({ role: m.role, content: m.content })), mode, brainLevel: br, memoryFacts: S.mem, secretPrompt: sp, temperature: temp }
-  });
-  if (!ok) return toast(data.error || 'Лимит исчерпан или ошибка модели');
-  let txt = String(data.text || '').replace(/\/\/SAVE:\s*(.+)/gi, (_, f) => {
-    f = f.trim(); if (f && !S.mem.includes(f)) S.mem.push(f); return '';
-  }).trim();
-  localStorage.setItem('nx_mem', JSON.stringify(S.mem));
-  S.msgs.push({
-    role: 'assistant', content: txt, thinking: data.thinking || '',
-    meta: `${data.provider || ''}/${data.modelId || ''} • ${data.costRub || 0} ₽ • ${data.inTok || 0}/${data.outTok || 0} tok`
-  });
-  localStorage.setItem('nx_msgs', JSON.stringify(S.msgs));
-  renderChat();
+function renderCat(){$('view').innerHTML=`<div class="card row"><input id="q-s" placeholder="Поиск модели..." style="flex:1"><select id="q-p"><option value="">Все провайдеры</option><option>openai</option><option>anthropic</option><option>google</option><option>openrouter</option><option>deepseek</option></select><label class="row mut"><input type="checkbox" id="q-u"> 18+</label><label class="row mut"><input type="checkbox" id="q-f"> Free</label><button class="btn sm" onclick="loadCat()">Найти</button></div><div class="grid" id="cat-g"></div>`;loadCat()}
+async function loadCat(){
+ const {ok,data}=await api(`/api/catalog?q=${encodeURIComponent($('q-s')?.value||'')}&provider=${$('q-p')?.value||''}&uncensored=${$('q-u')?.checked?1:''}&free=${$('q-f')?.checked?1:''}`);
+ if(!ok)return;S.cat=data.models||[];
+ $('cat-g').innerHTML=S.cat.map(m=>`<div class="card col sp"><div><div class="row sp"><b>${esc(m.model_id)}</b><span class="tag">${esc(m.provider)}</span></div><div class="mut">${esc(m.key_title)} • @${esc(m.owner_name)}</div><p style="margin:6px 0">${esc(m.description||'')}</p><div class="row"><span class="tag ${m.is_free?'g':''}">${m.is_free?'FREE':(m.est_req_rub||0)+' ₽'}</span>${m.is_uncensored?'<span class="tag r">18+</span>':''}<span class="tag y">${esc(m.tier_required||'FREE')}</span></div></div><div class="row sp" style="margin-top:8px"><button class="sm" onclick="likeMod(${m.id})">❤️ ${m.likes_count||0}</button>${m.lock_reason?`<button class="sm btn-y" onclick="go('bill')">🔓 Открыть с ${esc(m.tier_required||'PRO')}</button>`:`<button class="btn sm" onclick="S.mid=${m.id};localStorage.setItem('nx_mid',${m.id});go('chat')">Выбрать</button>`}</div></div>`).join('');
 }
-</script>
-<script>
-function renderCat() {
-  $('view').innerHTML = `
-    <div class="card row">
-      <input id="q-s" placeholder="Поиск модели..." style="flex:1;min-width:150px">
-      <select id="q-p"><option value="">Все провайдеры</option><option>openai</option><option>anthropic</option><option>google</option><option>openrouter</option><option>deepseek</option></select>
-      <label class="row mut"><input type="checkbox" id="q-u"> 18+ Uncensored</label>
-      <label class="row mut"><input type="checkbox" id="q-f"> Free</label>
-      <button class="btn sm" onclick="loadCat()">Найти</button>
-    </div>
-    <div class="grid" id="cat-g"></div>`;
-  loadCat();
+async function likeMod(id){await api('/api/catalog/like',{body:{modelRowId:id}});loadCat()}
+async function renderKeys(){
+ const {data}=await api('/api/keys/mine');const ks=data.keys||data||[];
+ $('view').innerHTML=`<div class="card col"><h3>💸 Зарабатывайте на своих API-ключах</h3><div class="row"><select id="k-p"><option>openai</option><option>anthropic</option><option>google</option><option>openrouter</option><option>deepseek</option></select><input id="k-t" placeholder="Название ключа" style="flex:1"><select id="k-tr"><option>FREE</option><option>PRO</option><option>ULTRA</option></select></div><input id="k-k" placeholder="API-ключ (sk-...)"><input id="k-d" placeholder="Описание"><div class="row sp"><div class="row"><input id="k-c" type="number" value="100" style="width:90px"><label class="row mut"><input type="checkbox" id="k-pr"> Приватный</label><label class="row mut"><input type="checkbox" id="k-un"> 18+</label><label class="row mut"><input type="checkbox" id="k-fr" checked> Free</label></div><button class="btn sm" onclick="pubKey()">Опубликовать</button></div></div><div class="grid">${(Array.isArray(ks)?ks:[]).map(k=>`<div class="card col"><div class="row sp"><b>${esc(k.title||k.key_title)}</b><span class="tag">${esc(k.provider)}</span></div><div class="row"><button class="sm" onclick="keyAct(${k.id},'ping')">Пинг</button><button class="sm" onclick="keyAct(${k.id},'toggle')">Вкл/Выкл</button><button class="sm btn-r" onclick="keyAct(${k.id},'del')">Удалить</button></div></div>`).join('')}</div>`;
 }
-
-async function loadCat() {
-  const { ok, data } = await api(`/api/catalog?q=${encodeURIComponent($('q-s')?.value || '')}&provider=${$('q-p')?.value || ''}&uncensored=${$('q-u')?.checked ? 1 : ''}&free=${$('q-f')?.checked ? 1 : ''}`);
-  if (!ok) return;
-  S.cat = data.models || [];
-  $('cat-g').innerHTML = S.cat.map(m => `
-    <div class="card col sp">
-      <div>
-        <div class="row sp"><b>${esc(m.model_id)}</b><span class="tag">${esc(m.provider)}</span></div>
-        <div class="mut">${esc(m.key_title)} • от @${esc(m.owner_name)}</div>
-        <p style="margin:6px 0">${esc(m.description || 'Быстрая нейросеть из пула NEXUS.')}</p>
-        <div class="row">
-          <span class="tag ${m.is_free ? 'g' : ''}">${m.is_free ? 'FREE' : (m.est_req_rub || 0) + ' ₽/запр'}</span>
-          ${m.is_uncensored ? '<span class="tag r">18+</span>' : ''}
-          <span class="tag y">${esc(m.tier_required || 'FREE')}</span>
-        </div>
-      </div>
-      <div class="row sp" style="margin-top:8px">
-        <button class="sm" onclick="likeMod(${m.id})">❤️ ${m.likes_count || 0}</button>
-        ${m.lock_reason
-          ? `<button class="sm btn-y" onclick="go('bill')">🔓 Открыть с ${esc(m.tier_required || 'PRO')}</button>`
-          : `<button class="btn sm" onclick="S.mid=${m.id};localStorage.setItem('nx_mid',${m.id});go('chat')">Выбрать</button>`}
-      </div>
-    </div>`).join('');
+async function pubKey(){const {ok,data}=await api('/api/keys/publish',{body:{provider:$('k-p').value,apiKey:$('k-k').value.trim(),title:$('k-t').value.trim(),description:$('k-d').value.trim(),isPrivate:$('k-pr').checked,isUncensored:$('k-un').checked,isFree:$('k-fr').checked,tierRequired:$('k-tr').value,dailyCapRub:+$('k-c').value||0}});toast(ok?'Ключ опубликован!':(data.error||'Ошибка'));if(ok)renderKeys()}
+async function keyAct(id,a){await api(`/api/keys/${id}${a==='del'?'':'/'+a}`,{method:a==='del'?'DELETE':'POST'});renderKeys()}
+async function pAct(p,b){const {ok,data}=await api(p,{body:b});toast(ok?'Готово!':(data.error||'Ошибка'));loadMe()}
+async function renderBill(){
+ const {data}=await api('/api/billing/info');S.payInfo=data||{};S.cStep=0;
+ $('view').innerHTML=`<div class="col"><div style="text-align:center"><h2>Тарифы NEXUS AI</h2><p class="mut">Мгновенная оплата через Сбербанк без VPN и зарубежных карт</p></div>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+   <div class="plan-card pop"><div class="col"><div class="row sp"><h3>🔥 PRO</h3><span class="tag g">ХИТ 85% ЮЗЕРОВ</span></div><div class="price-big">500 ₽ <span class="mut" style="font-size:13px">/ 30 дн.</span></div>
+    <div class="feat-list"><div><i class="ri-checkbox-circle-fill"></i><b>В 5 раз больше лимитов</b> на 5ч и месяц</div><div><i class="ri-checkbox-circle-fill"></i>Доступ к закрытым <b>PRO-моделям</b></div><div><i class="ri-checkbox-circle-fill"></i>Модели <b>18+ Uncensored</b> без цензуры</div><div><i class="ri-checkbox-circle-fill"></i>Режим <b>🧠 Genius</b> + сброс 5ч за 250₽</div></div></div>
+    <button class="btn-g w1" style="padding:12px" onclick="openPayModal('buy_pro','Подписка PRO','500 ₽')">🚀 Купить PRO за 500 ₽</button></div>
+   <div class="plan-card vip"><div class="col"><div class="row sp"><h3>💎 ULTRA</h3><span class="tag y">VIP МАКСИМУМ</span></div><div class="price-big">1490 ₽ <span class="mut" style="font-size:13px">/ 30 дн.</span></div>
+    <div class="feat-list"><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i><b>Максимальные квоты + все модели</b></div><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i><b>♾️ Вечная бесконечная память</b> ИИ</div><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>Приоритет без очередей + VIP статус</div></div></div>
+    <button class="btn-y w1" style="padding:12px" onclick="openPayModal('buy_ultra','Подписка ULTRA','1490 ₽')">👑 Купить ULTRA за 1490 ₽</button></div>
+  </div>
+  <div class="card row sp" style="border-color:var(--g)"><div><h3>⚡ Закончился 5-часовой лимит?</h3><p class="mut">Обнулите таймер 5 часов прямо сейчас (250 ₽ для PRO/ULTRA, 500 ₽ для FREE)</p></div><button class="btn" onclick="openPayModal('reset_5h','Сброс лимита 5ч','250 / 500 ₽')">⚡ Сбросить 5ч</button></div>
+  <div class="row sp mut"><a onclick="openAccountModal()">🎟 Ввести промокод →</a><button class="sm btn-r" id="ca-b" onclick="canAuto()">Отменить автооплату (в 3 клика)</button></div></div>`;
 }
-
-async function likeMod(id) { await api('/api/catalog/like', { body: { modelRowId: id } }); loadCat(); }
-
-async function renderKeys() {
-  const { data } = await api('/api/keys/mine');
-  const ks = data.keys || data || [];
-  $('view').innerHTML = `
-    <div class="card col">
-      <h3>💸 Зарабатывайте на своих API-ключах</h3>
-      <p class="mut">Добавьте ключ в каталог — получайте рубли на баланс за каждый запрос пользователей и выводите на Сбер от 300 ₽!</p>
-      <div class="row">
-        <select id="k-p"><option>openai</option><option>anthropic</option><option>google</option><option>openrouter</option><option>deepseek</option></select>
-        <input id="k-t" placeholder="Название ключа" style="flex:1">
-        <select id="k-tr"><option>FREE</option><option>PRO</option><option>ULTRA</option></select>
-      </div>
-      <input id="k-k" placeholder="API-ключ (sk-...)">
-      <input id="k-d" placeholder="Описание модели">
-      <div class="row sp">
-        <div class="row">
-          <input id="k-c" type="number" value="100" style="width:90px" title="Лимит ₽">
-          <label class="row mut"><input type="checkbox" id="k-pr"> Приватный</label>
-          <label class="row mut"><input type="checkbox" id="k-un"> 18+</label>
-          <label class="row mut"><input type="checkbox" id="k-fr" checked> Free</label>
-        </div>
-        <button class="btn sm" onclick="pubKey()">Опубликовать ключ</button>
-      </div>
-    </div>
-    <div class="grid">
-      ${(Array.isArray(ks) ? ks : []).map(k => `
-        <div class="card col">
-          <div class="row sp"><b>${esc(k.title || k.key_title)}</b><span class="tag">${esc(k.provider)}</span></div>
-          <div class="row">
-            <button class="sm" onclick="keyAct(${k.id},'ping')">Пинг</button>
-            <button class="sm" onclick="keyAct(${k.id},'toggle')">Вкл/Выкл</button>
-            <button class="sm btn-r" onclick="keyAct(${k.id},'del')">Удалить</button>
-          </div>
-        </div>`).join('')}
-    </div>`;
+function openPayModal(type,title,price){
+ const ph=S.payInfo.phone||'Уточните в админке',bk=S.payInfo.bank||'Сбербанк';
+ openMod(`<div class="col"><div class="row sp"><h3>Оплата: ${esc(title)} (${esc(price)})</h3><button class="sm" onclick="closeMod()">✕</button></div>
+  <div class="card row sp" style="margin:0;background:var(--s2)"><div><span class="lbl">${esc(bk)}</span><b class="mono" style="font-size:16px">${esc(ph)}</b></div><button class="sm btn" onclick="navigator.clipboard.writeText('${esc(ph)}');toast('Скопировано!')">📋 Копировать</button></div>
+  <input id="bl-n" placeholder="Ваш логин" value="${esc(S.user?.username||'')}"><input id="bl-s" placeholder="Имя отправителя и сумма (${esc(price)})">
+  <button class="btn-g w1" style="padding:12px" onclick="ordB('${type}')">✅ Я перевёл — Отправить заявку</button></div>`);
 }
-
-async function pubKey() {
-  const { ok, data } = await api('/api/keys/publish', {
-    body: { provider: $('k-p').value, apiKey: $('k-k').value.trim(), title: $('k-t').value.trim(), description: $('k-d').value.trim(), isPrivate: $('k-pr').checked, isUncensored: $('k-un').checked, isFree: $('k-fr').checked, tierRequired: $('k-tr').value, dailyCapRub: +$('k-c').value || 0 }
-  });
-  toast(ok ? 'Ключ опубликован!' : (data.error || 'Ошибка'));
-  if (ok) renderKeys();
-}
-
-async function keyAct(id, a) { await api(`/api/keys/${id}${a === 'del' ? '' : '/' + a}`, { method: a === 'del' ? 'DELETE' : 'POST' }); renderKeys(); }
-
-async function pAct(p, b) { const { ok, data } = await api(p, { body: b }); toast(ok ? 'Выполнено!' : (data.error || 'Ошибка')); loadMe(); }
-
-async function renderBill() {
-  const { data } = await api('/api/billing/info');
-  S.payInfo = data || {};
-  S.cStep = 0;
-  $('view').innerHTML = `
-    <div class="col">
-      <div style="text-align:center;margin-bottom:6px">
-        <h2>Выберите свой уровень в NEXUS AI</h2>
-        <p class="mut">Мгновенное подключение через Сбербанк • Работает в РФ без VPN и зарубежных карт</p>
-      </div>
-
-      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(265px,1fr))">
-        <div class="plan-card">
-          <div class="col">
-            <div class="row sp"><h3>FREE</h3><span class="tag">Стартовый</span></div>
-            <div class="price-big">0 ₽ <span class="mut" style="font-size:13px;font-weight:400">/ навсегда</span></div>
-            <div class="feat-list">
-              <div><i class="ri-check-line"></i>Доступ к базовым бесплатным моделям</div>
-              <div><i class="ri-check-line"></i>Стандартная квота каждые 5 часов</div>
-              <div><i class="ri-check-line"></i>HTML-песочница для запуска кода</div>
-            </div>
-          </div>
-          <button class="w1" disabled style="opacity:0.6">Ваш базовый тариф</button>
-        </div>
-
-        <div class="plan-card pop">
-          <div class="col">
-            <div class="row sp"><h3>🔥 PRO</h3><span class="tag g">ВЫБОР 85% ЮЗЕРОВ</span></div>
-            <div class="price-big">500 ₽ <span class="mut" style="font-size:13px;font-weight:400">/ 30 дней</span></div>
-            <div class="feat-list">
-              <div><i class="ri-checkbox-circle-fill"></i><b>В 5 раз больше лимитов</b> на 5ч, неделю и месяц</div>
-              <div><i class="ri-checkbox-circle-fill"></i>Доступ к закрытым <b>PRO-моделям</b> каталога</div>
-              <div><i class="ri-checkbox-circle-fill"></i>Полный доступ к <b>18+ Uncensored</b> без цензуры</div>
-              <div><i class="ri-checkbox-circle-fill"></i>Режим глубокого интеллекта <b>🧠 Genius</b></div>
-              <div><i class="ri-checkbox-circle-fill"></i>Скидка 50% на мгновенный сброс 5ч лимита (250 ₽)</div>
-            </div>
-          </div>
-          <button class="btn-g w1" style="padding:12px" onclick="openPayModal('buy_pro','Подписка PRO (30 дней)','500 ₽')">🚀 Купить PRO за 500 ₽</button>
-        </div>
-
-        <div class="plan-card vip">
-          <div class="col">
-            <div class="row sp"><h3>💎 ULTRA</h3><span class="tag y">МАКСИМУМ / VIP</span></div>
-            <div class="price-big">1490 ₽ <span class="mut" style="font-size:13px;font-weight:400">/ 30 дней</span></div>
-            <div class="feat-list">
-              <div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i><b>Все привилегии PRO + максимальные квоты</b></div>
-              <div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i><b>♾️ Вечная бесконечная память</b> (ИИ помнит всё)</div>
-              <div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>Эксклюзивные <b>ULTRA-модели</b> максимальной мощности</div>
-              <div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>Приоритетная генерация без очередей</div>
-              <div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>Золотой статус ULTRA в профиле</div>
-            </div>
-          </div>
-          <button class="btn-y w1" style="padding:12px" onclick="openPayModal('buy_ultra','Подписка ULTRA VIP (30 дней)','1490 ₽')">👑 Купить ULTRA за 1490 ₽</button>
-        </div>
-      </div>
-
-      <div class="card row sp" style="border-color:var(--g)">
-        <div>
-          <h3>⚡ Закончился 5-часовой лимит прямо сейчас?</h3>
-          <p class="mut">Мгновенно обнулите таймер 5 часов и продолжайте общаться без ожидания! (250 ₽ для PRO/ULTRA, 500 ₽ для FREE)</p>
-        </div>
-        <button class="btn" onclick="openPayModal('reset_5h','Мгновенный сброс лимита 5ч','250 / 500 ₽')">⚡ Сбросить лимит 5ч</button>
-      </div>
-
-      <div class="row sp mut">
-        <span>Есть промокод? <a onclick="openAccountModal()">Активировать в профиле →</a></span>
-        <button class="sm btn-r" id="ca-b" onclick="canAuto()">Отменить автооплату (в 3 клика)</button>
-      </div>
-    </div>`;
-}
-
-function openPayModal(type, title, price) {
-  const ph = S.payInfo.phone || 'Уточните в поддержке';
-  const bk = S.payInfo.bank || 'Сбербанк';
-  openMod(`
-    <div class="col">
-      <div class="row sp"><h3>Оплата: ${esc(title)}</h3><button class="sm" onclick="closeMod()">✕</button></div>
-      <div class="card col" style="margin:0;background:var(--s2);border-color:var(--g)">
-        <div class="row sp"><span class="mut">Сумма к переводу:</span><b style="font-size:20px;color:var(--g)">${esc(price)}</b></div>
-        <div class="row sp">
-          <div><span class="lbl">Перевод по номеру (${esc(bk)})</span><b class="mono" style="font-size:16px">${esc(ph)}</b></div>
-          <button class="sm btn" onclick="navigator.clipboard.writeText('${esc(ph)}');toast('Номер скопирован!')">📋 Копировать</button>
-        </div>
-      </div>
-      <div><span class="lbl">Ваш логин для зачисления</span><input id="bl-n" class="w1" value="${esc(S.user?.username || '')}"></div>
-      <div><span class="lbl">Имя отправителя / комментарий (кто перевёл)</span><input id="bl-s" class="w1" placeholder="Например: Саша П., перевёл ${esc(price)}"></div>
-      <button class="btn-g w1" style="padding:12px" onclick="ordB('${type}')">✅ Я перевёл — Отправить заявку на выдачу</button>
-      <div class="mut" style="text-align:center">⚡ Подписка выдаётся сразу после проверки перевода администратором</div>
-    </div>`);
-}
-
-async function ordB(t) {
-  const { ok, data } = await api('/api/billing/order', { body: { itemType: t, customNick: $('bl-n').value, senderNote: $('bl-s').value } });
-  if (ok) closeMod();
-  toast(ok ? 'Заявка отправлена! Ожидайте выдачи тарифа' : (data.error || 'Ошибка заявки'));
-}
-
-async function canAuto() {
-  S.cStep++;
-  if (S.cStep < 3) $('ca-b').textContent = `Подтвердите отмену (${S.cStep + 1}/3)`;
-  else { await pAct('/api/billing/cancel-auto', {}); S.cStep = 0; }
-}
-
-async function adm(p, b, m = 'POST') {
-  const r = await api('/api/admin/' + p, { method: m, body: b });
-  toast(r.ok ? 'Сохранено!' : (r.data.error || 'Ошибка'));
-  if (r.ok) renderAdm();
-}
-
-async function renderAdm() {
-  const { ok, data } = await api('/api/admin/overview');
-  const d = data || {}, pc = d.payConfig || {}, ad = d.ad || {};
-  $('view').innerHTML = `
-    <div class="card row sp">
-      <div>
-        <h3>🛡️ Админ-панель (${esc(S.user?.username || 'Гость')})</h3>
-        <div class="mut">${ok ? '✅ Полный доступ открыт' : '⚠️ Сервер: ' + esc(d.error || 'Проверка доступа')}</div>
-      </div>
-      <button class="btn sm" onclick="trustCurrentDevices()">✅ Подтвердить это устройство</button>
-    </div>
-    <div class="grid">
-      <div class="card col">
-        <h4>📦 Заявки на оплату (${(d.orders || []).length})</h4>
-        ${(d.orders || []).map(o => `
-          <div class="row sp mut" style="padding:6px 0;border-bottom:1px solid var(--b)">
-            <span><b>${esc(o.custom_nick || o.username)}</b>: ${esc(o.item_type)} (${esc(o.sender_note || '')})</span>
-            <div class="row">
-              <button class="sm btn-g" onclick="adm('order-resolve',{orderId:${o.id},approve:true})">Выдать</button>
-              <button class="sm btn-r" onclick="adm('order-resolve',{orderId:${o.id},approve:false})">✕</button>
-            </div>
-          </div>`).join('') || '<span class="mut">Новых заказов пока нет</span>'}
-      </div>
-      <div class="card col">
-        <h4>🏦 Реквизиты Сбербанк и ТГ</h4>
-        <input id="ap-p" placeholder="Телефон Сбербанка" value="${esc(pc.phone || '')}">
-        <input id="ap-b" placeholder="Банк" value="${esc(pc.bank || 'Сбербанк')}">
-        <input id="ap-t" placeholder="TG Token" value="${esc(pc.tgToken || '')}">
-        <input id="ap-c" placeholder="TG Chat ID" value="${esc(pc.tgChatId || '')}">
-        <button class="btn sm" onclick="adm('pay-config',{phone:$('ap-p').value,bank:$('ap-b').value,tgToken:$('ap-t').value,tgChatId:$('ap-c').value})">Сохранить</button>
-      </div>
-      <div class="card col">
-        <h4>🎟 Промокоды</h4>
-        <div class="row">
-          <input id="pr-c" placeholder="Код" style="flex:1">
-          <select id="pr-p"><option>PRO</option><option>ULTRA</option></select>
-          <input id="pr-d" value="30" style="width:55px">
-          <button class="sm btn" onclick="adm('promo',{code:$('pr-c').value,plan:$('pr-p').value,days:+$('pr-d').value})">+</button>
-        </div>
-        ${(d.promos || []).map(p => `<div class="row sp mut"><span><b>${esc(p.code)}</b> (${esc(p.plan)})</span><button class="sm btn-r" onclick="adm('promo/'+encodeURIComponent('${esc(p.code)}'),null,'DELETE')">✕</button></div>`).join('')}
-      </div>
-      <div class="card col">
-        <h4>📢 Реклама</h4>
-        <label class="row mut"><input type="checkbox" id="aa-e" ${ad.enabled ? 'checked' : ''}> Включить баннер</label>
-        <input id="aa-t" placeholder="Заголовок" value="${esc(ad.title || '')}">
-        <input id="aa-x" placeholder="Текст" value="${esc(ad.text || '')}">
-        <input id="aa-u" placeholder="URL" value="${esc(ad.url || '')}">
-        <button class="btn sm" onclick="adm('ad',{enabled:$('aa-e').checked,title:$('aa-t').value,text:$('aa-x').value,url:$('aa-u').value})">Сохранить</button>
-      </div>
-      <div class="card col">
-        <h4>👥 Пользователи (${(d.users || []).length})</h4>
-        ${(d.users || []).map(u => `
-          <div class="row sp mut">
-            <span><b>${esc(u.username)}</b> [${esc(u.plan)}]</span>
-            <div class="row">
-              <select id="up-${u.id}"><option>FREE</option><option>PRO</option><option>ULTRA</option></select>
-              <button class="sm btn-g" onclick="adm('user-plan',{targetUserId:${u.id},plan:$('up-${u.id}').value,days:30})">ОК</button>
-              <button class="sm btn-r" onclick="adm('user-ban',{targetUserId:${u.id},ban:${!u.is_banned}})">${u.is_banned ? 'Разбан' : 'Бан'}</button>
-            </div>
-          </div>`).join('')}
-      </div>
-      <div class="card col">
-        <h4>⚖️ Апелляции и Ключи</h4>
-        ${(d.appeals || []).map(a => `<div class="row sp mut"><span>${esc(a.username)}: ${esc(a.message)}</span><button class="sm btn-g" onclick="adm('appeal',{appealId:${a.id},id:${a.id},approve:true})">Разбан</button></div>`).join('')}
-        ${(d.keys || []).map(k => `<div class="row sp mut"><span>🔑 ${esc(k.title || k.id)}</span><button class="sm btn-r" onclick="adm('key/${k.id}',null,'DELETE')">✕</button></div>`).join('')}
-      </div>
-    </div>`;
-}
-
-loadStats();
-loadMe();
-</script>
-</body>
-</html>
+async function ordB(t){const {ok

@@ -3,65 +3,88 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NEXUS AI Studio</title>
+<title>NEXUS AI — Official Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 <style>
+:root{--bg:#0b0c10;--s1:rgba(22,24,32,.85);--s2:#1c1f2b;--s3:#25293a;--b:rgba(255,255,255,.08);--bh:rgba(138,180,248,.4);--t:#f1f3f9;--m:#8b93a7;--a:#8ab4f8;--a2:#c58af9;--g:#4ade80;--r:#f87171;--y:#fbbf24}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font:14px/1.4 system-ui,sans-serif;background:#131314;color:#e3e3e3;min-height:100vh;flex-direction:column}
-a{color:#8ab4f8;cursor:pointer;text-decoration:none}
-button,input,select,textarea{font:inherit;color:#e3e3e3;background:#282a2c;border:1px solid #3c4043;border-radius:8px;padding:7px 9px;outline:none}
-button{cursor:pointer;font-weight:500}button:hover{border-color:#8ab4f8}
-.btn{background:#8ab4f8;color:#0b192c;border:none;font-weight:600}
-.btn-r{background:#5c1919;color:#f28b82;border-color:#8c2a2a}
-.btn-g{background:#173b24;color:#81c995;border-color:#2b6b42}
-.sm{padding:4px 8px;font-size:12px}.mut{font-size:12px;color:#9aa0a6}.w1{width:100%}.hd{display:none!important}
-body,.top,.wrap,.side,.row,.col,.msgs,.ad{display:flex}
-.side,.col,.msgs,.ban{flex-direction:column}
-.top,.side,.card,.msg,.mod-in{background:#1e1f20}
-.card,.msg,.mod-in{border:1px solid #3c4043;border-radius:12px;padding:11px}
-.top{height:50px;border-bottom:1px solid #3c4043;align-items:center;justify-content:space-between;padding:0 12px;gap:8px;position:sticky;top:0;z-index:20}
-.logo{font-weight:700;font-size:16px;white-space:nowrap}
-.logo span{background:linear-gradient(90deg,#8ab4f8,#c58af9);-webkit-background-clip:text;color:transparent}
-.wrap{flex:1;min-height:0}.side{width:200px;border-right:1px solid #3c4043;padding:10px;gap:4px;flex-shrink:0}
-.nav{background:none;border:none;text-align:left;padding:8px 10px;border-radius:9px;color:#9aa0a6}
-.nav.act,.nav:hover{background:#282a2c;color:#e3e3e3}.nav.act{color:#8ab4f8}
-.main{flex:1;padding:12px;overflow-y:auto;max-width:1160px;width:100%;margin:0 auto}.card{margin-bottom:10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
-.row{gap:8px;flex-wrap:wrap;align-items:center}.sp{justify-content:space-between}.col{gap:8px}
-.tag{font-size:11px;padding:2px 7px;border-radius:99px;background:#282a2c;border:1px solid #3c4043;color:#9aa0a6}
-.tag.b{color:#8ab4f8;border-color:#3a5b8c}.tag.g{color:#81c995;border-color:#2b6b42}.tag.r{color:#f28b82;border-color:#8c2a2a}
-  .msgs{height:46vh;min-height:250px;overflow-y:auto;gap:8px}
-.msg{max-width:90%;white-space:pre-wrap;word-break:break-word}.msg.u{align-self:flex-end;background:#1d2b44;border-color:#355285}
-.msg pre{background:#0d0e10;padding:8px;border-radius:8px;overflow-x:auto;margin:6px 0;font-size:12px;white-space:pre}
-.think{background:#282a2c;border-left:3px solid #8ab4f8;padding:6px 8px;margin-bottom:6px;font-size:12px;color:#9aa0a6}
-.bar{height:7px;background:#282a2c;border-radius:99px;overflow:hidden;margin:4px 0}.bar>i{display:block;height:100%;background:#8ab4f8}
-.mod,.ban{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:14px;z-index:50}
-.mod{background:#000c}.mod.on,.ban.on{display:flex}.mod-in{width:100%;max-width:560px;max-height:90vh;overflow-y:auto}
-.ban{background:#2a0808;color:#ffd2d2;z-index:99;text-align:center;overflow-y:auto}
-.toast{position:fixed;bottom:14px;right:14px;background:#282a2c;border:1px solid #8ab4f8;padding:9px 14px;border-radius:10px;z-index:90;display:none}
-.toast.on{display:block}
-.ad{background:#1c2638;border:1px solid #3c5480;border-radius:10px;padding:8px 12px;margin-bottom:10px;justify-content:space-between;align-items:center;gap:8px}
-iframe.sbx{width:100%;height:65vh;border:none;background:#fff;border-radius:8px}.mob-btn{display:none}
-@media(max-width:760px){.side{position:fixed;left:-215px;top:50px;bottom:0;z-index:30;transition:.2s}.side.on{left:0}.mob-btn{display:inline-flex}.msg{max-width:98%}}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-thumb{background:var(--s3);border-radius:99px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+body{font:14px/1.5 'Inter',system-ui,sans-serif;background:radial-gradient(ellipse at 50% 0%,rgba(138,180,248,.12),transparent 55%),var(--bg);color:var(--t);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+code,pre,.mono{font-family:'JetBrains Mono',monospace}
+a{color:var(--a);cursor:pointer;text-decoration:none;transition:.2s}
+a:hover{color:var(--a2);text-decoration:underline}
+button,input,select,textarea{font:inherit;color:var(--t);background:var(--s2);border:1px solid var(--b);border-radius:10px;padding:9px 12px;outline:none;transition:all .2s cubic-bezier(.22,1,.36,1)}
+input:focus,select:focus,textarea:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(138,180,248,.15);background:#202432}
+button{cursor:pointer;font-weight:500;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+button:hover{border-color:var(--bh);transform:translateY(-1px);background:var(--s3)}
+button:active{transform:translateY(0) scale(.98)}
+.btn{background:linear-gradient(135deg,var(--a),#669df6);color:#08101d;border:none;font-weight:600;box-shadow:0 4px 14px rgba(138,180,248,.25)}
+.btn:hover{background:linear-gradient(135deg,#9bbff9,var(--a));box-shadow:0 6px 20px rgba(138,180,248,.4);color:#08101d}
+.btn-r{background:rgba(248,113,113,.12);color:var(--r);border-color:rgba(248,113,113,.3)}
+.btn-g{background:rgba(74,222,128,.12);color:var(--g);border-color:rgba(74,222,128,.3)}
+  .sm{padding:5px 10px;font-size:12px;border-radius:8px}
+.mut{font-size:12px;color:var(--m)}.w1{width:100%}.hd{display:none!important}
+.lbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--m);margin-bottom:2px;display:block}
+.top{height:58px;background:rgba(15,17,23,.8);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;padding:0 16px;gap:10px;position:sticky;top:0;z-index:30}
+.logo{font-weight:700;font-size:17px;display:flex;align-items:center;gap:8px;letter-spacing:-.3px}
+.logo i{color:var(--a);font-size:20px;filter:drop-shadow(0 0 8px rgba(138,180,248,.5))}
+.logo span{background:linear-gradient(90deg,#fff,var(--a),var(--a2));-webkit-background-clip:text;color:transparent}
+.wrap{display:flex;flex:1;min-height:0}
+.side{width:230px;background:var(--s1);backdrop-filter:blur(16px);border-right:1px solid var(--b);padding:12px;display:flex;flex-direction:column;gap:5px;flex-shrink:0}
+.nav{background:transparent;border:1px solid transparent;justify-content:flex-start;padding:10px 12px;border-radius:10px;color:var(--m);font-weight:500}
+.nav i{font-size:17px;transition:.2s}
+.nav:hover{background:var(--s2);color:var(--t);transform:translateX(2px)}
+.nav.act{background:rgba(138,180,248,.12);color:var(--a);border-color:rgba(138,180,248,.25)}
+.main{flex:1;padding:18px;overflow-y:auto;max-width:1220px;width:100%;margin:0 auto}
+.card{background:var(--s1);backdrop-filter:blur(12px);border:1px solid var(--b);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 8px 24px rgba(0,0,0,.25);animation:fadeUp .25s ease}
+.card:hover{border-color:rgba(255,255,255,.14)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.sp{justify-content:space-between}.col{display:flex;flex-direction:column;gap:10px}
+.tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;background:var(--s2);border:1px solid var(--b);color:var(--m);display:inline-flex;align-items:center;gap:4px}
+.tag.b{color:var(--a);background:rgba(138,180,248,.1);border-color:rgba(138,180,248,.3)}
+.tag.g{color:var(--g);background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.3)}
+.tag.r{color:var(--r);background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.3)}
+  .msgs{height:50vh;min-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:6px}
+.msg{max-width:88%;padding:12px 14px;border-radius:14px;background:var(--s2);border:1px solid var(--b);white-space:pre-wrap;word-break:break-word;animation:fadeUp .2s ease}
+.msg.u{align-self:flex-end;background:linear-gradient(135deg,#1e3a5f,#17253b);border-color:rgba(138,180,248,.35)}
+.msg pre{background:#090a0f;border:1px solid var(--b);padding:10px;border-radius:10px;overflow-x:auto;margin:8px 0;font-size:12px;white-space:pre}
+.think{background:rgba(138,180,248,.06);border-left:3px solid var(--a);padding:8px 10px;margin-bottom:8px;font-size:12px;color:var(--m);border-radius:6px}
+.bar{height:8px;background:var(--s2);border-radius:99px;overflow:hidden;margin:5px 0}.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--a2));border-radius:99px;transition:width .4s ease}
+.mod,.ban{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:16px;z-index:60;backdrop-filter:blur(8px)}
+.mod{background:rgba(5,6,10,.75)}.mod.on,.ban.on{display:flex}.mod-in{background:#161821;border:1px solid var(--b);border-radius:16px;padding:18px;width:100%;max-width:580px;max-height:90vh;overflow-y:auto;animation:fadeUp .2s ease}
+.ban{background:radial-gradient(circle,#450a0a,#1a0505);color:#fecaca;z-index:99;text-align:center;flex-direction:column}
+.toast{position:fixed;bottom:18px;right:18px;background:#1c202e;border:1px solid var(--a);box-shadow:0 8px 24px rgba(0,0,0,.5);padding:11px 16px;border-radius:12px;z-index:95;display:none;animation:fadeUp .2s ease}
+.toast.on{display:flex;align-items:center;gap:8px}
+.ad{background:linear-gradient(90deg,rgba(138,180,248,.12),rgba(197,138,249,.12));border:1px solid rgba(138,180,248,.3);border-radius:12px;padding:10px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+iframe.sbx{width:100%;height:65vh;border:none;background:#fff;border-radius:10px}.mob-btn{display:none}
+@media(max-width:780px){.side{position:fixed;left:-240px;top:58px;bottom:0;z-index:40;transition:.25s}.side.on{left:0}.mob-btn{display:inline-flex}.msg{max-width:96%}}
 </style>
 </head>
 <body>
 <header class="top">
  <div class="row">
-  <button class="mob-btn sm" onclick="$('side').classList.toggle('on')">☰</button>
-  <div class="logo">◆ <span>NEXUS AI</span></div>
+  <button class="mob-btn sm" onclick="$('side').classList.toggle('on')"><i class="ri-menu-2-line"></i></button>
+  <div class="logo"><i class="ri-sparkling-2-fill"></i><span>NEXUS AI</span><small class="tag b">STUDIO</small></div>
  </div>
  <div id="stats-bar" class="row mut"></div>
  <div id="top-user" class="row"></div>
 </header>
 <div class="wrap">
  <aside id="side" class="side">
-  <button class="nav act" data-t="chat" onclick="go('chat')">💬 Чат Studio</button>
-  <button class="nav" data-t="cat" onclick="go('cat')">🧩 Каталог ИИ</button>
-  <button class="nav" data-t="keys" onclick="go('keys')">🔑 Мои ключи</button>
-  <button class="nav" data-t="prof" onclick="go('prof')">👤 Профиль</button>
-  <button class="nav" data-t="bill" onclick="go('bill')">💳 Тарифы</button>
-  <button class="nav hd" id="nav-adm" data-t="adm" onclick="go('adm')">🛡 Админка</button>
-  <div id="side-foot" style="margin-top:auto"></div>
+  <span class="lbl" style="padding:4px 8px">Навигация</span>
+  <button class="nav act" data-t="chat" onclick="go('chat')"><i class="ri-chat-smile-3-line"></i>Чат Studio</button>
+  <button class="nav" data-t="cat" onclick="go('cat')"><i class="ri-apps-2-line"></i>Каталог ИИ</button>
+  <button class="nav" data-t="keys" onclick="go('keys')"><i class="ri-key-2-line"></i>Маркет ключей</button>
+  <button class="nav" data-t="prof" onclick="go('prof')"><i class="ri-user-star-line"></i>Мой профиль</button>
+  <button class="nav" data-t="bill" onclick="go('bill')"><i class="ri-vip-crown-2-line"></i>Тарифы и оплата</button>
+  <button class="nav" id="nav-adm" data-t="adm" onclick="go('adm')"><i class="ri-shield-flash-line"></i>Админ-центр</button>
+  <div id="side-foot" class="mut" style="margin-top:auto;padding:8px;border-top:1px solid var(--b)">
+   <i class="ri-checkbox-circle-fill" style="color:var(--g)"></i> NEXUS v5.1 • 199-ФЗ
+  </div>
  </aside>
  <main class="main">
   <div id="ad-box" class="ad hd"></div>
@@ -77,15 +100,18 @@ esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','
 const S={tok:localStorage.getItem('nx_tok')||'',user:null,ad:null,cap:null,needCode:false,
 authMode:'login',cat:[],mid:+localStorage.getItem('nx_mid')||0,
 msgs:JSON.parse(localStorage.getItem('nx_msgs')||'[]'),
-mem:JSON.parse(localStorage.getItem('nx_mem')||'[]'),tab:'chat',cStep:0,sbx:[]};
-function getDev(){
+mem:JSON.parse(localStorage.getItem('nx_mem')||'[]'),tab:'chat',cStep:0,sbx:[],admTab:'orders'};
+  function getDev(){
  let d=localStorage.getItem('nx_dev');
  if(!d){d='d_'+Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('nx_dev',d)}
  let s=navigator.userAgent+'|'+screen.width+'x'+screen.height,h=0;
  for(let i=0;i<s.length;i++)h=((h<<5)-h+s.charCodeAt(i))|0;
  return{d,h:'hw_'+Math.abs(h).toString(16)};
 }
-function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3200)}
+function toast(m){
+ const t=$('toast');t.innerHTML=`<i class="ri-information-fill" style="color:var(--a)"></i><span>${esc(m)}</span>`;
+ t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3400);
+}
 function openMod(h){$('mod-in').innerHTML=h;$('mod').classList.add('on')}
 function closeMod(){$('mod').classList.remove('on')}
 async function api(p,o={}){
@@ -99,40 +125,42 @@ async function api(p,o={}){
 }
 function showBan(rs){
  const b=$('ban');b.classList.add('on');
- b.innerHTML=`<div class="card col" style="max-width:480px;background:#3b0d0d;border-color:#ff5252">
+ b.innerHTML=`<div class="card col" style="max-width:480px;background:#2d0a0a;border-color:var(--r)">
   <h2>⚠️⚠️ ИЗВИНИТЕ, НО ВЫ ЗАБАНЕНЫ ПО ЭТОЙ ПРИЧИНЕ ⚠️⚠️</h2>
-  <p>${esc(Array.isArray(rs)?rs.join(', '):rs||'Нарушение правил')}</p>
-  <input id="ban-u" placeholder="Ваш никнейм" value="${esc(S.user?.username||'')}">
-  <textarea id="ban-m" rows="3" placeholder="Напишите обжалование..."></textarea>
-  <button class="btn" onclick="sendAppeal()">Отправить апелляцию</button></div>`;
+  <p class="mut">${esc(Array.isArray(rs)?rs.join(', '):rs||'Нарушение правил платформы')}</p>
+  <input id="ban-u" placeholder="Ваш логин" value="${esc(S.user?.username||'')}">
+  <textarea id="ban-m" rows="3" placeholder="Опишите причину для разбана..."></textarea>
+  <button class="btn" onclick="sendAppeal()"><i class="ri-mail-send-line"></i>Отправить апелляцию</button></div>`;
 }
 async function sendAppeal(){
  const {ok,data}=await api('/api/ban/appeal',{body:{username:$('ban-u').value,message:$('ban-m').value}});
- toast(ok?'Апелляция отправлена!':(data.error||'Ошибка'));
+ toast(ok?'Апелляция отправлена администратору!':(data.error||'Ошибка отправки'));
 }
   function renderAd(a){
  if(!a)return;S.ad=a;const b=$('ad-box');
  if(!a.enabled){b.classList.add('hd');return}
  b.classList.remove('hd');
- b.innerHTML=`<div><b>${esc(a.title)}</b> <span class="mut">${esc(a.text)}</span></div>`+(a.url?`<a class="btn sm" target="_blank" href="${esc(a.url)}">Перейти</a>`:'');
+ b.innerHTML=`<div class="row"><span class="tag b"><i class="ri-megaphone-line"></i>Реклама</span><b>${esc(a.title)}</b><span class="mut">${esc(a.text)}</span></div>`+(a.url?`<a class="btn sm" target="_blank" href="${esc(a.url)}">Открыть <i class="ri-external-link-line"></i></a>`:'');
 }
 async function loadStats(){
  const {ok,data}=await api('/api/stats');
- if(ok){$('stats-bar').innerHTML=`<span>👥 ${data.users||0}</span><span>🤖 ${data.models||0}</span><span>⚡ ${data.requests||0}</span>`;renderAd(data.ad)}
+ if(ok){
+  $('stats-bar').innerHTML=`<span class="tag"><i class="ri-user-3-line"></i>Юзеров: ${data.users||0}</span><span class="tag"><i class="ri-cpu-line"></i>Моделей: ${data.models||0}</span><span class="tag"><i class="ri-flashlight-line"></i>Запросов: ${data.requests||0}</span>`;
+  renderAd(data.ad);
+ }
 }
 async function loadMe(){
- if(!S.tok)return go('auth');
+ if(!S.tok){$('top-user').innerHTML=`<button class="btn sm" onclick="go('auth')"><i class="ri-login-box-line"></i>Войти</button>`;return go('auth')}
  const {ok,data}=await api('/api/auth/me');
  if(!ok){S.tok='';localStorage.removeItem('nx_tok');return go('auth')}
  S.user=data.user;renderAd(data.ad);
- $('nav-adm').classList.toggle('hd',!(S.user.isAdmin||S.user.username==='asdcreator'));
- $('top-user').innerHTML=`<span class="tag b">${esc(S.user.plan||'FREE')}</span><b>${esc(S.user.username)}</b><button class="sm" onclick="logout()">Выйти</button>`;
+ $('top-user').innerHTML=`<span class="tag b"><i class="ri-vip-diamond-line"></i>${esc(S.user.plan||'FREE')}</span><b>${esc(S.user.username)}</b><button class="sm btn-r" onclick="logout()"><i class="ri-logout-box-r-line"></i></button>`;
  go(S.tab==='auth'?'chat':S.tab);
 }
-function logout(){S.tok='';S.user=null;localStorage.removeItem('nx_tok');$('top-user').innerHTML='';go('auth')}
+function logout(){S.tok='';S.user=null;localStorage.removeItem('nx_tok');loadMe()}
 function go(t){
  $('side').classList.remove('on');
- if(!S.tok&&t!=='auth'&&t!=='cat')t='auth';
+ if(!S.tok&&t!=='auth'&&t!=='cat'&&t!=='adm')t='auth';
  S.tab=t;document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('act',n.dataset.t===t));
  if(t==='auth')renderAuth();else if(t==='chat')renderChat();else if(t==='cat')renderCat();
  else if(t==='keys')renderKeys();else if(t==='prof')renderProf();else if(t==='bill')renderBill();else if(t==='adm')renderAdm();
@@ -142,185 +170,173 @@ async function loadCap(){
  if(ok){S.cap=data;if($('cap-q'))$('cap-q').textContent=data.question}
 }
 function showRules(){
- openMod(`<h3>Правила проекта NEXUS AI (199-ФЗ РФ)</h3><div class="col mut" style="margin:10px 0">
- <p>1. Авторизация осуществляется только по логину и электронной почте (без кнопок зарубежных соцсетей по 199-ФЗ).</p>
- <p>2. Запрещены мультиаккаунты, обход лимитов, спам и абуз (автобан по железу).</p>
- <p>3. Публикуемые API-ключи проверяются системой безопасности.</p></div><button class="btn w1" onclick="closeMod()">Понятно</button>`);
+ openMod(`<div class="col"><h3><i class="ri-scales-3-line" style="color:var(--a)"></i> Правила NEXUS AI (199-ФЗ РФ)</h3>
+  <p class="mut">1. Регистрация и вход разрешены только через логин и электронную почту (без зарубежных OAuth-сервисов Google/Apple/TG согласно 199-ФЗ РФ).</p>
+  <p class="mut">2. Запрещены мультиаккаунты, обход квот и вредоносные промпты — система автоматически блокирует устройство по Hardware Hash.</p>
+  <button class="btn w1" onclick="closeMod()">Принимаю правила</button></div>`);
 }
   function renderAuth(){
  const reg=S.authMode==='register';
- $('view').innerHTML=`<div class="card col" style="max-width:420px;margin:20px auto">
-  <div class="row"><button class="w1 ${!reg?'btn':''}" onclick="S.authMode='login';renderAuth()">Вход</button>
-  <button class="w1 ${reg?'btn':''}" onclick="S.authMode='register';renderAuth()">Регистрация</button></div>
-  <input id="au-u" placeholder="Логин (никнейм)">
-  ${reg?'<input id="au-e" type="email" placeholder="Email (почта)">':''}
-  <input id="au-p" type="password" placeholder="Пароль">
-  ${reg?'<input id="au-ref" placeholder="Реферальный код (необязательно)">':''}
-  <div class="row"><span class="tag b">Капча: <b id="cap-q">...</b></span>
-   <input id="cap-a" placeholder="Ответ" style="width:90px">
-   <button class="sm" onclick="loadCap()">↻</button></div>
-  ${reg||S.needCode?`<div class="row"><input id="au-c" placeholder="5-значный код с почты" style="flex:1">
-   <button class="sm btn-g" onclick="sendCode('${S.authMode}')">Получить код</button></div>
-   <span class="mut">Внимание: 3 неверные попытки сжигают код!</span>`:''}
-  ${reg?`<label class="row mut"><input type="checkbox" id="au-r" checked> Принимаю <a onclick="showRules()">Правила проекта</a> (199-ФЗ РФ)</label>`:''}
-  <button class="btn w1" onclick="doAuth()">${reg?'Создать аккаунт':'Войти'}</button></div>`;
+ $('view').innerHTML=`<div class="card col" style="max-width:440px;margin:16px auto">
+  <div class="row sp"><h3><i class="ri-shield-user-line" style="color:var(--a)"></i> ${reg?'Регистрация аккаунта':'Вход в NEXUS AI'}</h3><span class="tag b">199-ФЗ РФ</span></div>
+  <div class="row"><button class="w1 ${!reg?'btn':''}" onclick="S.authMode='login';renderAuth()"><i class="ri-login-circle-line"></i>Вход</button>
+   <button class="w1 ${reg?'btn':''}" onclick="S.authMode='register';renderAuth()"><i class="ri-user-add-line"></i>Регистрация</button></div>
+  <div><span class="lbl">Ваш логин (никнейм)</span><input id="au-u" class="w1" placeholder="Например: asdcreator"></div>
+  ${reg?'<div><span class="lbl">Электронная почта (для 5-значного кода)</span><input id="au-e" type="email" class="w1" placeholder="name@mail.ru"></div>':''}
+  <div><span class="lbl">Пароль</span><input id="au-p" type="password" class="w1" placeholder="••••••••"></div>
+  ${reg?'<div><span class="lbl">Реферальный код (если есть)</span><input id="au-ref" class="w1" placeholder="Необязательно"></div>':''}
+  <div class="card" style="margin:0;padding:10px;background:var(--s2)"><span class="lbl">Проверка безопасности (Капча)</span>
+   <div class="row"><span class="tag b" style="font-size:13px"><i class="ri-calculator-line"></i> <b id="cap-q">Загрузка...</b></span>
+    <input id="cap-a" placeholder="Ответ" style="flex:1"><button class="sm" onclick="loadCap()"><i class="ri-refresh-line"></i></button></div></div>
+  ${reg||S.needCode?`<div class="card col" style="margin:0;padding:10px;border-color:var(--a)"><span class="lbl">Подтверждение по почте (3 ошибки сжигают код!)</span>
+   <div class="row"><input id="au-c" placeholder="5-значный код" style="flex:1"><button class="sm btn-g" onclick="sendCode('${S.authMode}')"><i class="ri-mail-send-line"></i>Выслать код</button></div></div>`:''}
+  ${reg?`<label class="row mut"><input type="checkbox" id="au-r" checked> Я принимаю <a onclick="showRules()">Правила проекта</a></label>`:''}
+  <button class="btn w1" onclick="doAuth()"><i class="ri-check-double-line"></i>${reg?'Зарегистрироваться':'Войти в студию'}</button></div>`;
  loadCap();
 }
 async function sendCode(mode){
- const {ok,data}=await api('/api/auth/send-code',{body:{mode,username:$('au-u').value.trim(),
-  email:$('au-e')?.value.trim()||'',challengeToken:S.cap?.challengeToken,captchaAnswer:$('cap-a').value.trim()}});
- toast(ok?'Код отправлен на почту!':(data.error||'Ошибка отправки кода'));loadCap();
+ const {ok,data}=await api('/api/auth/send-code',{body:{mode,username:$('au-u').value.trim(),email:$('au-e')?.value.trim()||'',challengeToken:S.cap?.challengeToken,captchaAnswer:$('cap-a').value.trim()}});
+ toast(ok?'5-значный код отправлен на почту!':(data.error||'Ошибка отправки кода'));loadCap();
 }
-async function doAuth(){
- const reg=S.authMode==='register',u=$('au-u').value.trim(),p=$('au-p').value,
-  c=$('au-c')?.value.trim()||'',ca=$('cap-a').value.trim(),ct=S.cap?.challengeToken;
+  async function doAuth(){
+ const reg=S.authMode==='register',u=$('au-u').value.trim(),p=$('au-p').value,c=$('au-c')?.value.trim()||'',ca=$('cap-a').value.trim(),ct=S.cap?.challengeToken;
  if(reg&&!$('au-r').checked)return toast('Примите Правила проекта!');
  const {status,ok,data}=await api(reg?'/api/auth/register':'/api/auth/login',{body:reg?
   {username:u,email:$('au-e').value.trim(),password:p,refCode:$('au-ref').value.trim(),rulesAccepted:true,emailCode:c,challengeToken:ct,captchaAnswer:ca}:
   {username:u,password:p,emailCode:c,challengeToken:ct,captchaAnswer:ca}});
- if(status===403&&data.needEmailCode){S.needCode=true;renderAuth();return toast('Нужен 5-значный код с почты!')}
- if(!ok){loadCap();return toast(data.error||'Ошибка входа')}
+ if(status===403&&data.needEmailCode){S.needCode=true;renderAuth();return toast('Введите 5-значный код с почты!')}
+ if(!ok){loadCap();return toast(data.error||'Ошибка авторизации')}
  S.tok=data.token;localStorage.setItem('nx_tok',S.tok);S.needCode=false;loadMe();
 }
-  function fmtMsg(m,i){
+function fmtMsg(m,i){
  let h=esc(m.content||'');
- if(m.thinking)h=`<details class="think"><summary>💭 Мысли ИИ</summary>${esc(m.thinking)}</details>`+h;
+ if(m.thinking)h=`<details class="think"><summary><i class="ri-brain-line"></i> Цепочка рассуждений ИИ</summary>${esc(m.thinking)}</details>`+h;
  h=h.replace(/```(\w*)\n([\s\S]*?)```/g,(_,l,c)=>{
   if(l==='html'||c.includes('<html')||c.includes('<!DOCTYPE')||c.includes('<body')){
-   S.sbx[i]=c;return`<pre>${c}</pre><button class="sm btn-g" onclick="runSbx(${i})">▶ Запустить HTML</button>`;
+   S.sbx[i]=c;return`<pre>${c}</pre><button class="sm btn-g" onclick="runSbx(${i})"><i class="ri-play-fill"></i>Запустить HTML в песочнице</button>`;
   }return`<pre>${c}</pre>`;
  });
- return`<div class="msg ${m.role==='user'?'u':''}">${h}${m.meta?`<div class="mut">${esc(m.meta)}</div>`:''}</div>`;
+ return`<div class="msg ${m.role==='user'?'u':''}"><b>${m.role==='user'?'<i class="ri-user-line"></i> Вы':'<i class="ri-sparkling-line" style="color:var(--a)"></i> NEXUS AI'}</b><div style="margin-top:4px">${h}</div>${m.meta?`<div class="mut" style="margin-top:6px">${esc(m.meta)}</div>`:''}</div>`;
 }
 function runSbx(i){
  const d=(S.sbx[i]||'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'");
- openMod(`<div class="row sp"><b>▶ HTML Песочница</b><button class="sm" onclick="closeMod()">✕</button></div><iframe class="sbx" sandbox="allow-scripts"></iframe>`);
+ openMod(`<div class="row sp" style="margin-bottom:8px"><b><i class="ri-window-line"></i> Интерактивная HTML-песочница</b><button class="sm" onclick="closeMod()">✕</button></div><iframe class="sbx" sandbox="allow-scripts"></iframe>`);
  $('mod-in').querySelector('iframe').srcdoc=d;
 }
-async function renderChat(){
+  async function doAuth(){
+ const reg=S.authMode==='register',u=$('au-u').value.trim(),p=$('au-p').value,c=$('au-c')?.value.trim()||'',ca=$('cap-a').value.trim(),ct=S.cap?.challengeToken;
+ if(reg&&!$('au-r').checked)return toast('Примите Правила проекта!');
+ const {status,ok,data}=await api(reg?'/api/auth/register':'/api/auth/login',{body:reg?
+  {username:u,email:$('au-e').value.trim(),password:p,refCode:$('au-ref').value.trim(),rulesAccepted:true,emailCode:c,challengeToken:ct,captchaAnswer:ca}:
+  {username:u,password:p,emailCode:c,challengeToken:ct,captchaAnswer:ca}});
+ if(status===403&&data.needEmailCode){S.needCode=true;renderAuth();return toast('Введите 5-значный код с почты!')}
+ if(!ok){loadCap();return toast(data.error||'Ошибка авторизации')}
+ S.tok=data.token;localStorage.setItem('nx_tok',S.tok);S.needCode=false;loadMe();
+}
+function fmtMsg(m,i){
+ let h=esc(m.content||'');
+ if(m.thinking)h=`<details class="think"><summary><i class="ri-brain-line"></i> Цепочка рассуждений ИИ</summary>${esc(m.thinking)}</details>`+h;
+ h=h.replace(/```(\w*)\n([\s\S]*?)```/g,(_,l,c)=>{
+  if(l==='html'||c.includes('<html')||c.includes('<!DOCTYPE')||c.includes('<body')){
+   S.sbx[i]=c;return`<pre>${c}</pre><button class="sm btn-g" onclick="runSbx(${i})"><i class="ri-play-fill"></i>Запустить HTML в песочнице</button>`;
+  }return`<pre>${c}</pre>`;
+ });
+ return`<div class="msg ${m.role==='user'?'u':''}"><b>${m.role==='user'?'<i class="ri-user-line"></i> Вы':'<i class="ri-sparkling-line" style="color:var(--a)"></i> NEXUS AI'}</b><div style="margin-top:4px">${h}</div>${m.meta?`<div class="mut" style="margin-top:6px">${esc(m.meta)}</div>`:''}</div>`;
+}
+function runSbx(i){
+ const d=(S.sbx[i]||'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'");
+ openMod(`<div class="row sp" style="margin-bottom:8px"><b><i class="ri-window-line"></i> Интерактивная HTML-песочница</b><button class="sm" onclick="closeMod()">✕</button></div><iframe class="sbx" sandbox="allow-scripts"></iframe>`);
+ $('mod-in').querySelector('iframe').srcdoc=d;
+}
+  async function renderChat(){
  if(!S.cat.length){const r=await api('/api/catalog');if(r.ok)S.cat=r.data.models||[]}
  if(!S.mid&&S.cat[0])S.mid=S.cat[0].id;
- $('view').innerHTML=`<div class="card col"><div class="row sp">
-  <select id="ch-m" onchange="S.mid=+this.value;localStorage.setItem('nx_mid',S.mid)">
-   ${S.cat.map(m=>`<option value="${m.id}" ${m.id===S.mid?'selected':''}>${esc(m.model_id)} (${esc(m.key_title||m.provider)})</option>`).join('')||'<option value="0">Нет моделей</option>'}</select>
-  <select id="ch-mode"><option value="universal">Универсал</option><option value="coding">Кодинг</option><option value="reasoning">Логика</option><option value="roleplay">Ролевой</option></select>
-  <select id="ch-br"><option value="fast">Быстрый</option><option value="balanced" selected>Баланс</option><option value="genius">Гений</option></select>
-  <input id="ch-t" type="number" step="0.1" value="0.7" style="width:55px" title="Температура">
-  <button class="sm btn-r" onclick="S.msgs=[];localStorage.setItem('nx_msgs','[]');renderChat()">Очистить</button></div>
-  <input id="ch-sp" placeholder="Скрытый промпт (secretPrompt)...">
-  <div class="row">${S.mem.map((f,k)=>`<span class="tag b">🧠 ${esc(f)} <a onclick="S.mem.splice(${k},1);localStorage.setItem('nx_mem',JSON.stringify(S.mem));renderChat()">×</a></span>`).join('')}
-   <button class="sm" onclick="addMem()">+ Память</button></div></div>
- <div class="card msgs" id="ch-msgs">${S.msgs.map((m,i)=>fmtMsg(m,i)).join('')||'<span class="mut">Начните диалог...</span>'}</div>
- <div class="row"><textarea id="ch-in" rows="2" style="flex:1" placeholder="Сообщение..."></textarea>
-  <button class="btn" onclick="sendChat()">Отправить ➤</button></div>`;
+ $('view').innerHTML=`<div class="card col">
+  <div class="row sp"><h3><i class="ri-terminal-window-line" style="color:var(--a)"></i> AI Studio Чат</h3>
+   <button class="sm btn-r" onclick="S.msgs=[];localStorage.setItem('nx_msgs','[]');renderChat()"><i class="ri-delete-bin-line"></i>Очистить</button></div>
+  <div class="row">
+   <div style="flex:2;min-width:170px"><span class="lbl">Нейросеть</span>
+    <select id="ch-m" class="w1" onchange="S.mid=+this.value;localStorage.setItem('nx_mid',S.mid)">
+     ${S.cat.map(m=>`<option value="${m.id}" ${m.id===S.mid?'selected':''}>${esc(m.model_id)} (${esc(m.key_title||m.provider)})</option>`).join('')||'<option value="0">Выберите в Каталоге</option>'}</select></div>
+   <div><span class="lbl">Режим</span><select id="ch-mode"><option value="universal">Универсал</option><option value="coding">Кодинг</option><option value="reasoning">Логика</option><option value="roleplay">Ролевой</option></select></div>
+   <div><span class="lbl">Уровень</span><select id="ch-br"><option value="fast">Быстрый</option><option value="balanced" selected>Баланс</option><option value="genius">Гений</option></select></div>
+   <div><span class="lbl">Темп.</span><input id="ch-t" type="number" step="0.1" value="0.7" style="width:64px"></div>
+  </div>
+  <input id="ch-sp" placeholder="Системная инструкция (secretPrompt)...">
+  <div class="row"><span class="tag b"><i class="ri-brain-line"></i>Память:</span>
+   ${S.mem.map((f,k)=>`<span class="tag">${esc(f)} <a onclick="S.mem.splice(${k},1);localStorage.setItem('nx_mem',JSON.stringify(S.mem));renderChat()">×</a></span>`).join('')}
+   <button class="sm" onclick="addMem()"><i class="ri-add-line"></i>Факт</button></div></div>
+ <div class="card msgs" id="ch-msgs">${S.msgs.map((m,i)=>fmtMsg(m,i)).join('')||'<div class="mut" style="margin:auto;text-align:center"><i class="ri-sparkling-2-line" style="font-size:26px;color:var(--a)"></i><p>Начните диалог с ИИ</p></div>'}</div>
+ <div class="row"><textarea id="ch-in" rows="2" style="flex:1" placeholder="Введите сообщение..."></textarea>
+  <button class="btn" style="height:54px" onclick="sendChat()"><i class="ri-send-plane-2-fill"></i>Отправить</button></div>`;
  const b=$('ch-msgs');if(b)b.scrollTop=b.scrollHeight;
 }
-  function addMem(){
- const f=prompt('Факт в память:');if(f){S.mem.push(f.trim());localStorage.setItem('nx_mem',JSON.stringify(S.mem));renderChat()}
-}
-async function sendChat(){
- const t=$('ch-in').value.trim();if(!t||!S.mid)return toast('Выберите модель и введите текст');
+function addMem(){const f=prompt('Факт в память ИИ:');if(f){S.mem.push(f.trim());localStorage.setItem('nx_mem',JSON.stringify(S.mem));renderChat()}}
+  async function sendChat(){
+ const t=$('ch-in').value.trim();if(!t||!S.mid)return toast('Выберите модель и введите текст!');
  const mode=$('ch-mode').value,br=$('ch-br').value,temp=+$('ch-t').value||0.7,sp=$('ch-sp').value.trim();
  S.msgs.push({role:'user',content:t});renderChat();
  const {ok,data}=await api('/api/chat',{body:{modelRowId:S.mid,messages:S.msgs.map(m=>({role:m.role,content:m.content})),mode,brainLevel:br,memoryFacts:S.mem,secretPrompt:sp,temperature:temp}});
- if(!ok)return toast(data.error||'Ошибка ИИ');
+ if(!ok)return toast(data.error||'Ошибка ответа ИИ');
  let txt=String(data.text||'').replace(/\/\/SAVE:\s*(.+)/gi,(_,f)=>{f=f.trim();if(f&&!S.mem.includes(f))S.mem.push(f);return''}).trim();
  localStorage.setItem('nx_mem',JSON.stringify(S.mem));
- S.msgs.push({role:'assistant',content:txt,thinking:data.thinking||'',meta:`${data.provider||''}/${data.modelId||''} • ${data.costRub||0}₽ • ${data.inTok||0}/${data.outTok||0}t`});
+ S.msgs.push({role:'assistant',content:txt,thinking:data.thinking||'',meta:`${data.provider||''}/${data.modelId||''} • ${data.costRub||0}₽ • ${data.inTok||0}/${data.outTok||0} ток.`});
  localStorage.setItem('nx_msgs',JSON.stringify(S.msgs));renderChat();
 }
 function renderCat(){
- $('view').innerHTML=`<div class="card row"><input id="q-s" placeholder="Поиск модели..." style="flex:1">
-  <select id="q-p"><option value="">Провайдер</option><option>openai</option><option>anthropic</option><option>google</option><option>openrouter</option><option>deepseek</option></select>
-  <label class="row mut"><input type="checkbox" id="q-u"> 18+</label>
-  <label class="row mut"><input type="checkbox" id="q-f"> Free</label>
-  <button class="btn sm" onclick="loadCat()">Найти</button></div><div class="grid" id="cat-g"></div>`;
+ $('view').innerHTML=`<div class="card col"><h3><i class="ri-apps-2-line" style="color:var(--a)"></i> Каталог ИИ-моделей</h3>
+  <div class="row"><input id="q-s" placeholder="Поиск модели..." style="flex:1">
+   <select id="q-p"><option value="">Все провайдеры</option><option>openai</option><option>anthropic</option><option>google</option><option>openrouter</option><option>deepseek</option></select>
+   <label class="row mut"><input type="checkbox" id="q-u"> 18+ Uncensored</label>
+   <label class="row mut"><input type="checkbox" id="q-f"> Бесплатные</label>
+   <button class="btn sm" onclick="loadCat()"><i class="ri-search-line"></i>Найти</button></div></div><div class="grid" id="cat-g"></div>`;
  loadCat();
 }
 async function loadCat(){
  const {ok,data}=await api(`/api/catalog?q=${encodeURIComponent($('q-s')?.value||'')}&provider=${$('q-p')?.value||''}&uncensored=${$('q-u')?.checked?1:''}&free=${$('q-f')?.checked?1:''}`);
  if(!ok)return;S.cat=data.models||[];
- $('cat-g').innerHTML=S.cat.map(m=>`<div class="card col sp"><div><div class="row sp"><b>${esc(m.model_id)}</b><span class="tag b">${esc(m.provider)}</span></div>
-  <div class="mut">${esc(m.key_title)} • @${esc(m.owner_name)}</div><p style="margin:5px 0">${esc(m.description||'')}</p>
-  <div class="row"><span class="tag ${m.is_free?'g':''}">${m.is_free?'FREE':(m.est_req_rub||0)+'₽'}</span>${m.is_uncensored?'<span class="tag r">18+</span>':''}<span class="tag">${esc(m.tier_required||'FREE')}</span></div></div>
-  <div class="row sp"><button class="sm" onclick="likeMod(${m.id})">❤️ ${m.likes_count||0}</button>
-   ${m.lock_reason?`<span class="mut">🔒 ${esc(m.lock_reason)}</span>`:`<button class="btn sm" onclick="S.mid=${m.id};localStorage.setItem('nx_mid',${m.id});go('chat')">В чат</button>`}</div></div>`).join('');
-   }
-  async function likeMod(id){await api('/api/catalog/like',{body:{modelRowId:id}});loadCat()}
-async function renderKeys(){
- const {ok,data}=await api('/api/keys/mine');const ks=data.keys||data||[];
- $('view').innerHTML=`<div class="card col"><h3>🔑 Опубликовать API-ключ</h3>
-  <div class="row"><select id="k-p"><option>openai</option><option>anthropic</option><option>google</option><option>openrouter</option><option>deepseek</option></select>
-   <input id="k-t" placeholder="Название ключа" style="flex:1">
-   <select id="k-tr"><option value="FREE">FREE</option><option value="PRO">PRO</option><option value="ULTRA">ULTRA</option></select></div>
-  <input id="k-k" placeholder="API Key (sk-...)">
-  <input id="k-d" placeholder="Описание модели/ключа">
-  <div class="row"><input id="k-c" type="number" placeholder="Дневной лимит ₽ (dailyCapRub)" value="100">
-   <label class="row mut"><input type="checkbox" id="k-pr"> Приватный</label>
-   <label class="row mut"><input type="checkbox" id="k-un"> 18+</label>
-   <label class="row mut"><input type="checkbox" id="k-fr" checked> Бесплатный</label>
-   <button class="btn" onclick="pubKey()">Опубликовать</button></div></div>
- <div class="grid">${(Array.isArray(ks)?ks:[]).map(k=>`<div class="card col">
-  <div class="row sp"><b>${esc(k.title||k.key_title)}</b><span class="tag">${esc(k.provider)} • ${esc(k.status||'ok')}</span></div>
-  <div class="row"><button class="sm" onclick="keyAct(${k.id},'ping')">Пинг</button>
-   <button class="sm" onclick="keyAct(${k.id},'toggle')">Вкл/Выкл</button>
-   <button class="sm btn-r" onclick="keyAct(${k.id},'del')">Удалить</button></div></div>`).join('')}</div>`;
+ $('cat-g').innerHTML=S.cat.map(m=>`<div class="card col sp"><div><div class="row sp"><b><i class="ri-cpu-line" style="color:var(--a)"></i> ${esc(m.model_id)}</b><span class="tag b">${esc(m.provider)}</span></div>
+  <div class="mut">${esc(m.key_title)} • от @${esc(m.owner_name)}</div><p style="margin:6px 0">${esc(m.description||'Готова к работе')}</p>
+  <div class="row"><span class="tag ${m.is_free?'g':''}">${m.is_free?'FREE':(m.est_req_rub||0)+' ₽/запр'}</span>${m.is_uncensored?'<span class="tag r">18+</span>':''}<span class="tag">${esc(m.tier_required||'FREE')}</span></div></div>
+  <div class="row sp"><button class="sm" onclick="likeMod(${m.id})"><i class="ri-heart-3-fill" style="color:var(--r)"></i>${m.likes_count||0}</button>
+   ${m.lock_reason?`<span class="mut"><i class="ri-lock-line"></i> ${esc(m.lock_reason)}</span>`:`<button class="btn sm" onclick="S.mid=${m.id};localStorage.setItem('nx_mid',${m.id});go('chat')"><i class="ri-play-line"></i>В чат</button>`}</div></div>`).join('');
+}
+async function likeMod(id){await api('/api/catalog/like',{body:{modelRowId:id}});loadCat()}
+  async function renderKeys(){
+ const {data}=await api('/api/keys/mine');const ks=data.keys||data||[];
+ $('view').innerHTML=`<div class="card col"><h3><i class="ri-key-2-line" style="color:var(--a)"></i> Опубликовать API-ключ в маркетплейс</h3>
+  <div class="row"><div style="flex:1"><span class="lbl">Провайдер</span><select id="k-p" class="w1"><option>openai</option><option>anthropic</option><option>google</option><option>openrouter</option><option>deepseek</option></select></div>
+   <div style="flex:2"><span class="lbl">Название</span><input id="k-t" class="w1" placeholder="Мой быстрый GPT-4o"></div>
+   <div><span class="lbl">Доступ</span><select id="k-tr"><option>FREE</option><option>PRO</option><option>ULTRA</option></select></div></div>
+  <div class="row"><input id="k-k" placeholder="API-ключ (sk-...)" style="flex:1"><input id="k-d" placeholder="Описание для каталога" style="flex:1"><input id="k-c" type="number" value="100" style="width:90px" title="Лимит ₽/день"></div>
+  <div class="row sp"><div class="row"><label class="row mut"><input type="checkbox" id="k-pr"> Приватный</label><label class="row mut"><input type="checkbox" id="k-un"> 18+</label><label class="row mut"><input type="checkbox" id="k-fr" checked> Бесплатный</label></div>
+   <button class="btn sm" onclick="pubKey()"><i class="ri-upload-cloud-2-line"></i>Опубликовать</button></div></div>
+ <div class="grid">${(Array.isArray(ks)?ks:[]).map(k=>`<div class="card col"><div class="row sp"><b><i class="ri-key-fill" style="color:var(--y)"></i> ${esc(k.title||k.key_title)}</b><span class="tag b">${esc(k.provider)} • ${esc(k.status||'активен')}</span></div>
+  <div class="row"><button class="sm" onclick="keyAct(${k.id},'ping')"><i class="ri-pulse-line"></i>Пинг</button><button class="sm" onclick="keyAct(${k.id},'toggle')"><i class="ri-shut-down-line"></i>Вкл/Выкл</button><button class="sm btn-r" onclick="keyAct(${k.id},'del')"><i class="ri-delete-bin-line"></i></button></div></div>`).join('')}</div>`;
 }
 async function pubKey(){
- const {ok,data}=await api('/api/keys/publish',{body:{provider:$('k-p').value,apiKey:$('k-k').value.trim(),
-  title:$('k-t').value.trim(),description:$('k-d').value.trim(),isPrivate:$('k-pr').checked,
-  isUncensored:$('k-un').checked,isFree:$('k-fr').checked,tierRequired:$('k-tr').value,dailyCapRub:+$('k-c').value||0}});
- toast(ok?'Ключ добавлен!':(data.error||'Ошибка'));if(ok)renderKeys();
+ const {ok,data}=await api('/api/keys/publish',{body:{provider:$('k-p').value,apiKey:$('k-k').value.trim(),title:$('k-t').value.trim(),description:$('k-d').value.trim(),isPrivate:$('k-pr').checked,isUncensored:$('k-un').checked,isFree:$('k-fr').checked,tierRequired:$('k-tr').value,dailyCapRub:+$('k-c').value||0}});
+ toast(ok?'Ключ опубликован!':(data.error||'Ошибка'));if(ok)renderKeys();
 }
-async function keyAct(id,a){
- await api(`/api/keys/${id}${a==='del'?'':'/'+a}`,{method:a==='del'?'DELETE':'POST'});renderKeys();
-}
+async function keyAct(id,a){await api(`/api/keys/${id}${a==='del'?'':'/'+a}`,{method:a==='del'?'DELETE':'POST'});renderKeys()}
   const bar=(u,c)=>`<div class="bar"><i style="width:${Math.min(100,((u||0)/(c||1))*100)}%"></i></div>`;
 function renderProf(){
  const u=S.user||{},l=u.limits||{},w=u.wallet||{};
- $('view').innerHTML=`<div class="grid"><div class="card col"><h3>👤 ${esc(u.username)} (${esc(u.plan||'FREE')})</h3>
-  <div class="mut">${esc(u.email||'-')} • Реф: <b>${esc(u.refCode||'-')}</b></div>
+ $('view').innerHTML=`<div class="grid"><div class="card col">
+  <div class="row sp"><h3><i class="ri-user-star-line" style="color:var(--a)"></i> ${esc(u.username||'Гость')}</h3><span class="tag b">${esc(u.plan||'FREE')}</span></div>
+  <div class="mut">Почта: ${esc(u.email||'-')} • Реф-код: <b class="mono">${esc(u.refCode||'-')}</b></div>
   ${u.isQuarantined?`<div class="tag r">Карантин до ${esc(u.quarantineUntil)}</div>`:''}
-  <div>5ч: ${l.used5h||0}/${l.cap5h||0}${bar(l.used5h,l.cap5h)}Неделя: ${l.usedWeek||0}/${l.capWeek||0}${bar(l.usedWeek,l.capWeek)}Месяц: ${l.usedMonth||0}/${l.capMonth||0}${bar(l.usedMonth,l.capMonth)}</div>
-  <div class="mut">Free: ${l.freeReqsUsed||0}/${l.freeReqsLimit||0} • Память ∞: ${l.infiniteMem?'Да':'Нет'}</div>
-  <div class="row"><button class="btn-g sm" onclick="pAct('/api/bonus/checkin',{})">🎁 Чекин (${u.checkinStreak||0})</button>
-   <input id="prm-c" placeholder="Промокод" style="width:110px"><button class="sm" onclick="pAct('/api/promo/redeem',{code:$('prm-c').value})">ОК</button></div></div>
- <div class="card col"><h3>💰 Баланс: ${w.balanceRub||0} ₽ (всего ${w.totalEarnedRub||0} ₽)</h3>
-  <input id="wd-d" placeholder="Реквизиты (вывод от ${w.minWithdrawRub||300} ₽)">
-  <button class="btn sm" onclick="if((${w.balanceRub||0})<300)return toast('От 300 ₽!');pAct('/api/wallet/withdraw',{details:$('wd-d').value})">Вывести</button>
-  <b>📱 Устройства</b>${(u.devices||[]).map(d=>`<div class="row sp mut"><span>${esc(d.device_id||d.id)} ${d.trusted?'✅':''}</span>
-   <div class="row"><button class="sm" onclick="pAct('/api/devices/trust',{deviceRowId:${d.id}})">Доверять</button>
-   <button class="sm btn-r" onclick="pAct('/api/devices/kick',{deviceRowId:${d.id}})">Кик</button></div></div>`).join('')}</div></div>`;
+  <div><span class="lbl">Лимит 5 часов: ${l.used5h||0} / ${l.cap5h||0}</span>${bar(l.used5h,l.cap5h)}</div>
+  <div><span class="lbl">Неделя: ${l.usedWeek||0} / ${l.capWeek||0}</span>${bar(l.usedWeek,l.capWeek)}</div>
+  <div><span class="lbl">Месяц: ${l.usedMonth||0} / ${l.capMonth||0}</span>${bar(l.usedMonth,l.capMonth)}</div>
+  <div class="mut">Бесплатные: ${l.freeReqsUsed||0}/${l.freeReqsLimit||0} • Вечная память: ${l.infiniteMem?'Да':'Нет'}</div>
+  <div class="row"><button class="btn-g sm" onclick="pAct('/api/bonus/checkin',{})"><i class="ri-gift-line"></i>Бонус (${u.checkinStreak||0} дн.)</button>
+   <input id="prm-c" placeholder="Промокод" style="flex:1"><button class="btn sm" onclick="pAct('/api/promo/redeem',{code:$('prm-c').value})">Активировать</button></div></div>
+ <div class="card col"><h3><i class="ri-wallet-3-line" style="color:var(--g)"></i> Кошелёк: ${w.balanceRub||0} ₽</h3>
+  <div class="mut">Заработано на ключах: ${w.totalEarnedRub||0} ₽ (вывод от ${w.minWithdrawRub||300} ₽)</div>
+  <div class="row"><input id="wd-d" placeholder="Номер карты / СБП" style="flex:1"><button class="btn sm" onclick="if((${w.balanceRub||0})<300)return toast('Минимум 300 ₽');pAct('/api/wallet/withdraw',{details:$('wd-d').value})">Вывести</button></div>
+  <span class="lbl" style="margin-top:6px">Мои устройства</span>
+  ${(u.devices||[]).map(d=>`<div class="row sp mut"><span><i class="ri-smartphone-line"></i> ${esc(d.device_id||d.id)} ${d.trusted?'✅':''}</span>
+   <div class="row"><button class="sm btn-g" onclick="pAct('/api/devices/trust',{deviceRowId:${d.id}})">Доверять</button><button class="sm btn-r" onclick="pAct('/api/devices/kick',{deviceRowId:${d.id}})">Кик</button></div></div>`).join('')}</div></div>`;
 }
-async function pAct(p,b){const {ok,data}=await api(p,{body:b});toast(ok?'Готово!':(data.error||'Ошибка'));loadMe()}
-async function renderBill(){
- const {data}=await api('/api/billing/info');S.cStep=0;
- $('view').innerHTML=`<div class="card col" style="max-width:500px"><h3>💳 Оплата Сбербанк</h3>
-  <div class="card">Банк: <b>${esc(data.bank||'Сбер')}</b> • Тел: <b>${esc(data.phone||'-')}</b> (${esc(data.username||'')})</div>
-  <input id="bl-n" placeholder="Ник" value="${esc(S.user?.username||'')}"><input id="bl-s" placeholder="Имя отправителя / чек">
-  <div class="row"><button class="btn" onclick="ordB('buy_pro')">PRO 500₽</button><button class="btn" onclick="ordB('buy_ultra')">ULTRA 1490₽</button><button class="btn-g" onclick="ordB('reset_5h')">Сброс 5ч 250/500₽</button></div>
-  <button class="sm btn-r" id="ca-b" onclick="canAuto()">Отменить автооплату (шаг 1/3)</button></div>`;
-}
-  async function ordB(t){const {ok,data}=await api('/api/billing/order',{body:{itemType:t,customNick:$('bl-n').value,senderNote:$('bl-s').value}});toast(ok?'Заявка отправлена!':(data.error||'Ошибка'))}
-async function canAuto(){S.cStep++;if(S.cStep<3)$('ca-b').textContent=`Точно отменить? (${S.cStep+1}/3)`;else{await pAct('/api/billing/cancel-auto',{});S.cStep=0}}
-async function adm(p,b,m='POST'){const r=await api('/api/admin/'+p,{method:m,body:b});toast(r.ok?'ОК':(r.data.error||'Ошибка'));if(r.ok)renderAdm()}
-async function renderAdm(){
- const {ok,data:d}=await api('/api/admin/overview');if(!ok)return;const pc=d.payConfig||{},ad=d.ad||{};
- $('view').innerHTML=`<div class="grid" id="adm-g">
- <div class="card col"><b>📦 Заказы</b>${(d.orders||[]).map(o=>`<div class="row sp"><span>${esc(o.custom_nick||o.username)}: ${esc(o.item_type)} (${esc(o.sender_note||'')})</span>
-  <div class="row"><button class="sm btn-g" onclick="adm('order-resolve',{orderId:${o.id},approve:true})">Выдать</button>
-  <button class="sm btn-r" onclick="adm('order-resolve',{orderId:${o.id},approve:false})">✕</button></div></div>`).join('')}</div>
- <div class="card col"><b>🏦 Оплата и ТГ</b><input id="ap-p" placeholder="Телефон" value="${esc(pc.phone||'')}"><input id="ap-b" placeholder="Банк" value="${esc(pc.bank||'')}"><input id="ap-t" placeholder="TG Token" value="${esc(pc.tgToken||'')}"><input id="ap-c" placeholder="TG Chat ID" value="${esc(pc.tgChatId||'')}"><button class="btn sm" onclick="adm('pay-config',{phone:$('ap-p').value,bank:$('ap-b').value,tgToken:$('ap-t').value,tgChatId:$('ap-c').value})">Сохранить</button></div>
- <div class="card col"><b>📢 Реклама</b><label class="row"><input type="checkbox" id="aa-e" ${ad.enabled?'checked':''}> Вкл</label><input id="aa-t" placeholder="Заголовок" value="${esc(ad.title||'')}"><input id="aa-x" placeholder="Текст" value="${esc(ad.text||'')}"><input id="aa-u" placeholder="URL" value="${esc(ad.url||'')}"><button class="btn sm" onclick="adm('ad',{enabled:$('aa-e').checked,title:$('aa-t').value,text:$('aa-x').value,url:$('aa-u').value})">Сохранить</button></div></div>`;
-  $('adm-g').innerHTML+=`<div class="card col"><b>🎟 Промокоды</b><div class="row"><input id="pr-c" placeholder="Код" style="width:80px"><select id="pr-p"><option>PRO</option><option>ULTRA</option></select><input id="pr-d" value="30" style="width:50px"><button class="sm btn" onclick="adm('promo',{code:$('pr-c').value,plan:$('pr-p').value,days:+$('pr-d').value})">+</button></div>
-  ${(d.promos||[]).map(p=>`<div class="row sp mut"><span>${esc(p.code)} (${esc(p.plan)})</span><button class="sm btn-r" onclick="adm('promo/'+encodeURIComponent('${esc(p.code)}'),null,'DELETE')">✕</button></div>`).join('')}</div>
- <div class="card col"><b>👥 Юзеры</b>${(d.users||[]).map(u=>`<div class="row sp mut"><span>${esc(u.username)} [${esc(u.plan)}]</span><div class="row"><select id="up-${u.id}"><option>FREE</option><option>PRO</option><option>ULTRA</option></select><button class="sm" onclick="adm('user-plan',{targetUserId:${u.id},plan:$('up-${u.id}').value,days:30})">Тариф</button><button class="sm btn-r" onclick="adm('user-ban',{targetUserId:${u.id},ban:${!u.is_banned}})">${u.is_banned?'Разбан':'Бан'}</button></div></div>`).join('')}</div>
- <div class="card col"><b>⚖️ Апелляции / Ключи / Алерты</b>
-  ${(d.appeals||[]).map(a=>`<div class="row sp mut"><span>${esc(a.username)}: ${esc(a.message)}</span><button class="sm btn-g" onclick="adm('appeal',{appealId:${a.id},id:${a.id},approve:true})">Разбан</button></div>`).join('')}
-  ${(d.keys||[]).map(k=>`<div class="row sp mut"><span>🔑 ${esc(k.title||k.id)}</span><button class="sm btn-r" onclick="adm('key/${k.id}',null,'DELETE')">Удалить</button></div>`).join('')}
-  <div class="mut">Реф-топ: ${(d.refTop||[]).map(r=>esc(r.username)+':'+(r.cnt||r.count||0)).join(', ')} | Алерты: ${(d.alerts||[]).length}</div></div>`;
-}
-loadStats();loadMe();
-</script>
-</body>
-</html>
+async function pAct(p,b){const {ok,data}=await api(p,{body:b});toast(ok?'Выполнено!':(data.error||'Ошибка'));loadMe()}

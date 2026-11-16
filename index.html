@@ -340,3 +340,64 @@ function renderProf(){
    <div class="row"><button class="sm btn-g" onclick="pAct('/api/devices/trust',{deviceRowId:${d.id}})">Доверять</button><button class="sm btn-r" onclick="pAct('/api/devices/kick',{deviceRowId:${d.id}})">Кик</button></div></div>`).join('')}</div></div>`;
 }
 async function pAct(p,b){const {ok,data}=await api(p,{body:b});toast(ok?'Выполнено!':(data.error||'Ошибка'));loadMe()}
+async function renderBill(){
+ const {data}=await api('/api/billing/info');S.cStep=0;
+ $('view').innerHTML=`<div class="card col" style="max-width:560px;margin:0 auto">
+  <div class="row sp"><h3><i class="ri-vip-crown-2-line" style="color:var(--y)"></i> Тарифы и оплата (Сбербанк)</h3><span class="tag g">Мгновенная заявка</span></div>
+  <div class="card" style="margin:0;background:var(--s2)"><span class="lbl">Реквизиты для перевода</span>
+   <div>Банк: <b>${esc(data.bank||'Сбербанк')}</b> • Номер: <b class="mono">${esc(data.phone||'Уточните у админа')}</b> (${esc(data.username||'')})</div></div>
+  <div><span class="lbl">Ваш логин для зачисления</span><input id="bl-n" class="w1" value="${esc(S.user?.username||'')}"></div>
+  <div><span class="lbl">Имя отправителя / комментарий к переводу</span><input id="bl-s" class="w1" placeholder="Например: Иван П., перевёл 500₽"></div>
+  <div class="row"><button class="btn" style="flex:1" onclick="ordB('buy_pro')"><i class="ri-flashlight-fill"></i>PRO — 500 ₽</button>
+   <button class="btn" style="flex:1" onclick="ordB('buy_ultra')"><i class="ri-fire-fill"></i>ULTRA — 1490 ₽</button>
+   <button class="btn-g" style="flex:1" onclick="ordB('reset_5h')"><i class="ri-refresh-line"></i>Сброс 5ч — 250/500 ₽</button></div>
+  <button class="sm btn-r w1" id="ca-b" onclick="canAuto()"><i class="ri-close-circle-line"></i>Отменить автопродление подписки (в 3 клика)</button></div>`;
+}
+async function ordB(t){
+ const {ok,data}=await api('/api/billing/order',{body:{itemType:t,customNick:$('bl-n').value,senderNote:$('bl-s').value}});
+ toast(ok?'Заявка отправлена! Ожидайте подтверждения':(data.error||'Ошибка заявки'));
+}
+async function canAuto(){
+ S.cStep++;if(S.cStep<3)$('ca-b').innerHTML=`<i class="ri-alert-line"></i>Подтвердите отмену автооплаты (Шаг ${S.cStep+1} из 3)`;
+ else{await pAct('/api/billing/cancel-auto',{});S.cStep=0}
+  }
+  async function adm(p,b,m='POST'){
+ const r=await api('/api/admin/'+p,{method:m,body:b});
+ toast(r.ok?'Изменения сохранены!':(r.data.error||'Ошибка доступа (нужен аккаунт asdcreator)'));
+ if(r.ok)renderAdm();
+}
+async function renderAdm(){
+ const {ok,data}=await api('/api/admin/overview');const d=data||{},pc=d.payConfig||{},ad=d.ad||{};
+ $('view').innerHTML=`<div class="card row sp"><h3><i class="ri-shield-flash-line" style="color:var(--a)"></i> Центр управления (Админка)</h3>
+  <span class="tag ${ok?'g':'r'}">${ok?'✅ Полный доступ (asdcreator)':'⚠️ Войдите как asdcreator: '+esc(d.error||'нет токена')}</span></div>
+ <div class="grid" id="adm-g">
+  <div class="card col"><h4><i class="ri-shopping-bag-3-line" style="color:var(--g)"></i> Заявки на оплату</h4>
+   ${(d.orders||[]).map(o=>`<div class="row sp mut"><span><b>${esc(o.custom_nick||o.username)}</b>: ${esc(o.item_type)} (${esc(o.sender_note||'')})</span>
+    <div class="row"><button class="sm btn-g" onclick="adm('order-resolve',{orderId:${o.id},approve:true})">Выдать</button>
+    <button class="sm btn-r" onclick="adm('order-resolve',{orderId:${o.id},approve:false})">✕</button></div></div>`).join('')||'<span class="mut">Новых заказов пока нет</span>'}</div>
+  <div class="card col"><h4><i class="ri-bank-card-line" style="color:var(--a)"></i> Реквизиты Сбер и Telegram-бот</h4>
+   <input id="ap-p" placeholder="Номер телефона Сбербанк" value="${esc(pc.phone||'')}">
+   <input id="ap-b" placeholder="Название банка" value="${esc(pc.bank||'Сбербанк')}">
+   <input id="ap-t" placeholder="Telegram Bot Token" value="${esc(pc.tgToken||'')}">
+   <input id="ap-c" placeholder="Telegram Chat ID" value="${esc(pc.tgChatId||'')}">
+   <button class="btn sm" onclick="adm('pay-config',{phone:$('ap-p').value,bank:$('ap-b').value,tgToken:$('ap-t').value,tgChatId:$('ap-c').value})"><i class="ri-save-line"></i>Сохранить реквизиты</button></div></div>`;
+  $('adm-g').innerHTML+=`<div class="card col"><h4><i class="ri-megaphone-line" style="color:var(--y)"></i> Рекламный баннер</h4>
+   <label class="row mut"><input type="checkbox" id="aa-e" ${ad.enabled?'checked':''}> Включить показ баннера</label>
+   <input id="aa-t" placeholder="Заголовок рекламы" value="${esc(ad.title||'')}">
+   <input id="aa-x" placeholder="Текст описания" value="${esc(ad.text||'')}">
+   <input id="aa-u" placeholder="Ссылка (https://...)" value="${esc(ad.url||'')}">
+   <button class="btn sm" onclick="adm('ad',{enabled:$('aa-e').checked,title:$('aa-t').value,text:$('aa-x').value,url:$('aa-u').value})">Обновить баннер</button></div>
+  <div class="card col"><h4><i class="ri-coupon-3-line" style="color:var(--a2)"></i> Промокоды</h4>
+   <div class="row"><input id="pr-c" placeholder="Код" style="flex:1"><select id="pr-p"><option>PRO</option><option>ULTRA</option></select><input id="pr-d" value="30" style="width:60px" title="Дней"><button class="sm btn" onclick="adm('promo',{code:$('pr-c').value,plan:$('pr-p').value,days:+$('pr-d').value})">+</button></div>
+   ${(d.promos||[]).map(p=>`<div class="row sp mut"><span><b>${esc(p.code)}</b> (${esc(p.plan)})</span><button class="sm btn-r" onclick="adm('promo/'+encodeURIComponent('${esc(p.code)}'),null,'DELETE')">✕</button></div>`).join('')}</div>
+  <div class="card col"><h4><i class="ri-group-line" style="color:var(--a)"></i> Пользователи</h4>
+   ${(d.users||[]).map(u=>`<div class="row sp mut"><span><b>${esc(u.username)}</b> [${esc(u.plan)}]</span><div class="row"><select id="up-${u.id}"><option>FREE</option><option>PRO</option><option>ULTRA</option></select><button class="sm btn-g" onclick="adm('user-plan',{targetUserId:${u.id},plan:$('up-${u.id}').value,days:30})">Выдать</button><button class="sm btn-r" onclick="adm('user-ban',{targetUserId:${u.id},ban:${!u.is_banned}})">${u.is_banned?'Разбан':'Бан'}</button></div></div>`).join('')}</div>
+  <div class="card col"><h4><i class="ri-scales-line" style="color:var(--r)"></i> Апелляции, Ключи и Топ</h4>
+   ${(d.appeals||[]).map(a=>`<div class="row sp mut"><span>${esc(a.username)}: ${esc(a.message)}</span><button class="sm btn-g" onclick="adm('appeal',{appealId:${a.id},id:${a.id},approve:true})">Разбан</button></div>`).join('')}
+   ${(d.keys||[]).map(k=>`<div class="row sp mut"><span>🔑 ${esc(k.title||k.id)}</span><button class="sm btn-r" onclick="adm('key/${k.id}',null,'DELETE')">Удалить</button></div>`).join('')}
+   <div class="mut">Реф-топ: ${(d.refTop||[]).map(r=>esc(r.username)+':'+(r.cnt||r.count||0)).join(', ')||'пусто'} • Алертов: ${(d.alerts||[]).length}</div></div>`;
+}
+loadStats();loadMe();
+</script>
+</body>
+</html>

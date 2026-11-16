@@ -3,44 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>NEXUS AI — Studio & API Marketplace</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>NEXUS AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 <style>
 :root {
-  --bg: #090a0f;
-  --s1: #12151f;
-  --s2: #181c29;
-  --s3: #23283b;
-  --b: rgba(255, 255, 255, 0.09);
-  --bh: rgba(138, 180, 248, 0.45);
-  --t: #f3f5fb;
-  --m: #949db3;
-  --a: #8ab4f8;
-  --a2: #c58af9;
-  --g: #34d399;
-  --r: #f87171;
-  --y: #fbbf24;
+  --bg: #171717;
+  --s1: #212121;
+  --s2: #2a2a2a;
+  --s3: #343434;
+  --b: #333333;
+  --t: #ececec;
+  --m: #9b9b9b;
+  --a: #ffffff;
+  --g: #10b981;
+  --r: #ef4444;
+  --y: #f59e0b;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 ::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-thumb { background: var(--s3); border-radius: 99px; }
-
-@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes pulseDot { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.4; } }
+::-webkit-scrollbar-thumb { background: #3a3a3a; border-radius: 99px; }
 
 body {
   font: 14px/1.5 'Inter', system-ui, -apple-system, sans-serif;
-  background: radial-gradient(circle at 50% 0%, rgba(138, 180, 248, 0.12), transparent 50%), var(--bg);
+  background: var(--bg);
   color: var(--t);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
 }
-h2, h3, h4 { line-height: 1.3; font-weight: 700; letter-spacing: -0.2px; }
+h2, h3, h4 { font-weight: 600; line-height: 1.3; }
 code, pre, .mono { font-family: 'JetBrains Mono', monospace; }
-a { color: var(--a); cursor: pointer; text-decoration: none; }
+a { color: #60a5fa; cursor: pointer; text-decoration: none; }
+a:hover { text-decoration: underline; }
 
 button, input, select, textarea {
   font: inherit;
@@ -50,75 +46,64 @@ button, input, select, textarea {
   border-radius: 10px;
   padding: 9px 12px;
   outline: none;
-  transition: all 0.18s ease;
+  transition: 0.15s ease;
   max-width: 100%;
 }
-input:focus, select:focus, textarea:focus {
-  border-color: var(--a);
-  box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.15);
-}
+input:focus, select:focus, textarea:focus { border-color: #666; background: #262626; }
 button {
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
   white-space: nowrap;
 }
-button:active { transform: scale(0.97); }
+button:hover { background: var(--s3); }
+button:active { transform: scale(0.98); }
 
-.btn { background: linear-gradient(135deg, var(--a), #669df6); color: #07101e; border: none; box-shadow: 0 4px 14px rgba(138, 180, 248, 0.25); }
-.btn-g { background: rgba(52, 211, 153, 0.14); color: var(--g); border-color: rgba(52, 211, 153, 0.35); }
-.btn-r { background: rgba(248, 113, 113, 0.14); color: var(--r); border-color: rgba(248, 113, 113, 0.35); }
+.btn { background: #ffffff; color: #111111; border: none; font-weight: 600; }
+.btn:hover { background: #e5e5e5; color: #111111; }
+.btn-g { background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.35); }
+.btn-r { background: rgba(239, 68, 68, 0.15); color: #f87171; border-color: rgba(239, 68, 68, 0.35); }
 .sm { padding: 6px 10px; font-size: 12px; border-radius: 8px; }
-.mut { font-size: 12px; color: var(--m); line-height: 1.45; }
+.mut { font-size: 12px; color: var(--m); line-height: 1.4; }
 .w1 { width: 100%; }
 .hd { display: none !important; }
-.lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--m); margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+.lbl { font-size: 11px; font-weight: 600; color: var(--m); margin-bottom: 4px; display: block; }
 
 .top {
-  height: 58px;
-  background: rgba(14, 16, 24, 0.95);
-  backdrop-filter: blur(16px);
+  height: 54px;
+  background: var(--bg);
   border-bottom: 1px solid var(--b);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 12px;
-  gap: 8px;
+  padding: 0 14px;
+  gap: 10px;
   position: sticky;
   top: 0;
   z-index: 40;
-  flex-wrap: nowrap;
 }
-.logo { font-weight: 800; font-size: 16px; display: flex; align-items: center; gap: 8px; white-space: nowrap; flex-shrink: 0; }
-.logo-ic {
-  width: 32px; height: 32px; border-radius: 9px;
-  background: rgba(138, 180, 248, 0.16);
-  border: 1px solid rgba(138, 180, 248, 0.4);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--a); font-size: 17px; flex-shrink: 0;
-}
-.logo span { background: linear-gradient(90deg, #fff, var(--a)); -webkit-background-clip: text; color: transparent; }
-.dot-on { width: 7px; height: 7px; border-radius: 50%; background: var(--g); display: inline-block; animation: pulseDot 2s infinite; }
+.logo { font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 8px; color: var(--t); }
 
-.wrap { display: flex; flex: 1; min-height: 0; position: relative; }
-.side-bg { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(4px); z-index: 85; display: none; }
+.wrap { display: flex; flex: 1; min-height: 0; }
+.side-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 85; display: none; }
 .side-bg.on { display: block; }
+
 .side {
-  width: 250px;
+  width: 260px;
   background: var(--s1);
   border-right: 1px solid var(--b);
-  padding: 14px 12px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   flex-shrink: 0;
 }
 .nav {
   background: transparent;
-  border: 1px solid transparent;
+  border: none;
   justify-content: flex-start;
   padding: 10px 12px;
   border-radius: 10px;
@@ -126,62 +111,63 @@ button:active { transform: scale(0.97); }
   font-weight: 500;
   width: 100%;
 }
-.nav i { font-size: 18px; color: var(--m); }
-.nav.act {
-  background: rgba(138, 180, 248, 0.14);
-  color: var(--t);
-  border-color: rgba(138, 180, 248, 0.35);
-}
-.nav.act i { color: var(--a); }
+.nav i { font-size: 18px; }
+.nav:hover { background: var(--s2); color: var(--t); }
+.nav.act { background: var(--s2); color: var(--t); font-weight: 600; }
 
-.main { flex: 1; padding: 14px; overflow-y: auto; max-width: 1320px; width: 100%; margin: 0 auto; }
-.card {
-  background: var(--s1);
+.acc-btn {
+  margin-top: auto;
+  background: var(--s2);
   border: 1px solid var(--b);
-  border-radius: 14px;
-  padding: 14px;
-  margin-bottom: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
-  animation: fadeIn 0.2s ease;
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
 }
+.acc-btn:hover { background: var(--s3); border-color: #555; }
+.ava {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #3b3b3b; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; flex-shrink: 0;
+}
+
+.main { flex: 1; padding: 16px; overflow-y: auto; max-width: 1060px; width: 100%; margin: 0 auto; }
+.card { background: var(--s1); border: 1px solid var(--b); border-radius: 14px; padding: 16px; margin-bottom: 12px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
 .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .sp { justify-content: space-between; }
 .col { display: flex; flex-direction: column; gap: 10px; }
 
-.tag {
-  font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 99px;
-  background: var(--s2); border: 1px solid var(--b); color: var(--m);
-  display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
-}
-.tag.b { color: var(--a); background: rgba(138, 180, 248, 0.12); border-color: rgba(138, 180, 248, 0.3); }
-.tag.g { color: var(--g); background: rgba(52, 211, 153, 0.12); border-color: rgba(52, 211, 153, 0.3); }
-.tag.r { color: var(--r); background: rgba(248, 113, 113, 0.12); border-color: rgba(248, 113, 113, 0.3); }
-.tag.y { color: var(--y); background: rgba(251, 191, 36, 0.12); border-color: rgba(251, 191, 36, 0.3); }
+.tag { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 6px; background: var(--s2); border: 1px solid var(--b); color: var(--m); display: inline-flex; align-items: center; gap: 4px; }
+.tag.g { color: #34d399; border-color: rgba(16,185,129,0.3); }
+.tag.r { color: #f87171; border-color: rgba(239,68,68,0.3); }
+.tag.y { color: #fbbf24; border-color: rgba(245,158,11,0.3); }
 
-.studio-grid { display: grid; grid-template-columns: 1fr 310px; gap: 14px; align-items: start; }
-.msgs { height: 54vh; min-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 6px; }
-.msg { max-width: 90%; padding: 12px 14px; border-radius: 14px; background: var(--s2); border: 1px solid var(--b); white-space: pre-wrap; word-break: break-word; }
-.msg.u { align-self: flex-end; background: linear-gradient(135deg, #1b3358, #152238); border-color: rgba(138, 180, 248, 0.4); }
-.msg pre { background: #07080c; border: 1px solid var(--b); padding: 10px; border-radius: 8px; overflow-x: auto; margin: 6px 0; font-size: 12px; white-space: pre; }
-.think { background: rgba(138, 180, 248, 0.07); border-left: 3px solid var(--a); padding: 8px 10px; margin-bottom: 8px; font-size: 12px; color: var(--m); border-radius: 6px; }
-.bar { height: 8px; background: var(--s2); border-radius: 99px; overflow: hidden; margin: 5px 0; border: 1px solid var(--b); }
-.bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--a), var(--a2)); border-radius: 99px; }
+.msgs { height: 58vh; min-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 6px 0; }
+.msg { max-width: 88%; padding: 12px 15px; border-radius: 14px; background: var(--s1); border: 1px solid var(--b); white-space: pre-wrap; word-break: break-word; }
+.msg.u { align-self: flex-end; background: #2f2f2f; border-color: #444; }
+.msg pre { background: #111; border: 1px solid var(--b); padding: 10px; border-radius: 8px; overflow-x: auto; margin: 6px 0; font-size: 12px; white-space: pre; }
+.think { background: var(--s2); border-left: 3px solid #777; padding: 8px 10px; margin-bottom: 8px; font-size: 12px; color: var(--m); border-radius: 6px; }
+.bar { height: 7px; background: var(--s2); border-radius: 99px; overflow: hidden; margin: 4px 0; }
+.bar > i { display: block; height: 100%; background: #fff; border-radius: 99px; }
 
-.mod, .ban { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 14px; z-index: 100; backdrop-filter: blur(8px); }
-.mod { background: rgba(5, 6, 10, 0.8); }
+.mod, .ban { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 14px; z-index: 100; background: rgba(0,0,0,0.75); }
 .mod.on, .ban.on { display: flex; }
-.mod-in { background: #141722; border: 1px solid var(--bh); border-radius: 16px; padding: 18px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
-.ban { background: radial-gradient(circle, #4c0b0b, #140303); color: #fecaca; z-index: 110; text-align: center; flex-direction: column; }
-.toast { position: fixed; bottom: 16px; right: 16px; left: 16px; max-width: 380px; margin: 0 auto; background: #191d2b; border: 1px solid var(--a); box-shadow: 0 10px 30px rgba(0,0,0,0.7); padding: 12px 16px; border-radius: 12px; z-index: 105; display: none; }
-.toast.on { display: flex; align-items: center; gap: 10px; }
-.ad { background: linear-gradient(90deg, rgba(138,180,248,0.14), rgba(197,138,249,0.14)); border: 1px solid rgba(138,180,248,0.35); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.mod-in { background: var(--s1); border: 1px solid var(--b); border-radius: 16px; padding: 20px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; }
+.ban { background: #2a0808; color: #fecaca; z-index: 110; text-align: center; flex-direction: column; }
+.toast { position: fixed; bottom: 18px; right: 18px; left: 18px; max-width: 360px; margin: 0 auto; background: #262626; border: 1px solid #555; padding: 11px 15px; border-radius: 10px; z-index: 105; display: none; }
+.toast.on { display: flex; align-items: center; gap: 8px; }
+.ad { background: var(--s1); border: 1px solid var(--b); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
 iframe.sbx { width: 100%; height: 65vh; border: none; background: #fff; border-radius: 10px; }
 .mob-btn { display: none; }
-@media (max-width: 920px) {
-  .studio-grid { grid-template-columns: 1fr; }
+@media (max-width: 860px) {
   .desk-only { display: none !important; }
-  .side { position: fixed; left: -270px; top: 0; bottom: 0; z-index: 90; width: 260px; transition: 0.25s ease; overflow-y: auto; }
+  .side { position: fixed; left: -270px; top: 0; bottom: 0; z-index: 90; transition: 0.2s ease; }
   .side.on { left: 0; }
   .mob-btn { display: inline-flex; }
   .msg { max-width: 96%; }
@@ -192,38 +178,35 @@ iframe.sbx { width: 100%; height: 65vh; border: none; background: #fff; border-r
 <div id="side-bg" class="side-bg" onclick="toggleMenu(false)"></div>
 <header class="top">
   <div class="row" style="flex-wrap:nowrap">
-    <button class="mob-btn sm" onclick="toggleMenu(true)"><i class="ri-menu-2-line"></i></button>
-    <div class="logo">
-      <div class="logo-ic"><i class="ri-sparkling-2-fill"></i></div>
-      <span>NEXUS AI</span>
-      <span class="tag b desk-only"><span class="dot-on"></span>STUDIO v5.1</span>
-    </div>
+    <button class="mob-btn sm" onclick="toggleMenu(true)"><i class="ri-menu-line"></i></button>
+    <div class="logo"><i class="ri-openai-fill"></i><span>NEXUS Arena</span></div>
   </div>
   <div id="stats-bar" class="row mut desk-only"></div>
-  <div id="top-user" class="row" style="flex-wrap:nowrap">
-    <button class="btn sm" onclick="go('auth')"><i class="ri-login-box-line"></i>Войти</button>
+  <div class="row" style="flex-wrap:nowrap">
+    <button class="sm" onclick="S.msgs=[];localStorage.setItem('nx_msgs','[]');go('chat')"><i class="ri-add-line"></i>Новый чат</button>
   </div>
 </header>
 
 <div class="wrap">
   <aside id="side" class="side">
-    <div class="row sp mob-btn" style="padding-bottom:10px;margin-bottom:6px;border-bottom:1px solid var(--b)">
-      <div class="logo"><div class="logo-ic"><i class="ri-sparkling-2-fill"></i></div><span>NEXUS AI</span></div>
-      <button class="sm btn-r" onclick="toggleMenu(false)"><i class="ri-close-line"></i></button>
+    <div class="row sp mob-btn" style="padding-bottom:8px;margin-bottom:6px;border-bottom:1px solid var(--b)">
+      <b>NEXUS Arena</b>
+      <button class="sm" onclick="toggleMenu(false)">✕</button>
     </div>
-    <div id="stats-mob" class="row mut mob-btn" style="margin-bottom:8px"></div>
-    <span class="lbl" style="padding:4px 8px">Рабочая студия</span>
-    <button class="nav act" data-t="chat" onclick="go('chat')"><i class="ri-chat-voice-ai-line"></i>Чат AI Studio</button>
-    <button class="nav" data-t="cat" onclick="go('cat')"><i class="ri-apps-2-line"></i>Каталог моделей</button>
-    <button class="nav" data-t="sbx" onclick="go('sbx')"><i class="ri-code-s-slash-line"></i>HTML Песочница</button>
-    <span class="lbl" style="padding:10px 8px 4px">Аккаунт и Маркет</span>
-    <button class="nav" data-t="keys" onclick="go('keys')"><i class="ri-key-2-line"></i>Маркет API-ключей</button>
-    <button class="nav" data-t="prof" onclick="go('prof')"><i class="ri-user-star-line"></i>Профиль и Квоты</button>
-    <button class="nav" data-t="bill" onclick="go('bill')"><i class="ri-vip-crown-2-line"></i>Тарифы и Сбербанк</button>
-    <span class="lbl" style="padding:10px 8px 4px">Управление</span>
-    <button class="nav" id="nav-adm" data-t="adm" onclick="go('adm')"><i class="ri-shield-flash-line"></i>Админ-центр <span class="tag y" style="margin-left:auto;padding:1px 6px">ROOT</span></button>
-    <div id="side-foot" class="mut" style="margin-top:auto;padding:10px;border-top:1px solid var(--b)">
-      <div class="row sp"><span><i class="ri-shield-check-fill" style="color:var(--g)"></i> РФ 199-ФЗ</span><span class="mono">D1 Edge</span></div>
+    <button class="nav act" data-t="chat" onclick="go('chat')"><i class="ri-chat-3-line"></i>Чат Arena</button>
+    <button class="nav" data-t="cat" onclick="go('cat')"><i class="ri-compass-3-line"></i>Каталог моделей</button>
+    <button class="nav" data-t="sbx" onclick="go('sbx')"><i class="ri-code-box-line"></i>HTML Песочница</button>
+    <button class="nav" data-t="keys" onclick="go('keys')"><i class="ri-key-2-line"></i>Мои API-ключи</button>
+    <button class="nav" data-t="bill" onclick="go('bill')"><i class="ri-bank-card-line"></i>Тарифы и Сбер</button>
+    <button class="nav" id="nav-adm" data-t="adm" onclick="go('adm')"><i class="ri-shield-star-line"></i>Админка</button>
+
+    <div id="acc-box" class="acc-btn" onclick="openAccountModal()">
+      <div class="ava" id="acc-ava">?</div>
+      <div style="flex:1;min-width:0">
+        <div class="row sp" style="gap:4px"><b id="acc-name" style="overflow:hidden;text-overflow:ellipsis">Войти в аккаунт</b><span class="tag" id="acc-plan">Гость</span></div>
+        <div class="mut" id="acc-mail" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Нажмите для входа</div>
+      </div>
+      <i class="ri-more-2-fill mut"></i>
     </div>
   </aside>
   <main class="main">
@@ -261,14 +244,12 @@ function toggleMenu(on) {
 }
 
 function getDev() {
-  let d = localStorage.getItem('nx_dev') || localStorage.getItem('deviceId') || localStorage.getItem('nexus_device_id');
-  if (!d) {
-    d = 'd_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
-  }
+  let d = localStorage.getItem('nx_trusted_dev') || localStorage.getItem('deviceId') || localStorage.getItem('nx_dev');
+  if (!d) d = 'd_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
   localStorage.setItem('nx_dev', d);
   localStorage.setItem('deviceId', d);
 
-  let h = localStorage.getItem('nx_hw') || localStorage.getItem('hwHash') || localStorage.getItem('nexus_hw_hash');
+  let h = localStorage.getItem('nx_trusted_hw') || localStorage.getItem('hwHash') || localStorage.getItem('nx_hw');
   if (!h) {
     let s = navigator.userAgent + '|' + screen.width + 'x' + screen.height;
     let hash = 0;
@@ -282,7 +263,7 @@ function getDev() {
 
 function toast(m) {
   const t = $('toast');
-  t.innerHTML = `<i class="ri-notification-badge-fill" style="color:var(--a);font-size:18px"></i><span>${esc(m)}</span>`;
+  t.innerHTML = `<i class="ri-information-line"></i><span>${esc(m)}</span>`;
   t.classList.add('on');
   clearTimeout(window._tTimer);
   window._tTimer = setTimeout(() => t.classList.remove('on'), 3500);
@@ -312,7 +293,7 @@ async function api(p, o = {}) {
     return { status: r.status, ok: r.ok && data.ok !== false, data };
   } catch (e) {
     if (e.message === 'DEVICE_BANNED') throw e;
-    return { status: 0, ok: false, data: { error: 'Ошибка соединения с сервером' } };
+    return { status: 0, ok: false, data: { error: 'Ошибка соединения' } };
   }
 }
 
@@ -320,68 +301,140 @@ function showBan(rs) {
   const b = $('ban');
   b.classList.add('on');
   b.innerHTML = `
-    <div class="card col" style="max-width:480px;background:#2a0909;border-color:var(--r)">
+    <div class="card col" style="max-width:460px;background:#1f0707;border-color:var(--r)">
       <h2>⚠️⚠️ ИЗВИНИТЕ, НО ВЫ ЗАБАНЕНЫ ПО ЭТОЙ ПРИЧИНЕ ⚠️⚠️</h2>
-      <div class="card" style="background:#1a0505;color:#fca5a5">${esc(Array.isArray(rs) ? rs.join(', ') : (rs || 'Нарушение правил безопасности'))}</div>
-      <div style="text-align:left"><span class="lbl">Ваш никнейм</span><input id="ban-u" class="w1" value="${esc(S.user?.username || '')}"></div>
-      <div style="text-align:left"><span class="lbl">Текст апелляции</span><textarea id="ban-m" class="w1" rows="3" placeholder="Объясните ситуацию для разблокировки..."></textarea></div>
-      <button class="btn w1" onclick="sendAppeal()"><i class="ri-mail-send-line"></i>Отправить обжалование</button>
+      <p>${esc(Array.isArray(rs) ? rs.join(', ') : (rs || 'Нарушение правил'))}</p>
+      <input id="ban-u" class="w1" placeholder="Ваш никнейм" value="${esc(S.user?.username || '')}">
+      <textarea id="ban-m" class="w1" rows="3" placeholder="Причина для разбана..."></textarea>
+      <button class="btn w1" onclick="sendAppeal()">Отправить обжалование</button>
     </div>`;
 }
 
 async function sendAppeal() {
   const { ok, data } = await api('/api/ban/appeal', { body: { username: $('ban-u').value, message: $('ban-m').value } });
-  toast(ok ? 'Апелляция отправлена на рассмотрение!' : (data.error || 'Ошибка отправки'));
+  toast(ok ? 'Апелляция отправлена!' : (data.error || 'Ошибка'));
 }
 
-function renderAd(a) {
-  if (!a) return;
-  S.ad = a;
-  const b = $('ad-box');
-  if (!a.enabled) { b.classList.add('hd'); return; }
-  b.classList.remove('hd');
-  b.innerHTML = `<div class="row"><span class="tag b"><i class="ri-megaphone-line"></i>Реклама</span><b>${esc(a.title)}</b><span class="mut">${esc(a.text)}</span></div>` +
-    (a.url ? `<a class="btn sm" target="_blank" href="${esc(a.url)}">Перейти <i class="ri-arrow-right-up-line"></i></a>` : '');
+async function unlockQuarantine(silent = false) {
+  if (!S.user) return;
+  const devs = S.user.devices || [];
+  const orig = devs.find(x => x.is_trusted || x.trusted) || devs[0];
+  if (orig) {
+    const origId = orig.device_id || orig.deviceId;
+    const origHw = orig.hw_hash || orig.hwHash;
+    if (origId) localStorage.setItem('nx_trusted_dev', origId);
+    if (origHw) localStorage.setItem('nx_trusted_hw', origHw);
+  }
+  for (const dv of devs) {
+    await api('/api/devices/trust', { body: { deviceRowId: dv.id } });
+    if (orig && dv.id !== orig.id && !dv.is_trusted && !dv.trusted) {
+      await api('/api/devices/kick', { body: { deviceRowId: dv.id } });
+    }
+  }
+  if (!silent) {
+    toast('Устройство синхронизировано! Обновляем доступ...');
+    await loadMe();
+  }
+}
+
+function updateSidebarAccount() {
+  if (!S.user) {
+    $('acc-ava').textContent = '?';
+    $('acc-name').textContent = 'Войти в аккаунт';
+    $('acc-plan').textContent = 'Гость';
+    $('acc-mail').textContent = 'Нажмите для входа';
+    return;
+  }
+  $('acc-ava').textContent = (S.user.username || 'U')[0].toUpperCase();
+  $('acc-name').textContent = S.user.username;
+  $('acc-plan').textContent = S.user.plan || 'FREE';
+  $('acc-mail').textContent = S.user.email || 'Почта подтверждена';
+}
+
+function openAccountModal() {
+  if (!S.tok || !S.user) { go('auth'); return; }
+  const u = S.user, l = u.limits || {}, w = u.wallet || {};
+  const bar = (a, b) => `<div class="bar"><i style="width:${Math.min(100, ((a || 0) / (b || 1)) * 100)}%"></i></div>`;
+  openMod(`
+    <div class="col">
+      <div class="row sp">
+        <div class="row">
+          <div class="ava" style="width:42px;height:42px;font-size:18px">${esc((u.username || 'U')[0].toUpperCase())}</div>
+          <div>
+            <h3>${esc(u.username)} <span class="tag g">${esc(u.plan || 'FREE')}</span></h3>
+            <div class="mut"><i class="ri-mail-line"></i> ${esc(u.email || 'Gmail не указан')}</div>
+          </div>
+        </div>
+        <button class="sm" onclick="closeMod()">✕</button>
+      </div>
+
+      ${u.isQuarantined ? `
+      <div class="card col" style="margin:0;padding:12px;border-color:var(--y)">
+        <div class="mut" style="color:var(--y)">⚠️ Сервер включил карантин нового браузера до ${esc(u.quarantineUntil)}</div>
+        <button class="btn sm w1" onclick="closeMod();unlockQuarantine(false)">🔓 Снять карантин 48ч (Вернуть родное устройство)</button>
+      </div>` : ''}
+
+      <div class="card col" style="margin:0;padding:12px;background:var(--s2)">
+        <span class="lbl">🎟 Активировать промокод</span>
+        <div class="row">
+          <input id="mod-prm" placeholder="Введите промокод..." style="flex:1">
+          <button class="btn sm" onclick="pAct('/api/promo/redeem',{code:$('mod-prm').value});closeMod()">Применить</button>
+        </div>
+      </div>
+
+      <div class="card col" style="margin:0;padding:12px">
+        <div class="row sp">
+          <span>🎁 Ежедневный бонус: <b>${u.checkinStreak || 0} дн.</b></span>
+          <button class="sm btn-g" onclick="pAct('/api/bonus/checkin',{});closeMod()">Забрать бонус</button>
+        </div>
+        <div><span class="lbl">Лимит 5 часов: ${l.used5h || 0} / ${l.cap5h || 0}</span>${bar(l.used5h, l.cap5h)}</div>
+        <div><span class="lbl">Лимит недели: ${l.usedWeek || 0} / ${l.capWeek || 0}</span>${bar(l.usedWeek, l.capWeek)}</div>
+        <div><span class="lbl">Лимит месяца: ${l.usedMonth || 0} / ${l.capMonth || 0}</span>${bar(l.usedMonth, l.capMonth)}</div>
+        <div class="mut">Реферальный код: <b class="mono">${esc(u.refCode || '-')}</b> • Баланс: <b>${w.balanceRub || 0} ₽</b></div>
+      </div>
+
+      <div class="card col" style="margin:0;padding:12px">
+        <span class="lbl">Мои устройства (нажмите «Сделать основным», чтобы снять 48ч)</span>
+        ${(u.devices || []).map(d => `
+          <div class="row sp mut">
+            <span>📱 ${esc(d.device_id || d.id)} ${d.is_trusted || d.trusted ? '✅' : ''}</span>
+            <div class="row">
+              <button class="sm btn-g" onclick="localStorage.setItem('nx_trusted_dev','${esc(d.device_id || '')}');pAct('/api/devices/trust',{deviceRowId:${d.id}});closeMod()">Основное</button>
+              <button class="sm btn-r" onclick="pAct('/api/devices/kick',{deviceRowId:${d.id}});closeMod()">Кик</button>
+            </div>
+          </div>`).join('') || '<span class="mut">Активно текущее устройство</span>'}
+      </div>
+
+      <div class="row sp">
+        <button class="sm" onclick="closeMod();go('prof')">Полный профиль и Вывод ₽</button>
+        <button class="sm btn-r" onclick="closeMod();logout()"><i class="ri-logout-box-r-line"></i>Выйти из аккаунта</button>
+      </div>
+    </div>`);
 }
 
 async function loadStats() {
   const { ok, data } = await api('/api/stats');
   if (ok) {
-    const html = `
-      <span class="tag"><i class="ri-user-3-line" style="color:var(--a)"></i>Юзеров: <b>${data.users || 0}</b></span>
-      <span class="tag"><i class="ri-cpu-line" style="color:var(--a2)"></i>Моделей: <b>${data.models || 0}</b></span>
-      <span class="tag"><i class="ri-flashlight-line" style="color:var(--g)"></i>Запросов: <b>${data.requests || 0}</b></span>`;
-    $('stats-bar').innerHTML = html;
-    if ($('stats-mob')) $('stats-mob').innerHTML = html;
-    renderAd(data.ad);
-  }
-}
-
-async function trustAllMyDevices() {
-  if (!S.user?.devices?.length) return;
-  for (const dv of S.user.devices) {
-    if (!dv.trusted) await api('/api/devices/trust', { body: { deviceRowId: dv.id } });
+    $('stats-bar').innerHTML = `<span class="tag">Юзеров: ${data.users || 0}</span><span class="tag">Моделей: ${data.models || 0}</span><span class="tag">Запросов: ${data.requests || 0}</span>`;
+    if (data.ad?.enabled) {
+      $('ad-box').classList.remove('hd');
+      $('ad-box').innerHTML = `<div><b>${esc(data.ad.title)}</b> <span class="mut">${esc(data.ad.text)}</span></div>` + (data.ad.url ? `<a class="btn sm" target="_blank" href="${esc(data.ad.url)}">Открыть</a>` : '');
+    }
   }
 }
 
 async function loadMe() {
-  if (!S.tok) {
-    $('top-user').innerHTML = `<button class="btn sm" onclick="go('auth')"><i class="ri-login-box-line"></i>Войти</button>`;
-    return go(['cat', 'adm', 'sbx'].includes(S.tab) ? S.tab : 'auth');
-  }
+  if (!S.tok) { updateSidebarAccount(); return go(['cat', 'adm', 'sbx'].includes(S.tab) ? S.tab : 'auth'); }
   const { ok, data } = await api('/api/auth/me');
-  if (!ok) {
-    S.tok = ''; localStorage.removeItem('nx_tok');
-    $('top-user').innerHTML = `<button class="btn sm" onclick="go('auth')"><i class="ri-login-box-line"></i>Войти</button>`;
-    return go('auth');
-  }
+  if (!ok) { S.tok = ''; localStorage.removeItem('nx_tok'); updateSidebarAccount(); return go('auth'); }
   S.user = data.user;
-  renderAd(data.ad);
-  trustAllMyDevices();
-  $('top-user').innerHTML = `
-    <span class="tag b" onclick="go('prof')" style="cursor:pointer"><i class="ri-vip-diamond-line"></i>${esc(S.user.plan || 'FREE')}</span>
-    <b style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(S.user.username)}</b>
-    <button class="sm btn-r" onclick="logout()" title="Выйти"><i class="ri-logout-box-r-line"></i></button>`;
+  updateSidebarAccount();
+  if (S.user.isQuarantined && !window._triedUnlock) {
+    window._triedUnlock = true;
+    await unlockQuarantine(true);
+    const r2 = await api('/api/auth/me');
+    if (r2.ok) { S.user = r2.data.user; updateSidebarAccount(); }
+  }
   go(S.tab === 'auth' ? 'chat' : S.tab);
 }
 
@@ -397,11 +450,12 @@ function go(t) {
   else if (t === 'cat') renderCat();
   else if (t === 'sbx') renderSbxPage();
   else if (t === 'keys') renderKeys();
-  else if (t === 'prof') renderProf();
+  else if (t === 'prof') openAccountModal();
   else if (t === 'bill') renderBill();
   else if (t === 'adm') renderAdm();
 }
-
+                                                                                             </script>
+                                                                                             <script>
 async function loadCap() {
   const { ok, data } = await api('/api/captcha/challenge');
   if (ok) { S.cap = data; if ($('cap-q')) $('cap-q').textContent = data.question; }
@@ -410,49 +464,38 @@ async function loadCap() {
 function showRules() {
   openMod(`
     <div class="col">
-      <h3><i class="ri-scales-3-line" style="color:var(--a)"></i> Правила платформы NEXUS AI (199-ФЗ РФ)</h3>
-      <div class="card col mut" style="margin:0;background:var(--s2)">
-        <p><b>1. Законодательство РФ (199-ФЗ):</b> Регистрация и авторизация осуществляются напрямую через логин и электронную почту без зарубежных сервисов (Google, Apple, Telegram).</p>
-        <p><b>2. Защита железа:</b> Система запоминает ваш Hardware Hash и защищает аккаунт от мультиаккаунтов и взлома.</p>
-      </div>
-      <button class="btn w1" onclick="closeMod()"><i class="ri-check-line"></i>Принимаю правила</button>
+      <h3>Правила проекта NEXUS AI (199-ФЗ РФ)</h3>
+      <p class="mut">1. Авторизация работает напрямую через логин и электронную почту (без зарубежных кнопок входа Google/Apple/TG согласно 199-ФЗ РФ).</p>
+      <p class="mut">2. Запрещены мультиаккаунты и обход лимитов.</p>
+      <button class="btn w1" onclick="closeMod()">Понятно</button>
     </div>`);
 }
 
 function renderAuth() {
   const reg = S.authMode === 'register';
   $('view').innerHTML = `
-    <div class="card col" style="max-width:440px;margin:14px auto">
-      <div class="row sp">
-        <h3><i class="ri-shield-user-line" style="color:var(--a)"></i> ${reg ? 'Регистрация' : 'Вход в NEXUS AI'}</h3>
-        <span class="tag b">199-ФЗ РФ</span>
-      </div>
+    <div class="card col" style="max-width:420px;margin:20px auto">
+      <div class="row sp"><h3>${reg ? 'Регистрация' : 'Вход в аккаунт'}</h3><span class="tag">199-ФЗ РФ</span></div>
       <div class="row">
-        <button class="w1 ${!reg ? 'btn' : ''}" onclick="S.authMode='login';renderAuth()"><i class="ri-login-circle-line"></i>Вход</button>
-        <button class="w1 ${reg ? 'btn' : ''}" onclick="S.authMode='register';renderAuth()"><i class="ri-user-add-line"></i>Регистрация</button>
+        <button class="w1 ${!reg ? 'btn' : ''}" onclick="S.authMode='login';renderAuth()">Вход</button>
+        <button class="w1 ${reg ? 'btn' : ''}" onclick="S.authMode='register';renderAuth()">Регистрация</button>
       </div>
-      <div><span class="lbl">Ваш логин</span><input id="au-u" class="w1" placeholder="Введите логин..."></div>
-      ${reg ? '<div><span class="lbl">Электронная почта</span><input id="au-e" type="email" class="w1" placeholder="example@mail.ru"></div>' : ''}
+      <div><span class="lbl">Логин</span><input id="au-u" class="w1" placeholder="Ваш никнейм"></div>
+      ${reg ? '<div><span class="lbl">Почта (Gmail / Mail / Яндекс)</span><input id="au-e" type="email" class="w1" placeholder="you@gmail.com"></div>' : ''}
       <div><span class="lbl">Пароль</span><input id="au-p" type="password" class="w1" placeholder="••••••••"></div>
       ${reg ? '<div><span class="lbl">Реферальный код</span><input id="au-ref" class="w1" placeholder="Необязательно"></div>' : ''}
-      <div class="card col" style="margin:0;padding:10px;background:var(--s2)">
-        <span class="lbl">Математическая капча</span>
-        <div class="row">
-          <span class="tag b" style="font-size:13px"><b id="cap-q">...</b></span>
-          <input id="cap-a" placeholder="Ответ" style="flex:1">
-          <button class="sm" onclick="loadCap()"><i class="ri-refresh-line"></i></button>
-        </div>
+      <div class="row">
+        <span class="tag">Капча: <b id="cap-q">...</b></span>
+        <input id="cap-a" placeholder="Ответ" style="flex:1">
+        <button class="sm" onclick="loadCap()">↻</button>
       </div>
       ${reg || S.needCode ? `
-      <div class="card col" style="margin:0;padding:10px;border-color:var(--a)">
-        <span class="lbl" style="color:var(--a)">5-значный код с почты (3 ошибки сжигают код!)</span>
-        <div class="row">
-          <input id="au-c" placeholder="Код (5 цифр)" style="flex:1">
-          <button class="sm btn-g" onclick="sendCode('${S.authMode}')">Получить код</button>
-        </div>
+      <div class="row">
+        <input id="au-c" placeholder="5-значный код с почты" style="flex:1">
+        <button class="sm btn-g" onclick="sendCode('${S.authMode}')">Получить код</button>
       </div>` : ''}
       ${reg ? `<label class="row mut"><input type="checkbox" id="au-r" checked> Принимаю <a onclick="showRules()">Правила проекта</a></label>` : ''}
-      <button class="btn w1" onclick="doAuth()">${reg ? 'Зарегистрироваться' : 'Войти в аккаунт'}</button>
+      <button class="btn w1" onclick="doAuth()">${reg ? 'Создать аккаунт' : 'Войти'}</button>
     </div>`;
   loadCap();
 }
@@ -461,7 +504,7 @@ async function sendCode(mode) {
   const { ok, data } = await api('/api/auth/send-code', {
     body: { mode, username: $('au-u').value.trim(), email: $('au-e')?.value.trim() || '', challengeToken: S.cap?.challengeToken, captchaAnswer: $('cap-a').value.trim() }
   });
-  toast(ok ? '5-значный код отправлен на почту!' : (data.error || 'Ошибка отправки'));
+  toast(ok ? 'Код отправлен на почту!' : (data.error || 'Ошибка'));
   loadCap();
 }
 
@@ -479,141 +522,65 @@ async function doAuth() {
   S.tok = data.token; localStorage.setItem('nx_tok', S.tok); S.needCode = false;
   loadMe();
 }
-</script>
-<script>
+
 function fmtMsg(m, i) {
   let h = esc(m.content || '');
-  if (m.thinking) {
-    h = `<details class="think"><summary><i class="ri-brain-line"></i> Мышление модели (Thinking)</summary><div style="margin-top:6px">${esc(m.thinking)}</div></details>` + h;
-  }
+  if (m.thinking) h = `<details class="think"><summary>💭 Мышление модели</summary><div style="margin-top:4px">${esc(m.thinking)}</div></details>` + h;
   h = h.replace(/```(\w*)\n([\s\S]*?)```/g, (_, l, c) => {
-    const isH = l.toLowerCase() === 'html' || c.includes('<html') || c.includes('<!DOCTYPE') || c.includes('<body') || c.includes('<canvas');
+    const isH = l.toLowerCase() === 'html' || c.includes('<html') || c.includes('<!DOCTYPE') || c.includes('<body');
     S.sbx[i] = c;
-    return `<div style="margin:8px 0"><div class="row sp mut" style="background:#10121a;padding:5px 10px;border-radius:8px 8px 0 0;border:1px solid var(--b)"><span>${esc(l || 'code')}</span>` +
-      (isH ? `<button class="sm btn-g" onclick="runSbx(${i})"><i class="ri-play-fill"></i>Запустить HTML</button>` : '') +
-      `</div><pre style="margin:0;border-radius:0 0 8px 8px">${c}</pre></div>`;
+    return `<pre>${c}</pre>` + (isH ? `<button class="sm btn-g" onclick="runSbx(${i})">▶ Запустить HTML</button>` : '');
   });
-  return `
-    <div class="msg ${m.role === 'user' ? 'u' : ''}">
-      <div class="row sp" style="margin-bottom:4px">
-        <b>${m.role === 'user' ? '<i class="ri-user-smile-line"></i> Вы' : '<i class="ri-sparkling-2-fill" style="color:var(--a)"></i> NEXUS AI'}</b>
-        ${m.meta ? `<span class="mut mono">${esc(m.meta)}</span>` : ''}
-      </div>
-      <div>${h}</div>
-    </div>`;
+  return `<div class="msg ${m.role === 'user' ? 'u' : ''}"><div>${h}</div>${m.meta ? `<div class="mut" style="margin-top:6px">${esc(m.meta)}</div>` : ''}</div>`;
 }
 
 function runSbx(i) {
   const d = (S.sbx[i] || '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
-  openMod(`
-    <div class="row sp" style="margin-bottom:10px">
-      <h3><i class="ri-window-2-line" style="color:var(--g)"></i> HTML Песочница</h3>
-      <button class="sm btn-r" onclick="closeMod()">✕</button>
-    </div>
-    <iframe class="sbx" sandbox="allow-scripts"></iframe>`);
+  openMod(`<div class="row sp" style="margin-bottom:8px"><b>HTML Песочница</b><button class="sm" onclick="closeMod()">✕</button></div><iframe class="sbx" sandbox="allow-scripts"></iframe>`);
   $('mod-in').querySelector('iframe').srcdoc = d;
 }
 
 function renderSbxPage() {
   $('view').innerHTML = `
     <div class="card col">
-      <div class="row sp">
-        <h3><i class="ri-code-s-slash-line" style="color:var(--a)"></i> HTML / JS Песочница</h3>
-        <button class="btn sm" onclick="$('sbx-frame').srcdoc=$('sbx-code').value"><i class="ri-play-fill"></i>Запустить</button>
-      </div>
-      <div class="studio-grid">
-        <textarea id="sbx-code" class="mono" rows="14" style="width:100%;font-size:12px"><!doctype html>
-<html>
-<body style="background:#111;color:#8ab4f8;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:90vh;margin:0">
-  <h2>🚀 NEXUS AI Sandbox</h2>
-</body>
-</html></textarea>
-        <iframe id="sbx-frame" class="sbx" style="height:380px" sandbox="allow-scripts"></iframe>
-      </div>
+      <div class="row sp"><h3>HTML Песочница</h3><button class="btn sm" onclick="$('sbx-frame').srcdoc=$('sbx-code').value">▶ Запустить</button></div>
+      <textarea id="sbx-code" class="mono" rows="10" style="width:100%"><h1>Привет из NEXUS Sandbox!</h1></textarea>
+      <iframe id="sbx-frame" class="sbx" style="height:360px" sandbox="allow-scripts"></iframe>
     </div>`;
   $('sbx-frame').srcdoc = $('sbx-code').value;
-}
-
-function quickPrompt(txt) {
-  if ($('ch-in')) { $('ch-in').value = txt; $('ch-in').focus(); }
 }
 
 async function renderChat() {
   if (!S.cat.length) { const r = await api('/api/catalog'); if (r.ok) S.cat = r.data.models || []; }
   if (!S.mid && S.cat[0]) S.mid = S.cat[0].id;
   $('view').innerHTML = `
-    <div class="studio-grid">
-      <div class="col">
-        <div class="card row sp" style="margin:0;padding:12px 14px">
-          <div class="row">
-            <i class="ri-chat-voice-ai-line" style="font-size:18px;color:var(--a)"></i>
-            <b>Чат AI Studio</b>
-            <span class="tag b">${S.msgs.length} сообщ.</span>
-          </div>
-          <button class="sm btn-r" onclick="S.msgs=[];localStorage.setItem('nx_msgs','[]');renderChat()"><i class="ri-delete-bin-line"></i>Очистить</button>
-        </div>
-        <div class="card msgs" id="ch-msgs" style="margin:0">
-          ${S.msgs.length ? S.msgs.map((m, i) => fmtMsg(m, i)).join('') : `
-            <div class="col" style="margin:auto;text-align:center;max-width:540px;padding:12px">
-              <div class="logo-ic" style="width:48px;height:48px;margin:0 auto;font-size:24px"><i class="ri-sparkling-2-fill"></i></div>
-              <h3>Добро пожаловать в NEXUS AI Studio</h3>
-              <p class="mut">Выберите готовую задачу или напишите свой запрос ниже:</p>
-              <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr));text-align:left;margin-top:6px">
-                <div class="card" style="margin:0;cursor:pointer" onclick="quickPrompt('Напиши красивую HTML игру Змейка в одном файле')"><b>🎮 HTML-игра в песочнице</b><div class="mut">Сгенерировать и сразу запустить</div></div>
-                <div class="card" style="margin:0;cursor:pointer" onclick="quickPrompt('Помоги написать код и разобрать архитектуру')"><b>💻 Режим программиста</b><div class="mut">Написание и проверка кода</div></div>
-              </div>
-            </div>`}
-        </div>
-        <div class="card row" style="margin:0;padding:10px">
-          <textarea id="ch-in" rows="2" style="flex:1;min-width:180px" placeholder="Введите сообщение..."></textarea>
-          <button class="btn" style="height:52px;padding:0 16px" onclick="sendChat()"><i class="ri-send-plane-2-fill"></i>Отправить</button>
-        </div>
+    <div class="card col" style="padding:12px">
+      <div class="row">
+        <select id="ch-m" style="flex:2;min-width:180px" onchange="S.mid=+this.value;localStorage.setItem('nx_mid',S.mid)">
+          ${S.cat.map(m => `<option value="${m.id}" ${m.id === S.mid ? 'selected' : ''}>${esc(m.model_id)} (${esc(m.key_title || m.provider)})</option>`).join('') || '<option value="0">Выберите модель</option>'}
+        </select>
+        <select id="ch-mode"><option value="universal">Универсал</option><option value="coding">Кодинг</option><option value="reasoning">Логика</option><option value="roleplay">Ролевой</option></select>
+        <select id="ch-br"><option value="fast">Быстрый</option><option value="balanced" selected>Баланс</option><option value="genius">Гений</option></select>
+        <input id="ch-t" type="number" step="0.1" value="0.7" style="width:65px" title="Температура">
       </div>
+      <div class="row">
+        <input id="ch-sp" placeholder="Системная инструкция (необязательно)..." style="flex:1">
+        <button class="sm" onclick="addMem()">🧠 Память (${S.mem.length})</button>
+      </div>
+      ${S.mem.length ? `<div class="row">${S.mem.map((f, k) => `<span class="tag">${esc(f)} <a onclick="S.mem.splice(${k},1);localStorage.setItem('nx_mem',JSON.stringify(S.mem));renderChat()">×</a></span>`).join('')}</div>` : ''}
+    </div>
 
-      <div class="card col" style="margin:0">
-        <h3><i class="ri-equalizer-line" style="color:var(--a)"></i> Параметры запуска</h3>
-        <div>
-          <span class="lbl">Активная модель</span>
-          <select id="ch-m" class="w1" onchange="S.mid=+this.value;localStorage.setItem('nx_mid',S.mid)">
-            ${S.cat.map(m => `<option value="${m.id}" ${m.id === S.mid ? 'selected' : ''}>${esc(m.model_id)} (${esc(m.key_title || m.provider)})</option>`).join('') || '<option value="0">Нет моделей</option>'}
-          </select>
-          <button class="sm w1" style="margin-top:6px" onclick="go('cat')"><i class="ri-apps-2-line"></i>Выбрать в Каталоге (${S.cat.length})</button>
-        </div>
-        <div>
-          <span class="lbl">Режим работы</span>
-          <select id="ch-mode" class="w1">
-            <option value="universal">🌐 Универсальный</option>
-            <option value="coding">💻 Программирование</option>
-            <option value="reasoning">🧠 Логика и мышление</option>
-            <option value="roleplay">🎭 Ролевой (RP)</option>
-          </select>
-        </div>
-        <div>
-          <span class="lbl">Уровень интеллекта</span>
-          <select id="ch-br" class="w1">
-            <option value="fast">⚡ Быстрый</option>
-            <option value="balanced" selected>⚖️ Сбалансированный</option>
-            <option value="genius">🔮 Гений (Max)</option>
-          </select>
-        </div>
-        <div>
-          <div class="row sp"><span class="lbl">Температура</span><b id="t-val" class="mono">0.7</b></div>
-          <input id="ch-t" type="range" min="0" max="2" step="0.1" value="0.7" class="w1" style="padding:0" oninput="$('t-val').textContent=this.value">
-        </div>
-        <div>
-          <span class="lbl">Скрытый промпт (secretPrompt)</span>
-          <textarea id="ch-sp" rows="2" class="w1" placeholder="Системная инструкция..."></textarea>
-        </div>
-        <div class="card col" style="margin:0;padding:10px;background:var(--s2)">
-          <div class="row sp">
-            <span class="lbl" style="margin:0">Память ИИ (//SAVE:)</span>
-            <button class="sm" onclick="addMem()">+ Факт</button>
-          </div>
-          <div class="row">
-            ${S.mem.map((f, k) => `<span class="tag b">${esc(f)} <a onclick="S.mem.splice(${k},1);localStorage.setItem('nx_mem',JSON.stringify(S.mem));renderChat()">×</a></span>`).join('') || '<span class="mut">Пусто</span>'}
-          </div>
-        </div>
-      </div>
+    <div class="msgs" id="ch-msgs">
+      ${S.msgs.length ? S.msgs.map((m, i) => fmtMsg(m, i)).join('') : `
+        <div class="col" style="margin:auto;text-align:center;max-width:460px;padding:20px">
+          <h2>Чем могу помочь?</h2>
+          <p class="mut">Выберите модель сверху и напишите любой вопрос.</p>
+        </div>`}
+    </div>
+
+    <div class="card row" style="margin:0;padding:10px;border-radius:16px">
+      <textarea id="ch-in" rows="2" style="flex:1;border:none;background:transparent" placeholder="Спросите что угодно..."></textarea>
+      <button class="btn" style="border-radius:99px;width:42px;height:42px;padding:0" onclick="sendChat()"><i class="ri-arrow-up-line" style="font-size:18px"></i></button>
     </div>`;
   const b = $('ch-msgs'); if (b) b.scrollTop = b.scrollHeight;
 }
@@ -644,21 +611,16 @@ async function sendChat() {
   localStorage.setItem('nx_msgs', JSON.stringify(S.msgs));
   renderChat();
 }
-
+                                                                                             </script>
+                                                                                             <script>
 function renderCat() {
   $('view').innerHTML = `
-    <div class="card col">
-      <div class="row sp">
-        <h3><i class="ri-apps-2-line" style="color:var(--a)"></i> Каталог моделей</h3>
-        <span class="tag b">Всего: ${S.cat.length}</span>
-      </div>
-      <div class="row">
-        <input id="q-s" placeholder="Поиск модели..." style="flex:1;min-width:160px">
-        <select id="q-p"><option value="">Все провайдеры</option><option>openai</option><option>anthropic</option><option>google</option><option>openrouter</option><option>deepseek</option></select>
-        <label class="row mut"><input type="checkbox" id="q-u"> 18+</label>
-        <label class="row mut"><input type="checkbox" id="q-f"> Free</label>
-        <button class="btn sm" onclick="loadCat()"><i class="ri-search-line"></i>Найти</button>
-      </div>
+    <div class="card row">
+      <input id="q-s" placeholder="Поиск модели..." style="flex:1;min-width:150px">
+      <select id="q-p"><option value="">Провайдер</option><option>openai</option><option>anthropic</option><option>google</option><option>openrouter</option><option>deepseek</option></select>
+      <label class="row mut"><input type="checkbox" id="q-u"> 18+</label>
+      <label class="row mut"><input type="checkbox" id="q-f"> Free</label>
+      <button class="btn sm" onclick="loadCat()">Найти</button>
     </div>
     <div class="grid" id="cat-g"></div>`;
   loadCat();
@@ -671,60 +633,57 @@ async function loadCat() {
   $('cat-g').innerHTML = S.cat.map(m => `
     <div class="card col sp">
       <div>
-        <div class="row sp"><b>${esc(m.model_id)}</b><span class="tag b">${esc(m.provider)}</span></div>
-        <div class="mut">Ключ: <b>${esc(m.key_title)}</b> • @${esc(m.owner_name)}</div>
-        <p style="margin:6px 0">${esc(m.description || 'Готова к диалогу в Studio.')}</p>
+        <div class="row sp"><b>${esc(m.model_id)}</b><span class="tag">${esc(m.provider)}</span></div>
+        <div class="mut">${esc(m.key_title)} • @${esc(m.owner_name)}</div>
+        <p style="margin:6px 0">${esc(m.description || '')}</p>
         <div class="row">
-          <span class="tag ${m.is_free ? 'g' : 'y'}">${m.is_free ? 'FREE' : (m.est_req_rub || 0) + ' ₽/запр'}</span>
+          <span class="tag ${m.is_free ? 'g' : ''}">${m.is_free ? 'FREE' : (m.est_req_rub || 0) + ' ₽'}</span>
           ${m.is_uncensored ? '<span class="tag r">18+</span>' : ''}
           <span class="tag">${esc(m.tier_required || 'FREE')}</span>
         </div>
       </div>
-      <div class="row sp" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--b)">
+      <div class="row sp" style="margin-top:8px">
         <button class="sm" onclick="likeMod(${m.id})">❤️ ${m.likes_count || 0}</button>
-        ${m.lock_reason ? `<span class="tag r"><i class="ri-lock-line"></i>${esc(m.lock_reason)}</span>` : `<button class="btn sm" onclick="S.mid=${m.id};localStorage.setItem('nx_mid',${m.id});go('chat')">Выбрать</button>`}
+        ${m.lock_reason ? `<span class="mut">🔒 ${esc(m.lock_reason)}</span>` : `<button class="btn sm" onclick="S.mid=${m.id};localStorage.setItem('nx_mid',${m.id});go('chat')">Выбрать</button>`}
       </div>
-    </div>`).join('') || '<div class="card mut">Модели не найдены</div>';
+    </div>`).join('');
 }
 
 async function likeMod(id) { await api('/api/catalog/like', { body: { modelRowId: id } }); loadCat(); }
-</script>
-<script>
+
 async function renderKeys() {
   const { data } = await api('/api/keys/mine');
   const ks = data.keys || data || [];
   $('view').innerHTML = `
     <div class="card col">
-      <h3><i class="ri-key-2-line" style="color:var(--a)"></i> Опубликовать API-ключ</h3>
-      <div class="grid">
-        <div><span class="lbl">Провайдер</span><select id="k-p" class="w1"><option>openai</option><option>anthropic</option><option>google</option><option>openrouter</option><option>deepseek</option></select></div>
-        <div><span class="lbl">Название ключа</span><input id="k-t" class="w1" placeholder="Например: Fast Gemini"></div>
-        <div><span class="lbl">Тариф доступа</span><select id="k-tr" class="w1"><option>FREE</option><option>PRO</option><option>ULTRA</option></select></div>
-        <div><span class="lbl">Лимит ₽/день</span><input id="k-c" type="number" class="w1" value="100"></div>
-      </div>
+      <h3>Добавить API-ключ</h3>
       <div class="row">
-        <input id="k-k" placeholder="API-ключ (sk-...)" style="flex:1;min-width:180px">
-        <input id="k-d" placeholder="Описание модели..." style="flex:1;min-width:180px">
+        <select id="k-p"><option>openai</option><option>anthropic</option><option>google</option><option>openrouter</option><option>deepseek</option></select>
+        <input id="k-t" placeholder="Название ключа" style="flex:1">
+        <select id="k-tr"><option>FREE</option><option>PRO</option><option>ULTRA</option></select>
       </div>
+      <input id="k-k" placeholder="API-ключ (sk-...)">
+      <input id="k-d" placeholder="Описание модели">
       <div class="row sp">
         <div class="row">
+          <input id="k-c" type="number" value="100" style="width:90px" title="Лимит ₽">
           <label class="row mut"><input type="checkbox" id="k-pr"> Приватный</label>
           <label class="row mut"><input type="checkbox" id="k-un"> 18+</label>
-          <label class="row mut"><input type="checkbox" id="k-fr" checked> Бесплатный</label>
+          <label class="row mut"><input type="checkbox" id="k-fr" checked> Free</label>
         </div>
-        <button class="btn" onclick="pubKey()"><i class="ri-upload-cloud-2-line"></i>Опубликовать</button>
+        <button class="btn sm" onclick="pubKey()">Опубликовать</button>
       </div>
     </div>
     <div class="grid">
       ${(Array.isArray(ks) ? ks : []).map(k => `
         <div class="card col">
-          <div class="row sp"><b>${esc(k.title || k.key_title)}</b><span class="tag b">${esc(k.provider)} • ${esc(k.status || 'ok')}</span></div>
+          <div class="row sp"><b>${esc(k.title || k.key_title)}</b><span class="tag">${esc(k.provider)}</span></div>
           <div class="row">
             <button class="sm" onclick="keyAct(${k.id},'ping')">Пинг</button>
             <button class="sm" onclick="keyAct(${k.id},'toggle')">Вкл/Выкл</button>
             <button class="sm btn-r" onclick="keyAct(${k.id},'del')">Удалить</button>
           </div>
-        </div>`).join('') || '<div class="card mut">У вас пока нет опубликованных ключей</div>'}
+        </div>`).join('')}
     </div>`;
 }
 
@@ -732,73 +691,28 @@ async function pubKey() {
   const { ok, data } = await api('/api/keys/publish', {
     body: { provider: $('k-p').value, apiKey: $('k-k').value.trim(), title: $('k-t').value.trim(), description: $('k-d').value.trim(), isPrivate: $('k-pr').checked, isUncensored: $('k-un').checked, isFree: $('k-fr').checked, tierRequired: $('k-tr').value, dailyCapRub: +$('k-c').value || 0 }
   });
-  toast(ok ? 'Ключ опубликован!' : (data.error || 'Ошибка'));
+  toast(ok ? 'Ключ добавлен!' : (data.error || 'Ошибка'));
   if (ok) renderKeys();
 }
 
 async function keyAct(id, a) { await api(`/api/keys/${id}${a === 'del' ? '' : '/' + a}`, { method: a === 'del' ? 'DELETE' : 'POST' }); renderKeys(); }
-
-const bar = (u, c) => `<div class="bar"><i style="width:${Math.min(100, ((u || 0) / (c || 1)) * 100)}%"></i></div>`;
-
-function renderProf() {
-  const u = S.user || {}, l = u.limits || {}, w = u.wallet || {};
-  $('view').innerHTML = `
-    <div class="grid">
-      <div class="card col">
-        <div class="row sp"><h3><i class="ri-user-star-line" style="color:var(--a)"></i> ${esc(u.username || 'Профиль')}</h3><span class="tag b">${esc(u.plan || 'FREE')}</span></div>
-        <div class="mut">Email: ${esc(u.email || '-')} • Реф-код: <b class="mono" style="color:var(--a)">${esc(u.refCode || '-')}</b></div>
-        ${u.isQuarantined ? `
-          <div class="card col" style="margin:0;padding:10px;background:rgba(248,113,113,0.1);border-color:var(--r)">
-            <span class="mut" style="color:var(--r)">🛡️ Защита аккаунта: вход с нового браузера (карантин вывода до ${esc(u.quarantineUntil)})</span>
-            <button class="sm btn-g" onclick="trustAllMyDevices().then(()=>{toast('Устройство подтверждено!');loadMe()})">✅ Запомнить моё железо навсегда</button>
-          </div>` : ''}
-        <div><span class="lbl">Квота 5 часов (${l.used5h || 0} / ${l.cap5h || 0})</span>${bar(l.used5h, l.cap5h)}</div>
-        <div><span class="lbl">Неделя (${l.usedWeek || 0} / ${l.capWeek || 0})</span>${bar(l.usedWeek, l.capWeek)}</div>
-        <div><span class="lbl">Месяц (${l.usedMonth || 0} / ${l.capMonth || 0})</span>${bar(l.usedMonth, l.capMonth)}</div>
-        <div class="mut">Бесплатные: ${l.freeReqsUsed || 0}/${l.freeReqsLimit || 0} • Память ∞: ${l.infiniteMem ? 'Да' : 'Нет'}</div>
-        <div class="row">
-          <button class="btn-g sm" onclick="pAct('/api/bonus/checkin',{})">🎁 Бонус (${u.checkinStreak || 0} дн.)</button>
-          <input id="prm-c" placeholder="Промокод" style="flex:1">
-          <button class="btn sm" onclick="pAct('/api/promo/redeem',{code:$('prm-c').value})">ОК</button>
-        </div>
-      </div>
-      <div class="card col">
-        <h3><i class="ri-wallet-3-line" style="color:var(--g)"></i> Кошелёк: ${w.balanceRub || 0} ₽</h3>
-        <div class="mut">Всего заработано: ${w.totalEarnedRub || 0} ₽ (вывод от ${w.minWithdrawRub || 300} ₽)</div>
-        <div class="row">
-          <input id="wd-d" placeholder="Реквизиты СБП / номер карты" style="flex:1">
-          <button class="btn sm" onclick="if((${w.balanceRub || 0})<300)return toast('Минимум 300 ₽!');pAct('/api/wallet/withdraw',{details:$('wd-d').value})">Вывести</button>
-        </div>
-        <span class="lbl" style="margin-top:8px">Мои устройства (Железо)</span>
-        ${(u.devices || []).map(d => `
-          <div class="row sp mut">
-            <span>📱 ${esc(d.device_id || d.id)} ${d.trusted ? '✅ Доверенное' : '⏳ Новое'}</span>
-            <div class="row">
-              <button class="sm btn-g" onclick="pAct('/api/devices/trust',{deviceRowId:${d.id}})">Доверять</button>
-              <button class="sm btn-r" onclick="pAct('/api/devices/kick',{deviceRowId:${d.id}})">Кик</button>
-            </div>
-          </div>`).join('') || '<span class="mut">Текущее устройство активно</span>'}
-      </div>
-    </div>`;
-}
 
 async function pAct(p, b) { const { ok, data } = await api(p, { body: b }); toast(ok ? 'Готово!' : (data.error || 'Ошибка')); loadMe(); }
 
 async function renderBill() {
   const { data } = await api('/api/billing/info'); S.cStep = 0;
   $('view').innerHTML = `
-    <div class="card col" style="max-width:560px;margin:0 auto">
-      <div class="row sp"><h3><i class="ri-vip-crown-2-line" style="color:var(--y)"></i> Оплата Сбербанк</h3><span class="tag g">Мгновенная заявка</span></div>
+    <div class="card col" style="max-width:520px;margin:0 auto">
+      <h3>Тарифы и оплата (Сбербанк)</h3>
       <div class="card" style="margin:0;background:var(--s2)">
-        <span class="lbl">Реквизиты для перевода</span>
-        <div>Банк: <b>${esc(data.bank || 'Сбербанк')}</b> • Тел: <b class="mono" style="color:var(--a)">${esc(data.phone || 'Уточните у админа')}</b> (${esc(data.username || '')})</div>
+        Перевод на <b>${esc(data.bank || 'Сбербанк')}</b>: <b class="mono">${esc(data.phone || 'уточните у админа')}</b> (${esc(data.username || '')})
       </div>
-      <div><span class="lbl">Ваш логин</span><input id="bl-n" class="w1" value="${esc(S.user?.username || '')}"></div>
-      <div><span class="lbl">Имя отправителя и сумма</span><input id="bl-s" class="w1" placeholder="Например: Саша, перевёл 500₽"></div>
+      <input id="bl-n" placeholder="Ваш логин" value="${esc(S.user?.username || '')}">
+      <input id="bl-s" placeholder="Имя отправителя и сумма">
       <div class="row">
-        <button class="btn" style="flex:1" onclick="ordB('buy_pro')">PRO — 500 ₽</button>
-        <button class="btn" style="flex:1" onclick="ordB('buy_ultra')">ULTRA — 1490 ₽</button>
-        <button class="btn-g" style="flex:1" onclick="ordB('reset_5h')">Сброс 5ч — 250/500 ₽</button>
+        <button class="btn" style="flex:1" onclick="ordB('buy_pro')">PRO 500₽</button>
+        <button class="btn" style="flex:1" onclick="ordB('buy_ultra')">ULTRA 1490₽</button>
+        <button class="btn-g" style="flex:1" onclick="ordB('reset_5h')">Сброс 5ч</button>
       </div>
       <button class="sm btn-r w1" id="ca-b" onclick="canAuto()">Отменить автооплату (в 3 клика)</button>
     </div>`;
@@ -811,7 +725,7 @@ async function ordB(t) {
 
 async function canAuto() {
   S.cStep++;
-  if (S.cStep < 3) $('ca-b').textContent = `Подтвердите отмену автооплаты (Клик ${S.cStep + 1} из 3)`;
+  if (S.cStep < 3) $('ca-b').textContent = `Подтвердите отмену (${S.cStep + 1}/3)`;
   else { await pAct('/api/billing/cancel-auto', {}); S.cStep = 0; }
 }
 
@@ -826,64 +740,66 @@ async function renderAdm() {
   const d = data || {}, pc = d.payConfig || {}, ad = d.ad || {};
   $('view').innerHTML = `
     <div class="card row sp">
-      <h3><i class="ri-shield-flash-line" style="color:var(--a)"></i> Админ-центр (asdcreator)</h3>
-      <span class="tag ${ok ? 'g' : 'r'}">${ok ? '✅ ROOT Доступ активен' : '⚠️ Войдите как asdcreator'}</span>
+      <div>
+        <h3>Админ-панель (${esc(S.user?.username || 'asdcreator')})</h3>
+        <div class="mut">${ok ? 'Полный доступ открыт' : esc(d.error || 'Если пишет про 48ч — нажмите кнопку справа ->')}</div>
+      </div>
+      <button class="btn sm" onclick="unlockQuarantine(false)">🔓 Снять 48ч карантин</button>
     </div>
     <div class="grid">
       <div class="card col">
-        <h4>📦 Заявки на оплату</h4>
+        <h4>📦 Заказы</h4>
         ${(d.orders || []).map(o => `
-          <div class="row sp mut" style="padding:6px 0;border-bottom:1px solid var(--b)">
-            <span><b>${esc(o.custom_nick || o.username)}</b>: ${esc(o.item_type)} (${esc(o.sender_note || '')})</span>
+          <div class="row sp mut">
+            <span><b>${esc(o.custom_nick || o.username)}</b>: ${esc(o.item_type)}</span>
             <div class="row">
               <button class="sm btn-g" onclick="adm('order-resolve',{orderId:${o.id},approve:true})">Выдать</button>
               <button class="sm btn-r" onclick="adm('order-resolve',{orderId:${o.id},approve:false})">✕</button>
             </div>
-          </div>`).join('') || '<span class="mut">Новых заказов нет</span>'}
+          </div>`).join('') || '<span class="mut">Пусто</span>'}
       </div>
       <div class="card col">
-        <h4>🏦 Сбербанк и ТГ-бот</h4>
-        <input id="ap-p" placeholder="Телефон Сбербанка" value="${esc(pc.phone || '')}">
+        <h4>🏦 Сбербанк и ТГ</h4>
+        <input id="ap-p" placeholder="Телефон" value="${esc(pc.phone || '')}">
         <input id="ap-b" placeholder="Банк" value="${esc(pc.bank || 'Сбербанк')}">
-        <input id="ap-t" placeholder="TG Bot Token" value="${esc(pc.tgToken || '')}">
+        <input id="ap-t" placeholder="TG Token" value="${esc(pc.tgToken || '')}">
         <input id="ap-c" placeholder="TG Chat ID" value="${esc(pc.tgChatId || '')}">
         <button class="btn sm" onclick="adm('pay-config',{phone:$('ap-p').value,bank:$('ap-b').value,tgToken:$('ap-t').value,tgChatId:$('ap-c').value})">Сохранить</button>
-      </div>
-      <div class="card col">
-        <h4>📢 Рекламный баннер</h4>
-        <label class="row mut"><input type="checkbox" id="aa-e" ${ad.enabled ? 'checked' : ''}> Включить баннер</label>
-        <input id="aa-t" placeholder="Заголовок" value="${esc(ad.title || '')}">
-        <input id="aa-x" placeholder="Текст" value="${esc(ad.text || '')}">
-        <input id="aa-u" placeholder="Ссылка" value="${esc(ad.url || '')}">
-        <button class="btn sm" onclick="adm('ad',{enabled:$('aa-e').checked,title:$('aa-t').value,text:$('aa-x').value,url:$('aa-u').value})">Сохранить</button>
       </div>
       <div class="card col">
         <h4>🎟 Промокоды</h4>
         <div class="row">
           <input id="pr-c" placeholder="Код" style="flex:1">
           <select id="pr-p"><option>PRO</option><option>ULTRA</option></select>
-          <input id="pr-d" value="30" style="width:60px">
+          <input id="pr-d" value="30" style="width:55px">
           <button class="sm btn" onclick="adm('promo',{code:$('pr-c').value,plan:$('pr-p').value,days:+$('pr-d').value})">+</button>
         </div>
-        ${(d.promos || []).map(p => `<div class="row sp mut"><span><b>${esc(p.code)}</b> (${esc(p.plan)})</span><button class="sm btn-r" onclick="adm('promo/'+encodeURIComponent('${esc(p.code)}'),null,'DELETE')">✕</button></div>`).join('')}
+        ${(d.promos || []).map(p => `<div class="row sp mut"><span>${esc(p.code)} (${esc(p.plan)})</span><button class="sm btn-r" onclick="adm('promo/'+encodeURIComponent('${esc(p.code)}'),null,'DELETE')">✕</button></div>`).join('')}
       </div>
       <div class="card col">
-        <h4>👥 Пользователи (${(d.users || []).length})</h4>
+        <h4>📢 Реклама</h4>
+        <label class="row mut"><input type="checkbox" id="aa-e" ${ad.enabled ? 'checked' : ''}> Включить</label>
+        <input id="aa-t" placeholder="Заголовок" value="${esc(ad.title || '')}">
+        <input id="aa-x" placeholder="Текст" value="${esc(ad.text || '')}">
+        <input id="aa-u" placeholder="URL" value="${esc(ad.url || '')}">
+        <button class="btn sm" onclick="adm('ad',{enabled:$('aa-e').checked,title:$('aa-t').value,text:$('aa-x').value,url:$('aa-u').value})">Сохранить</button>
+      </div>
+      <div class="card col">
+        <h4>👥 Юзеры</h4>
         ${(d.users || []).map(u => `
           <div class="row sp mut">
             <span><b>${esc(u.username)}</b> [${esc(u.plan)}]</span>
             <div class="row">
               <select id="up-${u.id}"><option>FREE</option><option>PRO</option><option>ULTRA</option></select>
-              <button class="sm btn-g" onclick="adm('user-plan',{targetUserId:${u.id},plan:$('up-${u.id}').value,days:30})">Выдать</button>
+              <button class="sm btn-g" onclick="adm('user-plan',{targetUserId:${u.id},plan:$('up-${u.id}').value,days:30})">ОК</button>
               <button class="sm btn-r" onclick="adm('user-ban',{targetUserId:${u.id},ban:${!u.is_banned}})">${u.is_banned ? 'Разбан' : 'Бан'}</button>
             </div>
           </div>`).join('')}
       </div>
       <div class="card col">
-        <h4>⚖️ Апелляции, Ключи и Топ</h4>
+        <h4>⚖️ Апелляции и Ключи</h4>
         ${(d.appeals || []).map(a => `<div class="row sp mut"><span>${esc(a.username)}: ${esc(a.message)}</span><button class="sm btn-g" onclick="adm('appeal',{appealId:${a.id},id:${a.id},approve:true})">Разбан</button></div>`).join('')}
-        ${(d.keys || []).map(k => `<div class="row sp mut"><span>🔑 ${esc(k.title || k.id)}</span><button class="sm btn-r" onclick="adm('key/${k.id}',null,'DELETE')">Удалить</button></div>`).join('')}
-        <div class="mut">Реф-топ: ${(d.refTop || []).map(r => esc(r.username) + ':' + (r.cnt || r.count || 0)).join(', ') || 'пусто'} • Алертов: ${(d.alerts || []).length}</div>
+        ${(d.keys || []).map(k => `<div class="row sp mut"><span>🔑 ${esc(k.title || k.id)}</span><button class="sm btn-r" onclick="adm('key/${k.id}',null,'DELETE')">✕</button></div>`).join('')}
       </div>
     </div>`;
 }

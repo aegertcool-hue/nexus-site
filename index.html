@@ -7,124 +7,66 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 <style>
-:root {
-  --bg: #141416; --s1: #1e1e22; --s2: #28282e; --s3: #34343c;
-  --b: #33333b; --t: #f2f2f5; --m: #9a9aa6;
-  --red: #ff2828; --g: #10b981; --r: #ef4444; --y: #fbbf24;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-thumb { background: #3d3d46; border-radius: 99px; }
-
-@keyframes spinCrown {
-  0% { transform: translateY(0) rotateY(0deg) rotateZ(-8deg); }
-  50% { transform: translateY(-4px) rotateY(180deg) rotateZ(8deg); }
-  100% { transform: translateY(0) rotateY(360deg) rotateZ(-8deg); }
-}
-@keyframes pulseRed {
-  0%, 100% { text-shadow: 0 0 14px rgba(255, 40, 40, 0.55); }
-  50% { text-shadow: 0 0 26px rgba(255, 40, 40, 0.95); }
-}
-
-body {
-  font: 14px/1.5 'Inter', system-ui, sans-serif;
-  background: var(--bg); color: var(--t); min-height: 100vh;
-  display: flex; flex-direction: column; overflow-x: hidden;
-}
-h2, h3, h4 { font-weight: 700; line-height: 1.3; }
-code, pre, .mono { font-family: 'JetBrains Mono', monospace; }
-a { color: #60a5fa; cursor: pointer; text-decoration: none; }
-
-#asd-loader {
-  position: fixed; inset: 0; background: #101012; z-index: 200;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 14px; transition: opacity 0.4s ease;
-}
-#asd-loader.hide { opacity: 0; pointer-events: none; }
-
-.asd-brand { position: relative; display: inline-flex; flex-direction: column; align-items: center; user-select: none; cursor: pointer; }
-.asd-crown {
-  color: var(--y); font-size: 20px; line-height: 1; margin-bottom: -5px;
-  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.65)); display: inline-block; transform-origin: center;
-}
-.asd-CrownSpin .asd-crown, #asd-loader .asd-crown { animation: spinCrown 1.1s infinite ease-in-out; }
-.asd-letters { font-weight: 900; font-size: 24px; letter-spacing: 1px; color: var(--red); line-height: 1; animation: pulseRed 2.5s infinite; }
-#asd-loader .asd-crown { font-size: 46px; margin-bottom: -10px; }
-#asd-loader .asd-letters { font-size: 58px; letter-spacing: 3px; }
-
-button, input, select, textarea {
-  font: inherit; color: var(--t); background: var(--s2); border: 1px solid var(--b);
-  border-radius: 10px; padding: 9px 12px; outline: none; transition: 0.15s; max-width: 100%;
-}
-input:focus, select:focus, textarea:focus { border-color: #777; background: #24242a; }
-button { cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; }
-button:hover { background: var(--s3); } button:active { transform: scale(0.98); }
-
-.btn { background: #ffffff; color: #111111; border: none; font-weight: 700; }
-.btn:hover { background: #e4e4e7; color: #111111; }
-.btn-g { background: rgba(16, 185, 129, 0.16); color: #34d399; border-color: rgba(16, 185, 129, 0.45); }
-.btn-r { background: rgba(239, 68, 68, 0.16); color: #f87171; border-color: rgba(239, 68, 68, 0.45); }
-.btn-y { background: linear-gradient(135deg, #fbbf24, #d97706); color: #111; border: none; font-weight: 700; }
-.sm { padding: 6px 10px; font-size: 12px; border-radius: 8px; }
-.mut { font-size: 12px; color: var(--m); line-height: 1.45; }
-.w1 { width: 100%; } .hd { display: none !important; }
-.lbl { font-size: 11px; font-weight: 700; color: var(--m); margin-bottom: 4px; display: block; text-transform: uppercase; }
-
-.top {
-  height: 60px; background: var(--bg); border-bottom: 1px solid var(--b);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 14px; gap: 8px; position: sticky; top: 0; z-index: 40; flex-wrap: nowrap;
-}
-.wrap { display: flex; flex: 1; min-height: 0; }
-.side-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 85; display: none; }
-.side-bg.on { display: block; }
-.side {
-  width: 270px; background: var(--s1); border-right: 1px solid var(--b);
-  padding: 12px; display: flex; flex-direction: column; gap: 5px; flex-shrink: 0;
-}
-.nav { background: transparent; border: none; justify-content: flex-start; padding: 10px 12px; border-radius: 10px; color: var(--m); font-weight: 500; width: 100%; }
-.nav i { font-size: 18px; }
-.nav:hover, .nav.act { background: var(--s2); color: var(--t); }
-.nav.act { font-weight: 700; border-left: 3px solid var(--red); }
-
-.acc-btn { margin-top: auto; background: var(--s2); border: 1px solid var(--b); border-radius: 12px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; text-align: left; width: 100%; }
-.ava { width: 36px; height: 36px; border-radius: 50%; background: var(--red); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; flex-shrink: 0; }
-
-.main { flex: 1; padding: 16px; overflow-y: auto; max-width: 1120px; width: 100%; margin: 0 auto; }
-.card { background: var(--s1); border: 1px solid var(--b); border-radius: 14px; padding: 16px; margin-bottom: 12px; }
-.plan-card { background: var(--s1); border: 1px solid var(--b); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; }
-.plan-card.pop { border: 2px solid var(--g); background: linear-gradient(180deg, rgba(16,185,129,0.09), var(--s1) 42%); }
-.plan-card.vip { border: 2px solid var(--y); background: linear-gradient(180deg, rgba(245,158,11,0.09), var(--s1) 42%); }
-.price-big { font-size: 28px; font-weight: 800; color: #fff; }
-.feat-list { display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #dadade; }
-.feat-list div { display: flex; align-items: center; gap: 8px; } .feat-list i { color: var(--g); font-size: 16px; }
-
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; }
-.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.sp { justify-content: space-between; } .col { display: flex; flex-direction: column; gap: 10px; }
-.tag { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: var(--s2); border: 1px solid var(--b); color: var(--m); display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
-.tag.g { color: #34d399; border-color: rgba(16,185,129,0.4); background: rgba(16,185,129,0.1); }
-.tag.r { color: #f87171; border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.1); }
-.tag.y { color: #fbbf24; border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.1); }
-
-.msgs { height: 52vh; min-height: 270px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 6px 0; }
-.msg { max-width: 88%; padding: 12px 15px; border-radius: 14px; background: var(--s1); border: 1px solid var(--b); white-space: pre-wrap; word-break: break-word; }
-.msg.u { align-self: flex-end; background: #2d2d35; border-color: #454552; }
-.msg pre { background: #101014; border: 1px solid var(--b); padding: 10px; border-radius: 8px; overflow-x: auto; margin: 6px 0; font-size: 12px; white-space: pre; }
-.rp-act { color: #fbbf24; font-style: italic; background: rgba(245,158,11,0.1); padding: 1px 5px; border-radius: 4px; }
-.think { background: var(--s2); border-left: 3px solid var(--y); padding: 8px 10px; margin-bottom: 8px; font-size: 12px; color: var(--m); border-radius: 6px; }
-.bar { height: 7px; background: var(--s2); border-radius: 99px; overflow: hidden; margin: 4px 0; } .bar > i { display: block; height: 100%; background: var(--g); border-radius: 99px; }
-
-.mod, .ban { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 14px; z-index: 100; background: rgba(0,0,0,0.82); }
-.mod.on, .ban.on { display: flex; }
-.mod-in { background: var(--s1); border: 1px solid #444; border-radius: 16px; padding: 20px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; }
-.ban { background: #2b0707; color: #fecaca; z-index: 150; text-align: center; flex-direction: column; }
-.toast { position: fixed; bottom: 18px; right: 18px; left: 18px; max-width: 380px; margin: 0 auto; background: #26262c; border: 1px solid #555; padding: 11px 15px; border-radius: 10px; z-index: 160; display: none; }
-.toast.on { display: flex; align-items: center; gap: 8px; }
-.ad { background: var(--s1); border: 1px solid var(--b); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-iframe.sbx { width: 100%; height: 65vh; border: none; background: #fff; border-radius: 10px; }
-.mob-btn { display: none; }
-@media (max-width: 860px) { .desk-only { display: none !important; } .side { position: fixed; left: -280px; top: 0; bottom: 0; z-index: 90; transition: 0.2s; } .side.on { left: 0; } .mob-btn { display: inline-flex; } .msg { max-width: 96%; } }
+:root{--bg:#141416;--s1:#1e1e22;--s2:#28282e;--s3:#34343c;--b:#33333b;--t:#f2f2f5;--m:#9a9aa6;--red:#ff2828;--g:#10b981;--r:#ef4444;--y:#fbbf24}
+*{box-sizing:border-box;margin:0;padding:0}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-thumb{background:#3d3d46;border-radius:99px}
+@keyframes spinCrown{0%{transform:translateY(0) rotateY(0deg) rotateZ(-8deg)}50%{transform:translateY(-4px) rotateY(180deg) rotateZ(8deg)}100%{transform:translateY(0) rotateY(360deg) rotateZ(-8deg)}}
+@keyframes pulseRed{0%,100%{text-shadow:0 0 14px rgba(255,40,40,.55)}50%{text-shadow:0 0 26px rgba(255,40,40,.95)}}
+body{font:14px/1.5 'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+h2,h3,h4{font-weight:700;line-height:1.3}code,pre,.mono{font-family:'JetBrains Mono',monospace}
+a{color:#60a5fa;cursor:pointer;text-decoration:none}
+#asd-loader{position:fixed;inset:0;background:#101012;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .4s}
+#asd-loader.hide{opacity:0;pointer-events:none}
+.asd-brand{position:relative;display:inline-flex;flex-direction:column;align-items:center;user-select:none;cursor:pointer}
+.asd-crown{color:var(--y);font-size:20px;line-height:1;margin-bottom:-5px;filter:drop-shadow(0 0 8px rgba(251,191,36,.65));display:inline-block}
+.asd-CrownSpin .asd-crown,#asd-loader .asd-crown{animation:spinCrown 1.1s infinite ease-in-out}
+.asd-letters{font-weight:900;font-size:24px;letter-spacing:1px;color:var(--red);line-height:1;animation:pulseRed 2.5s infinite}
+#asd-loader .asd-crown{font-size:46px;margin-bottom:-10px}#asd-loader .asd-letters{font-size:58px;letter-spacing:3px}
+button,input,select,textarea{font:inherit;color:var(--t);background:var(--s2);border:1px solid var(--b);border-radius:10px;padding:9px 12px;outline:none;transition:.15s;max-width:100%}
+input:focus,select:focus,textarea:focus{border-color:#777;background:#24242a}
+button{cursor:pointer;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+button:hover{background:var(--s3)}button:active{transform:scale(.98)}
+.btn{background:#fff;color:#111;border:none;font-weight:700}.btn:hover{background:#e4e4e7;color:#111}
+.btn-g{background:rgba(16,185,129,.16);color:#34d399;border-color:rgba(16,185,129,.45)}
+.btn-r{background:rgba(239,68,68,.16);color:#f87171;border-color:rgba(239,68,68,.45)}
+.btn-y{background:linear-gradient(135deg,#fbbf24,#d97706);color:#111;border:none;font-weight:700}
+.sm{padding:6px 10px;font-size:12px;border-radius:8px}.mut{font-size:12px;color:var(--m);line-height:1.45}.w1{width:100%}.hd{display:none!important}
+.lbl{font-size:11px;font-weight:700;color:var(--m);margin-bottom:4px;display:block;text-transform:uppercase}
+.top{height:60px;background:var(--bg);border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:8px;position:sticky;top:0;z-index:40;flex-wrap:nowrap}
+.wrap{display:flex;flex:1;min-height:0}.side-bg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:85;display:none}.side-bg.on{display:block}
+.side{width:270px;background:var(--s1);border-right:1px solid var(--b);padding:12px;display:flex;flex-direction:column;gap:5px;flex-shrink:0}
+.nav{background:transparent;border:none;justify-content:flex-start;padding:10px 12px;border-radius:10px;color:var(--m);font-weight:500;width:100%}
+.nav i{font-size:18px}.nav:hover,.nav.act{background:var(--s2);color:var(--t)}.nav.act{font-weight:700;border-left:3px solid var(--red)}
+.acc-btn{margin-top:auto;background:var(--s2);border:1px solid var(--b);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;width:100%}
+.ava{width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex-shrink:0}
+.main{flex:1;padding:16px;overflow-y:auto;max-width:1120px;width:100%;margin:0 auto}
+.card{background:var(--s1);border:1px solid var(--b);border-radius:14px;padding:16px;margin-bottom:12px}
+.plan-card{background:var(--s1);border:1px solid var(--b);border-radius:16px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
+.plan-card.pop{border:2px solid var(--g);background:linear-gradient(180deg,rgba(16,185,129,.09),var(--s1) 42%)}
+.plan-card.vip{border:2px solid var(--y);background:linear-gradient(180deg,rgba(245,158,11,.09),var(--s1) 42%)}
+.price-big{font-size:28px;font-weight:800;color:#fff}
+.feat-list{display:flex;flex-direction:column;gap:8px;font-size:13px;color:#dadade}.feat-list div{display:flex;align-items:center;gap:8px}.feat-list i{color:var(--g);font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.sp{justify-content:space-between}.col{display:flex;flex-direction:column;gap:10px}
+.tag{font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--s2);border:1px solid var(--b);color:var(--m);display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.tag.g{color:#34d399;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1)}
+.tag.r{color:#f87171;border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.1)}
+.tag.y{color:#fbbf24;border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.1)}
+.msgs{height:52vh;min-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:6px 0}
+.msg{max-width:88%;padding:12px 15px;border-radius:14px;background:var(--s1);border:1px solid var(--b);white-space:pre-wrap;word-break:break-word}
+.msg.u{align-self:flex-end;background:#2d2d35;border-color:#454552}
+.msg pre{background:#101014;border:1px solid var(--b);padding:10px;border-radius:8px;overflow-x:auto;margin:6px 0;font-size:12px;white-space:pre}
+.rp-act{color:#fbbf24;font-style:italic;background:rgba(245,158,11,.1);padding:1px 5px;border-radius:4px}
+.think{background:var(--s2);border-left:3px solid var(--y);padding:8px 10px;margin-bottom:8px;font-size:12px;color:var(--m);border-radius:6px}
+.bar{height:7px;background:var(--s2);border-radius:99px;overflow:hidden;margin:4px 0}.bar>i{display:block;height:100%;background:var(--g);border-radius:99px}
+.mod,.ban{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:14px;z-index:100;background:rgba(0,0,0,.82)}
+.mod.on,.ban.on{display:flex}.mod-in{background:var(--s1);border:1px solid #444;border-radius:16px;padding:20px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto}
+.ban{background:#2b0707;color:#fecaca;z-index:150;text-align:center;flex-direction:column}
+.toast{position:fixed;bottom:18px;right:18px;left:18px;max-width:390px;margin:0 auto;background:#26262c;border:1px solid #555;padding:11px 15px;border-radius:10px;z-index:160;display:none}
+.toast.on{display:flex;align-items:center;gap:8px}
+.ad{background:var(--s1);border:1px solid var(--b);border-radius:12px;padding:10px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+iframe.sbx{width:100%;height:65vh;border:none;background:#fff;border-radius:10px}.mob-btn{display:none}
+@media(max-width:860px){.desk-only{display:none!important}.side{position:fixed;left:-280px;top:0;bottom:0;z-index:90;transition:.2s}.side.on{left:0}.mob-btn{display:inline-flex}.msg{max-width:96%}}
 </style>
 </head>
 <body>
@@ -132,23 +74,20 @@ iframe.sbx { width: 100%; height: 65vh; border: none; background: #fff; border-r
   <div class="asd-brand"><i class="ri-vip-crown-fill asd-crown"></i><div class="asd-letters">ASD</div></div>
   <div class="mut">Загрузка нейросети ASD AI...</div>
 </div>
-
 <div id="side-bg" class="side-bg" onclick="toggleMenu(false)"></div>
 <header class="top">
   <div class="row" style="flex-wrap:nowrap;gap:12px">
     <button class="mob-btn sm" onclick="toggleMenu(true)"><i class="ri-menu-line"></i></button>
     <div id="top-logo" class="asd-brand asd-CrownSpin" onclick="spinLogo(1200);go('chat')" title="ASD AI">
-      <i class="ri-vip-crown-fill asd-crown"></i>
-      <div class="asd-letters">ASD</div>
+      <i class="ri-vip-crown-fill asd-crown"></i><div class="asd-letters">ASD</div>
     </div>
   </div>
   <div id="stats-bar" class="row mut desk-only"></div>
   <div class="row" style="flex-wrap:nowrap">
     <button class="sm btn-g" onclick="go('keys')"><i class="ri-add-circle-fill"></i>Добавить AI (API)</button>
-    <button class="sm btn-y" onclick="go('bill')"><i class="ri-vip-crown-fill"></i>PRO 500₽ / ULTRA 1499₽</button>
+    <button class="sm btn-y" onclick="go('bill')"><i class="ri-vip-crown-fill"></i>PRO / ULTRA</button>
   </div>
 </header>
-
 <div class="wrap">
   <aside id="side" class="side">
     <div class="row sp mob-btn" style="padding-bottom:8px;margin-bottom:6px;border-bottom:1px solid var(--b)">
@@ -158,11 +97,10 @@ iframe.sbx { width: 100%; height: 65vh; border: none; background: #fff; border-r
     <button class="btn-g w1" style="margin-bottom:6px;padding:10px" onclick="go('keys')"><i class="ri-add-box-fill"></i>+ Выложить свой AI (API)</button>
     <button class="nav act" data-t="chat" onclick="go('chat')"><i class="ri-chat-3-line"></i>1. Чат и Ролеплей (ИИ)</button>
     <button class="nav" data-t="cat" onclick="go('cat')"><i class="ri-compass-3-line"></i>2. Выбрать нейросеть</button>
-    <button class="nav" data-t="bill" onclick="go('bill')"><i class="ri-vip-diamond-line" style="color:var(--y)"></i>3. Купить PRO / ULTRA <span class="tag y" style="margin-left:auto">50/50</span></button>
-    <button class="nav" data-t="keys" onclick="go('keys')"><i class="ri-key-2-line"></i>4. Мои API и Заработок</button>
+    <button class="nav" data-t="bill" onclick="go('bill')"><i class="ri-vip-diamond-line" style="color:var(--y)"></i>3. Купить PRO / ULTRA</button>
+    <button class="nav" data-t="keys" onclick="go('keys')"><i class="ri-key-2-line"></i>4. Мои API и Удаление</button>
     <button class="nav" data-t="sbx" onclick="go('sbx')"><i class="ri-code-box-line"></i>5. HTML Песочница</button>
     <button class="nav hd" id="nav-adm" data-t="adm" onclick="go('adm')"><i class="ri-shield-star-line"></i>6. Админка (Создатель)</button>
-
     <div id="acc-box" class="acc-btn" onclick="openAccountModal()">
       <div class="ava" id="acc-ava">A</div>
       <div style="flex:1;min-width:0">
@@ -172,46 +110,31 @@ iframe.sbx { width: 100%; height: 65vh; border: none; background: #fff; border-r
       <i class="ri-more-2-fill mut"></i>
     </div>
   </aside>
-  <main class="main">
-    <div id="ad-box" class="ad hd"></div>
-    <div id="sec-alert" class="hd"></div>
-    <div id="creator-bar" class="hd"></div>
-    <div id="view"></div>
-  </main>
+  <main class="main"><div id="ad-box" class="ad hd"></div><div id="sec-alert" class="hd"></div><div id="creator-bar" class="hd"></div><div id="view"></div></main>
 </div>
 <div id="mod" class="mod" onclick="if(event.target===this)closeMod()"><div id="mod-in" class="mod-in"></div></div>
 <div id="ban" class="ban"></div>
 <div id="toast" class="toast"></div>
-
 <script>
 const API = 'https://omni-api.aegertcool.workers.dev';
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rawId = v => (/^\d+$/.test(String(v || '')) ? Number(v) : String(v || ''));
 
 window.S = {
   tok: localStorage.getItem('nx_tok') || '',
   user: JSON.parse(localStorage.getItem('nx_user_cache') || 'null'),
   ad: null, cap: null, needCode: false, authMode: 'login',
-  cat: [], mid: +localStorage.getItem('nx_mid') || 0,
+  cat: [], mid: localStorage.getItem('nx_mid') || '',
   msgs: JSON.parse(localStorage.getItem('nx_msgs') || '[]'),
   mem: JSON.parse(localStorage.getItem('nx_mem') || '[]'),
   tab: 'chat', cStep: 0, sbx: [], payInfo: {}, slashPreset: 'rp',
-  seenUntrusted: new Set()
+  seenUntrusted: new Set(), admData: null
 };
 
-function isAdmin() {
-  return Boolean(S.user && (S.user.isAdmin === true || String(S.user.username || '').toLowerCase() === 'asdcreator'));
-}
-
-function spinLogo(ms = 900) {
-  const lg = $('top-logo');
-  if (!lg) return;
-  lg.classList.add('asd-CrownSpin');
-  clearTimeout(window._spT);
-  window._spT = setTimeout(() => lg.classList.remove('asd-CrownSpin'), ms);
-}
-setTimeout(() => { if ($('asd-loader')) $('asd-loader').classList.add('hide'); spinLogo(1000); }, 1100);
-
+const isAdmin = () => Boolean(S.user && (S.user.isAdmin === true || String(S.user.username || '').toLowerCase() === 'asdcreator'));
+function spinLogo(ms = 900) { const lg = $('top-logo'); if (!lg) return; lg.classList.add('asd-CrownSpin'); clearTimeout(window._spT); window._spT = setTimeout(() => lg.classList.remove('asd-CrownSpin'), ms); }
+setTimeout(() => { if ($('asd-loader')) $('asd-loader').classList.add('hide'); spinLogo(1000); }, 1000);
 function toggleMenu(on) { $('side').classList.toggle('on', on); $('side-bg').classList.toggle('on', on); }
 
 function getDev() {
@@ -225,7 +148,7 @@ function toast(m) {
   const t = $('toast');
   t.innerHTML = `<i class="ri-information-fill" style="color:var(--y)"></i><span>${esc(m)}</span>`;
   t.classList.add('on'); clearTimeout(window._tT);
-  window._tT = setTimeout(() => t.classList.remove('on'), 3600);
+  window._tT = setTimeout(() => t.classList.remove('on'), 3800);
 }
 function openMod(h) { $('mod-in').innerHTML = h; $('mod').classList.add('on'); }
 function closeMod() { $('mod').classList.remove('on'); }
@@ -239,21 +162,19 @@ async function api(p, o = {}) {
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + S.tok, 'X-Device-Id': d, 'X-Hw-Hash': h },
       body: o.body ? JSON.stringify(o.body) : undefined
     });
-    const data = await r.json().catch(() => ({}));
+    const txt = await r.text();
+    let data = {};
+    try { data = txt ? JSON.parse(txt) : {}; } catch (_) { data = { error: txt || ('HTTP ' + r.status) }; }
     if (r.status === 403 && data.errorCode === 'DEVICE_BANNED' && p !== '/api/ban/appeal') {
       const k = (+localStorage.getItem('nx_kick_cnt') || 0) + 1;
       localStorage.setItem('nx_kick_cnt', String(k));
-      localStorage.setItem('nx_ban_reasons', JSON.stringify(data.reasons || []));
       showBan(data.reasons);
       throw new Error('DEVICE_BANNED');
-    }
-    if (r.ok && p === '/api/auth/me') {
-      localStorage.removeItem('nx_ban_reasons');
     }
     return { status: r.status, ok: r.ok && data.ok !== false, data };
   } catch (e) {
     if (e.message === 'DEVICE_BANNED') throw e;
-    return { status: 0, ok: false, data: { error: 'Ошибка соединения' } };
+    return { status: 0, ok: false, data: { error: 'Ошибка сети: ' + (e.message || '') } };
   }
 }
 
@@ -261,48 +182,41 @@ function showBan(rs) {
   const b = $('ban'); b.classList.add('on');
   const kicks = +localStorage.getItem('nx_kick_cnt') || 0;
   const reasonText = Array.isArray(rs) ? rs.join(', ') : (rs || (kicks >= 3 ? 'Подозрение в мошенничестве (3+ блокировки)' : 'Нарушение правил безопасности'));
-  b.innerHTML = `<div class="card col" style="max-width:460px;background:#220707;border-color:#ef4444;box-shadow:0 0 40px rgba(239,68,68,.35)">
+  b.innerHTML = `<div class="card col" style="max-width:460px;background:#220707;border-color:#ef4444">
     <h2>⚠️⚠️ ИЗВИНИТЕ, НО ВЫ ЗАБАНЕНЫ ПО ЭТОЙ ПРИЧИНЕ ⚠️⚠️</h2>
     <p style="font-size:15px;color:#fecaca">${esc(reasonText)}</p>
     ${kicks >= 3 ? '<span class="tag r" style="margin:0 auto">Подозрение в мошенничестве</span>' : ''}
-    <input id="ban-u" class="w1" placeholder="Ваш логин / никнейм" value="${esc(S.user?.username || '')}">
-    <textarea id="ban-m" class="w1" rows="3" placeholder="Напишите причину для обжалования (письмо уйдёт создателю)..."></textarea>
+    <input id="ban-u" class="w1" placeholder="Ваш логин" value="${esc(S.user?.username || '')}">
+    <textarea id="ban-m" class="w1" rows="3" placeholder="Причина обжалования (письмо придёт создателю)..."></textarea>
     <div id="ban-status" class="mut"></div>
-    <button class="btn w1" onclick="sendAppeal()">📩 Отправить обжалование</button>
-  </div>`;
+    <button class="btn w1" onclick="sendAppeal()">📩 Отправить обжалование</button></div>`;
 }
 
 async function sendAppeal() {
   const u = $('ban-u').value.trim(), m = $('ban-m').value.trim();
-  if (!u || !m) { $('ban-status').innerHTML = '<span style="color:#f87171">Введите логин и текст обжалования!</span>'; return; }
-  $('ban-status').textContent = 'Отправка апелляции создателю...';
+  if (!u || !m) { $('ban-status').innerHTML = '<span style="color:#f87171">Заполните логин и текст!</span>'; return; }
   const { ok, data } = await api('/api/ban/appeal', { body: { username: u, message: m } });
-  if (ok) {
-    $('ban-status').innerHTML = '<span style="color:#34d399">✅ Апелляция отправлена прямо на аккаунт создателя! После разбана обновите страницу.</span>';
-    toast('Апелляция отправлена!');
-  } else {
-    $('ban-status').innerHTML = `<span style="color:#f87171">❌ ${esc(data.error || 'Ошибка отправки')}</span>`;
-  }
+  $('ban-status').innerHTML = ok ? '<span style="color:#34d399">✅ Апелляция отправлена создателю!</span>' : `<span style="color:#f87171">❌ ${esc(data.error || 'Ошибка')}</span>`;
+  toast(ok ? 'Апелляция отправлена!' : (data.error || 'Ошибка'));
 }
-</script>
-<script>
+                                                                                                                                                 </script>
+                                                                                                                                                 <script>
 const SLASH_PROMPTS = {
-  rp: '// Отвечай как в Character.AI: описывай действия, мимику и эмоции в звёздочках *вот так*, говори от первого лица и активно продвигай сюжет вперёд! //',
-  dev: '// Думай как создатель проекта и Senior-разработчик: перепроверь каждую строчку кода на баги и логику, пиши полный рабочий код! //',
-  logic: '// Включи глубокое мышление: разбери задачу по шагам, перепроверь каждый вывод и дай точный ответ! //',
-  free: '// Отвечай чётко, умно и по делу, запоминай важные факты тегом //SAVE: факт //'
+  rp: '// Отвечай как в Character.AI: описывай действия, мимику и эмоции в звёздочках *вот так*, говори от первого лица и двигай сюжет! //',
+  dev: '// Думай как создатель проекта: перед ответом перепроверь каждую строчку кода на баги и логику, пиши рабочий код! //',
+  logic: '// Включи глубокое мышление: разбери задачу по шагам, проверь каждый аргумент и дай точный ответ! //',
+  free: '// Отвечай чётко и по делу, запоминай факты тегом //SAVE: факт //'
 };
 
 function renderCreatorBar() {
-  const cb = $('creator-bar');
-  const admOk = isAdmin() && !S.user?.isQuarantined;
+  const cb = $('creator-bar'), admOk = isAdmin() && !S.user?.isQuarantined;
   cb.classList.toggle('hd', !admOk);
   if (!admOk) return;
-  cb.innerHTML = `<div class="card row sp" style="border-color:var(--red);background:rgba(255,40,40,0.08);padding:10px 14px">
-    <div class="row"><span class="tag r">👑 СОЗДАТЕЛЬ ASD (asdcreator)</span><span class="mut">Управление доступно только тебе:</span></div>
+  cb.innerHTML = `<div class="card row sp" style="border-color:var(--red);background:rgba(255,40,40,.08);padding:10px 14px">
+    <div class="row"><span class="tag r">👑 СОЗДАТЕЛЬ ASD</span><span class="mut">Управление доступно только тебе:</span></div>
     <div class="row">
-      <button class="sm btn-y" onclick="go('adm')">👑 Админка и Апелляции</button>
-      <button class="sm btn-g" onclick="go('keys')">➕ Выложить API</button>
+      <button class="sm btn-y" onclick="go('adm')">👑 Админка и Выдача</button>
+      <button class="sm btn-g" onclick="go('keys')">➕ Выложить AI</button>
       <button class="sm" onclick="openAccountModal()">🎟 Промокоды</button>
     </div></div>`;
 }
@@ -310,157 +224,94 @@ function renderCreatorBar() {
 function getUntrustedDevices() {
   if (!S.user || S.user.isQuarantined) return [];
   const curId = S.user.currentDeviceId || getDev().d;
-  return (S.user.devices || []).filter(dv => {
-    const trusted = Boolean(dv.is_trusted || dv.trusted);
-    const sameCur = dv.device_id === curId || dv.deviceId === curId;
-    return !trusted && !sameCur;
-  });
+  return (S.user.devices || []).filter(dv => !(dv.is_trusted || dv.trusted) && dv.device_id !== curId && dv.deviceId !== curId);
 }
 
-async function confirmDevice(deviceRowId) {
-  const { ok, data } = await api('/api/devices/trust', { body: { deviceRowId } });
-  closeMod();
-  toast(ok ? '✅ Вход подтверждён! 48 часов блокировки на том устройстве сняты.' : (data.error || 'Ошибка'));
-  await loadMe();
+async function confirmDevice(id) {
+  const { ok, data } = await api('/api/devices/trust', { body: { deviceRowId: rawId(id) } });
+  closeMod(); toast(ok ? '✅ Вход подтверждён! Блокировка 48ч снята.' : (data.error || 'Ошибка')); await loadMe();
 }
 
-async function rejectDevice(deviceRowId) {
-  const { ok, data } = await api('/api/devices/kick', { body: { deviceRowId } });
-  closeMod();
-  toast(ok ? '🚫 Чужое устройство выкинуто и заблокировано!' : (data.error || 'Ошибка'));
-  await loadMe();
+async function rejectDevice(id) {
+  const { ok, data } = await api('/api/devices/kick', { body: { deviceRowId: rawId(id) } });
+  closeMod(); toast(ok ? '🚫 Чужое устройство выкинуто и заблокировано!' : (data.error || 'Ошибка')); await loadMe();
 }
 
 function checkSecurityAlerts() {
-  const box = $('sec-alert');
-  const list = getUntrustedDevices();
+  const box = $('sec-alert'), list = getUntrustedDevices();
   box.classList.toggle('hd', !list.length);
   if (!list.length) return;
-
-  const dv = list[0];
-  const devLabel = dv.user_agent || dv.device_name || dv.device_id || ('Устройство #' + dv.id);
-  box.innerHTML = `<div class="card row sp" style="border:2px solid var(--y);background:rgba(251,191,36,0.1)">
-    <div>
-      <b style="color:var(--y)">🚨 ВНИМАНИЕ! Вход в ваш аккаунт с нового устройства!</b>
-      <div class="mut">Устройство: <b>${esc(devLabel)}</b> • Оно ограничено на 48ч, пока вы не подтвердите вход.</div>
-    </div>
-    <div class="row">
-      <button class="sm btn-g" onclick="confirmDevice(${dv.id})">✅ Да, это я (Снять 48ч)</button>
-      <button class="sm btn-r" onclick="rejectDevice(${dv.id})">🚫 Нет, не я (Выкинуть)</button>
-    </div></div>`;
-
+  const dv = list[0], devLabel = dv.user_agent || dv.device_name || dv.device_id || ('Устройство #' + dv.id);
+  box.innerHTML = `<div class="card row sp" style="border:2px solid var(--y);background:rgba(251,191,36,.1)">
+    <div><b style="color:var(--y)">🚨 Вход в ваш аккаунт с нового устройства!</b><div class="mut">${esc(devLabel)} • Ограничено на 48ч</div></div>
+    <div class="row"><button class="sm btn-g" data-id="${esc(dv.id)}" onclick="confirmDevice(this.dataset.id)">✅ Да, это я</button>
+      <button class="sm btn-r" data-id="${esc(dv.id)}" onclick="rejectDevice(this.dataset.id)">🚫 Нет, не я</button></div></div>`;
   if (!S.seenUntrusted.has(dv.id)) {
     S.seenUntrusted.add(dv.id);
-    openMod(`<div class="col">
-      <div class="row sp"><h3 style="color:var(--y)">🚨 Вход с нового устройства!</h3><button class="sm" onclick="closeMod()">✕</button></div>
-      <p>Кто-то только что вошёл в ваш аккаунт <b>${esc(S.user.username)}</b> с нового устройства:</p>
-      <div class="card col" style="margin:0;padding:12px;background:var(--s2)">
-        <div><b>ID устройства:</b> <span class="mono">${esc(dv.device_id || dv.id)}</span></div>
-        ${dv.ip ? `<div><b>IP:</b> ${esc(dv.ip)}</div>` : ''}
-        ${dv.user_agent ? `<div class="mut">${esc(dv.user_agent)}</div>` : ''}
-      </div>
-      <p class="mut">Сейчас это новое устройство заблокировано на <b>48 часов</b> и ничего не может делать. Если это были вы — подтвердите вход. Если не вы — выкиньте его!</p>
-      <div class="row">
-        <button class="btn-g" style="flex:1;padding:12px" onclick="confirmDevice(${dv.id})">✅ Да, это я (Снять 48ч)</button>
-        <button class="btn-r" style="flex:1;padding:12px" onclick="rejectDevice(${dv.id})">🚫 Нет, не я (Выкинуть)</button>
-      </div></div>`);
+    openMod(`<div class="col"><div class="row sp"><h3 style="color:var(--y)">🚨 Вход с нового устройства!</h3><button class="sm" onclick="closeMod()">✕</button></div>
+      <p>Кто-то вошёл в ваш аккаунт <b>${esc(S.user.username)}</b> с нового устройства: <b class="mono">${esc(dv.device_id || dv.id)}</b></p>
+      <p class="mut">Оно заблокировано на 48 часов. Подтвердите вход, если это вы, или выкиньте его!</p>
+      <div class="row"><button class="btn-g" style="flex:1;padding:12px" data-id="${esc(dv.id)}" onclick="confirmDevice(this.dataset.id)">✅ Да, это я</button>
+        <button class="btn-r" style="flex:1;padding:12px" data-id="${esc(dv.id)}" onclick="rejectDevice(this.dataset.id)">🚫 Нет, не я</button></div></div>`);
   }
 }
 
 function updateSidebarAccount() {
   if ($('nav-adm')) $('nav-adm').classList.toggle('hd', !isAdmin());
   renderCreatorBar();
-  if (!S.tok || !S.user) {
-    $('acc-ava').textContent = '→'; $('acc-name').textContent = 'Войти в аккаунт';
-    $('acc-plan').textContent = 'Гость'; $('acc-mail').textContent = 'Нажмите для входа';
-    return;
-  }
-  const u = S.user, l = u.limits || {};
-  const left5h = Math.max(0, (l.cap5h || 0) - (l.used5h || 0));
+  if (!S.tok || !S.user) { $('acc-ava').textContent = '→'; $('acc-name').textContent = 'Войти в аккаунт'; $('acc-plan').textContent = 'Гость'; $('acc-mail').textContent = 'Нажмите для входа'; return; }
+  const u = S.user, l = u.limits || {}, left5h = Math.max(0, (l.cap5h || 0) - (l.used5h || 0));
   $('acc-ava').textContent = (u.username || 'A')[0].toUpperCase();
-  $('acc-name').textContent = u.username;
-  $('acc-plan').textContent = (u.plan || 'free').toUpperCase();
+  $('acc-name').textContent = u.username; $('acc-plan').textContent = (u.plan || 'free').toUpperCase();
   $('acc-mail').textContent = u.isQuarantined ? '⏳ Карантин 48ч' : ((u.email || 'Gmail') + ` • Ост: ${left5h}`);
 }
 
 function openAccountModal() {
   if (!S.tok || !S.user) return go('auth');
-  const u = S.user, l = u.limits || {}, w = u.wallet || {};
-  const left5h = Math.max(0, (l.cap5h || 0) - (l.used5h || 0));
+  const u = S.user, l = u.limits || {}, w = u.wallet || {}, left5h = Math.max(0, (l.cap5h || 0) - (l.used5h || 0));
   const bar = (a, b) => `<div class="bar"><i style="width:${Math.min(100, ((a || 0) / (b || 1)) * 100)}%"></i></div>`;
   openMod(`<div class="col">
-    <div class="row sp">
-      <div class="row"><div class="ava" style="width:44px;height:44px">${esc((u.username || 'A')[0].toUpperCase())}</div>
-        <div><h3>${esc(u.username)} <span class="tag g">${esc((u.plan || 'free').toUpperCase())}</span></h3><div class="mut">📧 Gmail: <b>${esc(u.email || 'не указан')}</b></div></div></div>
-      <button class="sm" onclick="closeMod()">✕</button>
-    </div>
-    ${u.isQuarantined ? `<div class="card" style="margin:0;border-color:var(--r);color:#f87171">🔒 Аккаунт в 48-часовом карантине до подтверждения с основного устройства.</div>` : `
+    <div class="row sp"><div class="row"><div class="ava" style="width:44px;height:44px">${esc((u.username || 'A')[0].toUpperCase())}</div>
+      <div><h3>${esc(u.username)} <span class="tag g">${esc((u.plan || 'free').toUpperCase())}</span></h3><div class="mut">📧 Gmail: <b>${esc(u.email || 'не указан')}</b></div></div></div>
+      <button class="sm" onclick="closeMod()">✕</button></div>
+    ${u.isQuarantined ? `<div class="card" style="margin:0;border-color:var(--r);color:#f87171">🔒 Карантин 48 часов до подтверждения с основного устройства.</div>` : `
     <div class="card col" style="margin:0;padding:12px;background:var(--s2);border-color:var(--y)">
-      <span class="lbl" style="color:var(--y)">🎟 ВВЕСТИ ПРОМОКОД</span>
-      <div class="row"><input id="mod-prm" placeholder="Введите промокод..." style="flex:1"><button class="btn sm" onclick="pAct('/api/promo/redeem',{code:$('mod-prm').value});closeMod()">Активировать</button></div>
+      <span class="lbl" style="color:var(--y)">🎟 ПРОМОКОД</span>
+      <div class="row"><input id="mod-prm" placeholder="Введите промокод..." style="flex:1"><button class="btn sm" onclick="pAct('/api/promo/redeem',{code:$('mod-prm').value});closeMod()">ОК</button></div>
     </div>
     <div class="card col" style="margin:0;padding:12px">
-      <div class="row sp"><b>📊 Осталось запросов (5ч): <span style="color:var(--g)">${left5h}</span></b><span class="tag y">Лимит: до 470 ₽</span></div>
-      <div><span class="lbl">За 5 часов: ${l.used5h || 0} / ${l.cap5h || 0}</span>${bar(l.used5h, l.cap5h)}</div>
-      <div><span class="lbl">За неделю: ${l.usedWeek || 0} / ${l.capWeek || 0}</span>${bar(l.usedWeek, l.capWeek)}</div>
-      <div><span class="lbl">За месяц: ${l.usedMonth || 0} / ${l.capMonth || 0}</span>${bar(l.usedMonth, l.capMonth)}</div>
-      <div class="row sp"><button class="sm btn-g" onclick="pAct('/api/bonus/checkin',{});closeMod()">🎁 Бонус (${u.checkinStreak || 0} дн.)</button><button class="sm btn-y" onclick="closeMod();go('bill')">⚡ PRO 500₽ / ULTRA 1499₽</button></div>
+      <div class="row sp"><b>📊 Осталось запросов (5ч): <span style="color:var(--g)">${left5h}</span></b><span class="tag y">Защита: до 470 ₽</span></div>
+      <div><span class="lbl">5ч: ${l.used5h || 0} / ${l.cap5h || 0}</span>${bar(l.used5h, l.cap5h)}</div>
+      <div><span class="lbl">Неделя: ${l.usedWeek || 0} / ${l.capWeek || 0}</span>${bar(l.usedWeek, l.capWeek)}</div>
+      <div><span class="lbl">Месяц: ${l.usedMonth || 0} / ${l.capMonth || 0}</span>${bar(l.usedMonth, l.capMonth)}</div>
+      <div class="row sp"><button class="sm btn-g" onclick="pAct('/api/bonus/checkin',{});closeMod()">🎁 Бонус (${u.checkinStreak || 0})</button><button class="sm btn-y" onclick="closeMod();go('bill')">⚡ PRO / ULTRA</button></div>
     </div>
     <div class="card col" style="margin:0;padding:12px">
-      <span class="lbl">💰 Заработок 50/50 с API-ключей: ${w.balanceRub || 0} ₽ (вывод от 300 ₽)</span>
+      <span class="lbl">💰 Баланс 50/50: ${w.balanceRub || 0} ₽ (вывод от 300 ₽)</span>
       <div class="row"><input id="wd-d" placeholder="Карта Сбер / СБП" style="flex:1"><button class="sm btn" onclick="if((${w.balanceRub || 0})<300)return toast('Минимум 300 ₽!');pAct('/api/wallet/withdraw',{details:$('wd-d').value})">Вывести</button></div>
     </div>`}
-    <div class="card col" style="margin:0;padding:12px">
-      <span class="lbl">📱 Устройства аккаунта</span>
-      ${(u.devices || []).map(d => `<div class="row sp mut">
-        <span>${esc(d.device_id || d.id)} ${d.is_trusted || d.trusted ? '✅ Доверенное' : '⏳ Новое (48ч)'}</span>
-        ${!u.isQuarantined && !(d.is_trusted || d.trusted) ? `<div class="row"><button class="sm btn-g" onclick="confirmDevice(${d.id})">Это я</button><button class="sm btn-r" onclick="rejectDevice(${d.id})">Выкинуть</button></div>` : ''}
-      </div>`).join('') || '<span class="mut">Текущее устройство</span>'}
+    <div class="card col" style="margin:0;padding:12px"><span class="lbl">📱 Устройства</span>
+      ${(u.devices || []).map(d => `<div class="row sp mut"><span>${esc(d.device_id || d.id)} ${d.is_trusted || d.trusted ? '✅' : '⏳ 48ч'}</span>
+        ${!u.isQuarantined && !(d.is_trusted || d.trusted) ? `<div class="row"><button class="sm btn-g" data-id="${esc(d.id)}" onclick="confirmDevice(this.dataset.id)">Это я</button><button class="sm btn-r" data-id="${esc(d.id)}" onclick="rejectDevice(this.dataset.id)">Выкинуть</button></div>` : ''}</div>`).join('') || '<span class="mut">Текущее устройство</span>'}
     </div>
     <button class="sm btn-r w1" onclick="closeMod();logout()">Выйти из аккаунта (${esc(u.username)})</button></div>`);
 }
 
 function renderQuarantine() {
-  const u = S.user || {};
-  const untilMs = u.quarantineUntil ? new Date(u.quarantineUntil).getTime() : 0;
-  const diff = Math.max(0, untilMs - Date.now());
-  const hrs = Math.floor(diff / 3600000), mins = Math.floor((diff % 3600000) / 60000);
-  $('view').innerHTML = `<div class="card col" style="max-width:520px;margin:24px auto;border:2px solid var(--y);text-align:center">
+  const u = S.user || {}, ms = u.quarantineUntil ? new Date(u.quarantineUntil).getTime() : 0, diff = Math.max(0, ms - Date.now());
+  $('view').innerHTML = `<div class="card col" style="max-width:500px;margin:24px auto;border:2px solid var(--y);text-align:center">
     <i class="ri-lock-2-fill" style="font-size:48px;color:var(--y)"></i>
-    <h2>🔒 Вход с нового устройства (Карантин 48 часов)</h2>
-    <p class="mut">Это новое устройство <b>ничего не может делать</b> в течение 48 часов в целях защиты аккаунта <b>${esc(u.username)}</b>.</p>
-    <div class="card" style="margin:0;background:var(--s2)">
-      <div class="lbl">Осталось времени</div>
-      <b style="font-size:22px;color:var(--y)">${diff ? `${hrs} ч. ${mins} мин.` : (u.quarantineUntil || '48 часов')}</b>
-    </div>
-    <p class="mut">📩 Мы отправили запрос на ваше основное (старое) устройство. Откройте сайт на старом телефоне и нажмите <b>«✅ Да, это я»</b> — тогда блокировка 48 часов сразу исчезнет!</p>
-    <div class="row">
-      <button class="btn-g" style="flex:1" onclick="loadMe()">🔄 Проверить подтверждение</button>
-      <button class="btn-r" style="flex:1" onclick="logout()">🚪 Выйти из аккаунта</button>
-    </div></div>`;
-}
-</script>
-<script>
-async function selectModelForChat(id) {
-  if (S.user?.isQuarantined) return toast('🔒 Действие запрещено: устройство в карантине 48ч!');
-  const r = await api('/api/catalog');
-  if (r.ok) S.cat = r.data.models || [];
-  const found = S.cat.find(x => String(x.id) === String(id)) || S.cat[0];
-  if (found) {
-    S.mid = found.id; localStorage.setItem('nx_mid', found.id);
-    toast(`✅ Нейросеть «${found.model_id}» открыта в чате!`);
-  }
-  go('chat'); setTimeout(() => { if ($('ch-in')) $('ch-in').focus(); }, 100);
+    <h2>🔒 Карантин нового устройства (48 часов)</h2>
+    <p class="mut">Новое устройство заблокировано на 48 часов. Подтвердите вход на старом телефоне кнопкой <b>«✅ Да, это я»</b>!</p>
+    <div class="card" style="margin:0;background:var(--s2)"><b style="font-size:20px;color:var(--y)">${diff ? `${Math.floor(diff/3600000)} ч. ${Math.floor((diff%3600000)/60000)} мин.` : (u.quarantineUntil || '48 часов')}</b></div>
+    <div class="row"><button class="btn-g" style="flex:1" onclick="loadMe()">🔄 Проверить</button><button class="btn-r" style="flex:1" onclick="logout()">🚪 Выйти</button></div></div>`;
 }
 
 async function loadStats() {
   const { ok, data } = await api('/api/stats');
   if (ok) {
-    $('stats-bar').innerHTML = `<span class="tag">👥 Юзеров: ${data.users || 0}</span><span class="tag">🤖 Нейросетей: ${data.models || 0}</span><span class="tag">⚡ Запросов: ${data.requests || 0}</span>`;
-    if (data.ad?.enabled) {
-      $('ad-box').classList.remove('hd');
-      $('ad-box').innerHTML = `<div><b>${esc(data.ad.title)}</b> <span class="mut">${esc(data.ad.text)}</span></div>` + (data.ad.url ? `<a class="btn sm" target="_blank" href="${esc(data.ad.url)}">Открыть</a>` : '');
-    }
+    $('stats-bar').innerHTML = `<span class="tag">👥 Юзеров: ${data.users || 0}</span><span class="tag">🤖 Моделей: ${data.models || 0}</span><span class="tag">⚡ Запросов: ${data.requests || 0}</span>`;
+    if (data.ad?.enabled) { $('ad-box').classList.remove('hd'); $('ad-box').innerHTML = `<div><b>${esc(data.ad.title)}</b> <span class="mut">${esc(data.ad.text)}</span></div>` + (data.ad.url ? `<a class="btn sm" target="_blank" href="${esc(data.ad.url)}">Открыть</a>` : ''); }
   }
 }
 
@@ -470,62 +321,38 @@ async function loadMe(silent = false) {
   const { status, ok, data } = await api('/api/auth/me');
   if (status === 401) {
     if (S.user && S.user.isQuarantined) {
-      const k = (+localStorage.getItem('nx_kick_cnt') || 0) + 1;
-      localStorage.setItem('nx_kick_cnt', String(k));
-      if (k >= 3) {
-        S.tok = ''; S.user = null; localStorage.removeItem('nx_tok'); localStorage.removeItem('nx_user_cache');
-        return showBan('Подозрение в мошенничестве (вас выкинули 3 раза подряд с аккаунтов)');
-      }
-      toast('🚫 Владелец аккаунта отклонил вход и выкинул ваше устройство!');
+      const k = (+localStorage.getItem('nx_kick_cnt') || 0) + 1; localStorage.setItem('nx_kick_cnt', String(k));
+      if (k >= 3) { S.tok = ''; S.user = null; localStorage.removeItem('nx_tok'); localStorage.removeItem('nx_user_cache'); return showBan('Подозрение в мошенничестве (выкинуто 3 раза)'); }
+      toast('🚫 Владелец отклонил вход!');
     }
-    S.tok = ''; S.user = null; localStorage.removeItem('nx_tok'); localStorage.removeItem('nx_user_cache');
-    updateSidebarAccount();
-    return go('auth');
+    S.tok = ''; S.user = null; localStorage.removeItem('nx_tok'); localStorage.removeItem('nx_user_cache'); updateSidebarAccount(); return go('auth');
   }
-  if (ok && data.user) {
-    S.user = data.user;
-    localStorage.setItem('nx_user_cache', JSON.stringify(S.user));
-    updateSidebarAccount();
-    checkSecurityAlerts();
-  }
+  if (ok && data.user) { S.user = data.user; localStorage.setItem('nx_user_cache', JSON.stringify(S.user)); updateSidebarAccount(); checkSecurityAlerts(); }
   if (!silent || S.user?.isQuarantined) go(S.tab === 'auth' ? 'chat' : S.tab);
 }
-
 setInterval(() => { if (S.tok) loadMe(true); }, 15000);
-
-function logout() {
-  S.tok = ''; S.user = null;
-  localStorage.removeItem('nx_tok'); localStorage.removeItem('nx_user_cache');
-  $('sec-alert').classList.add('hd');
-  updateSidebarAccount(); go('auth');
-}
+function logout() { S.tok = ''; S.user = null; localStorage.removeItem('nx_tok'); localStorage.removeItem('nx_user_cache'); $('sec-alert').classList.add('hd'); updateSidebarAccount(); go('auth'); }
 
 function go(t) {
   toggleMenu(false);
   if (!S.tok && !['auth', 'cat', 'sbx', 'bill'].includes(t)) t = 'auth';
   if (t === 'adm' && !isAdmin()) { toast('⛔ Доступ закрыт! Админка только для asdcreator.'); t = 'chat'; }
-  S.tab = t;
-  document.querySelectorAll('.nav').forEach(n => n.classList.toggle('act', n.dataset.t === t));
-  if (S.user && S.user.isQuarantined && t !== 'auth') return renderQuarantine();
-  if (t === 'auth') renderAuth();
-  else if (t === 'chat') renderChat();
-  else if (t === 'cat') renderCat();
-  else if (t === 'sbx') renderSbxPage();
-  else if (t === 'keys') renderKeys();
-  else if (t === 'bill') renderBill();
-  else if (t === 'adm') renderAdm();
+  S.tab = t; document.querySelectorAll('.nav').forEach(n => n.classList.toggle('act', n.dataset.t === t));
+  if (S.user?.isQuarantined && t !== 'auth') return renderQuarantine();
+  if (t === 'auth') renderAuth(); else if (t === 'chat') renderChat(); else if (t === 'cat') renderCat();
+  else if (t === 'sbx') renderSbxPage(); else if (t === 'keys') renderKeys(); else if (t === 'bill') renderBill(); else if (t === 'adm') renderAdm();
 }
 
 async function loadCap() { const { ok, data } = await api('/api/captcha/challenge'); if (ok) { S.cap = data; if ($('cap-q')) $('cap-q').textContent = data.question; } }
-function showRules() { openMod(`<div class="col"><h3>Правила ASD AI (199-ФЗ РФ)</h3><p class="mut">Регистрация напрямую по логину и почте без зарубежных OAuth. Попытки взлома и вход с чужих аккаунтов приводят к бану за подозрение в мошенничестве (обжаловать можно через апелляцию создателю).</p><button class="btn w1" onclick="closeMod()">Понятно</button></div>`); }
+function showRules() { openMod(`<div class="col"><h3>Правила ASD AI (199-ФЗ РФ)</h3><p class="mut">Регистрация по логину и почте без зарубежных OAuth. Запрещён взлом и абуз лимитов.</p><button class="btn w1" onclick="closeMod()">Понятно</button></div>`); }
 
 function renderAuth() {
   const reg = S.authMode === 'register';
   $('view').innerHTML = `<div class="card col" style="max-width:420px;margin:20px auto">
-    <div class="row sp"><h3>${reg ? 'Регистрация в ASD AI' : 'Вход в ASD AI'}</h3><span class="tag">199-ФЗ РФ</span></div>
+    <div class="row sp"><h3>${reg ? 'Регистрация' : 'Вход в ASD AI'}</h3><span class="tag">199-ФЗ РФ</span></div>
     <div class="row"><button class="w1 ${!reg ? 'btn' : ''}" onclick="S.authMode='login';renderAuth()">Вход</button><button class="w1 ${reg ? 'btn' : ''}" onclick="S.authMode='register';renderAuth()">Регистрация</button></div>
-    <div><span class="lbl">Ваш логин</span><input id="au-u" class="w1" placeholder="Логин"></div>
-    ${reg ? '<div><span class="lbl">Ваша почта (Gmail / Mail / Яндекс)</span><input id="au-e" type="email" class="w1" placeholder="you@gmail.com"></div>' : ''}
+    <div><span class="lbl">Логин</span><input id="au-u" class="w1" placeholder="Логин"></div>
+    ${reg ? '<div><span class="lbl">Почта (Gmail / Mail / Яндекс)</span><input id="au-e" type="email" class="w1" placeholder="you@gmail.com"></div>' : ''}
     <div><span class="lbl">Пароль</span><input id="au-p" type="password" class="w1" placeholder="••••••••"></div>
     ${reg ? '<div><span class="lbl">Реферальный код</span><input id="au-ref" class="w1" placeholder="Необязательно"></div>' : ''}
     <div class="row"><span class="tag">Капча: <b id="cap-q">...</b></span><input id="cap-a" placeholder="Ответ" style="flex:1"><button class="sm" onclick="loadCap()">↻</button></div>
@@ -535,11 +362,7 @@ function renderAuth() {
   loadCap();
 }
 
-async function sendCode(mode) {
-  const { ok, data } = await api('/api/auth/send-code', { body: { mode, username: $('au-u').value.trim(), email: $('au-e')?.value.trim() || '', challengeToken: S.cap?.challengeToken, captchaAnswer: $('cap-a').value.trim() } });
-  toast(ok ? '5-значный код отправлен на почту!' : (data.error || 'Ошибка')); loadCap();
-}
-
+async function sendCode(mode) { const { ok, data } = await api('/api/auth/send-code', { body: { mode, username: $('au-u').value.trim(), email: $('au-e')?.value.trim() || '', challengeToken: S.cap?.challengeToken, captchaAnswer: $('cap-a').value.trim() } }); toast(ok ? 'Код отправлен!' : (data.error || 'Ошибка')); loadCap(); }
 async function doAuth() {
   const reg = S.authMode === 'register', u = $('au-u').value.trim(), p = $('au-p').value, c = $('au-c')?.value.trim() || '', ca = $('cap-a').value.trim(), ct = S.cap?.challengeToken;
   if (reg && !$('au-r').checked) return toast('Примите Правила!');
@@ -548,6 +371,41 @@ async function doAuth() {
   if (!ok) { loadCap(); return toast(data.error || 'Ошибка входа'); }
   S.tok = data.token; localStorage.setItem('nx_tok', S.tok); S.needCode = false; await loadMe();
 }
+                                                                                                                                                 </script>
+                                                                                                                                                 <script>
+const PROVIDER_MODELS = {
+  google: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-1.5-pro'],
+  anthropic: ['claude-3-7-sonnet-latest', 'claude-3-5-sonnet-latest', 'claude-3-5-haiku-latest'],
+  openai: ['gpt-4o', 'gpt-4o-mini', 'o3-mini', 'gpt-4.1'],
+  deepseek: ['deepseek-chat', 'deepseek-reasoner'],
+  openrouter: ['google/gemini-2.0-flash-001', 'anthropic/claude-3.5-sonnet', 'openai/gpt-4o', 'deepseek/deepseek-r1']
+};
+
+function parseOnly(desc) { const m = String(desc || '').match(/\[only:([^\]]+)\]/i); return m ? m[1].trim() : ''; }
+function cleanDesc(desc) { return String(desc || '').replace(/\s*\[only:[^\]]+\]/gi, '').trim(); }
+function filterCatalog(list) {
+  const hasMatch = {};
+  for (const m of list) {
+    const only = parseOnly(m.description);
+    if (only && String(m.model_id || '').toLowerCase().includes(only.toLowerCase())) {
+      hasMatch[(m.owner_name || '') + '|' + (m.key_title || '')] = true;
+    }
+  }
+  return list.filter(m => {
+    const only = parseOnly(m.description);
+    if (!only) return true;
+    const gk = (m.owner_name || '') + '|' + (m.key_title || '');
+    return !hasMatch[gk] || String(m.model_id || '').toLowerCase().includes(only.toLowerCase());
+  });
+}
+
+async function selectModelForChat(id) {
+  if (S.user?.isQuarantined) return renderQuarantine();
+  if (!S.cat.length) { const r = await api('/api/catalog'); if (r.ok) S.cat = filterCatalog(r.data.models || []); }
+  const found = S.cat.find(x => String(x.id) === String(id)) || S.cat[0];
+  if (found) { S.mid = String(found.id); localStorage.setItem('nx_mid', S.mid); toast(`✅ Подключена: ${found.key_title || found.model_id}`); }
+  go('chat'); setTimeout(() => { if ($('ch-in')) $('ch-in').focus(); }, 100);
+}
 
 function fmtMsg(m, i) {
   let h = esc(m.content || '');
@@ -555,7 +413,7 @@ function fmtMsg(m, i) {
   h = h.replace(/```(\w*)\n([\s\S]*?)```/g, (_, l, c) => {
     const isH = l.toLowerCase() === 'html' || c.includes('<html') || c.includes('<!DOCTYPE') || c.includes('<body');
     S.sbx[i] = c;
-    return `<pre>${c}</pre>` + (isH ? `<button class="sm btn-g" onclick="runSbx(${i})">▶ Запустить HTML в песочнице</button>` : '');
+    return `<pre>${c}</pre>` + (isH ? `<button class="sm btn-g" onclick="runSbx(${i})">▶ Запустить HTML</button>` : '');
   });
   h = h.replace(/\*([^*\n]+)\*/g, '<span class="rp-act">*$1*</span>');
   return `<div class="msg ${m.role === 'user' ? 'u' : ''}"><div>${h}</div>${m.meta ? `<div class="mut" style="margin-top:6px">${esc(m.meta)}</div>` : ''}</div>`;
@@ -568,54 +426,40 @@ function runSbx(i) {
 }
 
 function renderSbxPage() {
-  if (S.user?.isQuarantined) return renderQuarantine();
   $('view').innerHTML = `<div class="card col"><div class="row sp"><h3>HTML Песочница</h3><button class="btn sm" onclick="$('sbx-frame').srcdoc=$('sbx-code').value">▶ Запустить</button></div><textarea id="sbx-code" class="mono" rows="8" style="width:100%"><h1>ASD AI Sandbox</h1></textarea><iframe id="sbx-frame" class="sbx" style="height:360px" sandbox="allow-scripts"></iframe></div>`;
   $('sbx-frame').srcdoc = $('sbx-code').value;
 }
 
-function setSlashPreset(k, modeVal) {
-  S.slashPreset = k;
-  if ($('ch-sp')) $('ch-sp').value = SLASH_PROMPTS[k] || '';
-  if ($('ch-mode') && modeVal) $('ch-mode').value = modeVal;
-}
+function setSlashPreset(k, modeVal) { S.slashPreset = k; if ($('ch-sp')) $('ch-sp').value = SLASH_PROMPTS[k] || ''; if ($('ch-mode') && modeVal) $('ch-mode').value = modeVal; }
 
 async function renderChat() {
   if (S.user?.isQuarantined) return renderQuarantine();
   const r = await api('/api/catalog');
-  if (r.ok) S.cat = r.data.models || [];
-  if (!S.mid && S.cat[0]) S.mid = S.cat[0].id;
+  if (r.ok) S.cat = filterCatalog(r.data.models || []);
+  if (!S.mid && S.cat[0]) S.mid = String(S.cat[0].id);
   const curMod = S.cat.find(x => String(x.id) === String(S.mid)) || S.cat[0];
-  if (curMod) S.mid = curMod.id;
-  const l = S.user?.limits || {};
-  const left5h = Math.max(0, (l.cap5h || 0) - (l.used5h || 0));
+  if (curMod) S.mid = String(curMod.id);
+  const l = S.user?.limits || {}, left5h = Math.max(0, (l.cap5h || 0) - (l.used5h || 0));
 
   $('view').innerHTML = `<div class="card col" style="padding:12px">
     <div class="row sp">
-      <div class="row" style="flex:1">
-        <span class="tag g">ШАГ 1: НЕЙРОСЕТЬ</span>
+      <div class="row" style="flex:1"><span class="tag g">НЕЙРОСЕТЬ</span>
         <select id="ch-m" style="flex:1;min-width:180px" onchange="S.mid=this.value;localStorage.setItem('nx_mid',this.value)">
-          ${S.cat.map(m => `<option value="${m.id}" ${String(m.id) === String(S.mid) ? 'selected' : ''}>🤖 ${esc(m.model_id)} (${esc(m.key_title || m.provider)}) [${esc((m.tier_required || 'free').toUpperCase())}]</option>`).join('') || '<option value="0">Нет доступных моделей</option>'}
+          ${S.cat.map(m => `<option value="${esc(m.id)}" ${String(m.id) === String(S.mid) ? 'selected' : ''}>🤖 ${esc(m.key_title || m.model_id)} (${esc(m.model_id)})</option>`).join('') || '<option value="0">Нет доступных моделей</option>'}
         </select>
       </div>
       <div class="row">
         <select id="ch-mode" onchange="if(this.value==='roleplay')setSlashPreset('rp');if(this.value==='coding')setSlashPreset('dev');if(this.value==='reasoning')setSlashPreset('logic')">
-          <option value="roleplay">🎭 Ролеплей (Character.AI)</option>
-          <option value="coding">💻 Разраб (Проверка кода)</option>
-          <option value="reasoning">🧠 Глубокое мышление</option>
-          <option value="universal">🌐 Обычный чат</option>
+          <option value="roleplay">🎭 Ролеплей (Character.AI)</option><option value="coding">💻 Разраб (Код)</option><option value="reasoning">🧠 Логика</option><option value="universal">🌐 Чат</option>
         </select>
-        <select id="ch-br">
-          <option value="fast">⚡ Быстро</option>
-          <option value="balanced" selected>⚖️ Баланс</option>
-          <option value="genius">🔮 Гений</option>
-        </select>
-        <input id="ch-t" type="number" step="0.1" value="0.8" style="width:58px" title="Температура">
+        <select id="ch-br"><option value="fast">⚡ Быстро</option><option value="balanced" selected>⚖️ Баланс</option><option value="genius">🔮 Гений</option></select>
+        <input id="ch-t" type="number" step="0.1" value="0.8" style="width:58px">
       </div>
     </div>
     <div class="row">
-      <span class="tag y">ШАГ 2: // ПРОМПТ //</span>
-      <button class="sm" onclick="setSlashPreset('rp','roleplay')">🎭 Character.AI (*действия*)</button>
-      <button class="sm" onclick="setSlashPreset('dev','coding')">💻 Проверка каждой строки кода</button>
+      <span class="tag y">// ПРОМПТ //</span>
+      <button class="sm" onclick="setSlashPreset('rp','roleplay')">🎭 Character.AI</button>
+      <button class="sm" onclick="setSlashPreset('dev','coding')">💻 Проверка кода</button>
       <button class="sm" onclick="setSlashPreset('logic','reasoning')">🧠 Мышление</button>
       <button class="sm" onclick="addMem()">💾 Память (${S.mem.length})</button>
       <button class="sm btn-r" onclick="S.msgs=[];localStorage.setItem('nx_msgs','[]');renderChat()">Очистить</button>
@@ -623,225 +467,246 @@ async function renderChat() {
     <input id="ch-sp" value="${esc(SLASH_PROMPTS[S.slashPreset] || '')}" placeholder="Специальный // промпт // после сообщения...">
   </div>
   <div class="msgs" id="ch-msgs">
-    ${S.msgs.length ? S.msgs.map((m, i) => fmtMsg(m, i)).join('') : `<div class="col" style="margin:auto;text-align:center;max-width:500px;padding:16px">
+    ${S.msgs.length ? S.msgs.map((m, i) => fmtMsg(m, i)).join('') : `<div class="col" style="margin:auto;text-align:center;max-width:480px;padding:16px">
       <h2>Добро пожаловать в <span style="color:var(--red)">ASD</span> AI</h2>
-      <p class="mut">Активная нейросеть: <b>${esc(curMod ? curMod.model_id : 'Не выбрана')}</b>. К вашим сообщениям автоматически прикрепляется выбранный <code>// промпт //</code>!</p>
-      <div class="row" style="justify-content:center;margin-top:6px">
-        <button class="sm btn-g" onclick="go('keys')">➕ Выложить свой API (50/50)</button>
-        <button class="sm btn-y" onclick="go('bill')">💎 Купить PRO (500₽) / ULTRA (1499₽)</button>
-      </div></div>`}
+      <p class="mut">Выбрана: <b>${esc(curMod ? (curMod.key_title || curMod.model_id) : 'Не выбрана')}</b>. Напишите сообщение внизу!</p></div>`}
   </div>
-  <div class="row sp mut" style="padding:0 6px 6px">
-    <span>📊 Осталось запросов (5ч): <b style="color:var(--g)">${left5h}</b> • Защита расхода: <b>до 470 ₽</b></span>
-    <a onclick="go('bill')" style="color:var(--y);font-weight:700">⚡ Сбросить лимит 5ч / Купить PRO →</a>
-  </div>
-  <div class="card row" style="margin:0;padding:10px;border-radius:16px">
-    <textarea id="ch-in" rows="2" style="flex:1;border:none;background:transparent" placeholder="ШАГ 3: Напишите сообщение нейросети..."></textarea>
-    <button class="btn" style="border-radius:99px;width:44px;height:44px;padding:0" onclick="sendChat()"><i class="ri-arrow-up-line" style="font-size:18px"></i></button>
-  </div>`;
+  <div class="row sp mut" style="padding:0 6px 6px"><span>📊 Осталось (5ч): <b style="color:var(--g)">${left5h}</b> • Защита: <b>до 470 ₽</b></span><a onclick="go('bill')" style="color:var(--y);font-weight:700">⚡ PRO / ULTRA →</a></div>
+  <div class="card row" style="margin:0;padding:10px;border-radius:16px"><textarea id="ch-in" rows="2" style="flex:1;border:none;background:transparent" placeholder="Напишите сообщение..."></textarea>
+    <button class="btn" style="border-radius:99px;width:44px;height:44px;padding:0" onclick="sendChat()"><i class="ri-arrow-up-line" style="font-size:18px"></i></button></div>`;
   const b = $('ch-msgs'); if (b) b.scrollTop = b.scrollHeight;
 }
-                                                                 </script>
-                                                                 <script>
-function addMem() {
-  const f = prompt('Факт в память ИИ:');
-  if (f) { S.mem.push(f.trim()); localStorage.setItem('nx_mem', JSON.stringify(S.mem)); renderChat(); }
-}
 
+function addMem() { const f = prompt('Факт в память ИИ:'); if (f) { S.mem.push(f.trim()); localStorage.setItem('nx_mem', JSON.stringify(S.mem)); renderChat(); } }
 async function sendChat() {
   if (S.user?.isQuarantined) return renderQuarantine();
   const t = $('ch-in').value.trim(), selMod = $('ch-m')?.value || S.mid;
-  if (!t || !selMod || selMod === '0') return toast('Выберите нейросеть и введите текст!');
+  if (!t || !selMod || selMod === '0') return toast('Выберите модель и введите текст!');
   S.mid = selMod;
-  const mode = $('ch-mode').value, br = $('ch-br').value, temp = +$('ch-t').value || 0.8, sp = $('ch-sp').value.trim();
-  const brTag = ` // Уровень мышления: ${br} //`;
+  const mode = $('ch-mode').value, br = $('ch-br').value, temp = +$('ch-t').value || 0.8, sp = $('ch-sp').value.trim(), brTag = ` // Уровень мышления: ${br} //`;
   const msgsForApi = S.msgs.map(m => ({ role: m.role, content: m.content }));
   msgsForApi.push({ role: 'user', content: t + (sp ? '\n' + sp : '') + brTag });
-
-  S.msgs.push({ role: 'user', content: t });
-  renderChat();
-  const { ok, data } = await api('/api/chat', {
-    body: { modelRowId: S.mid, messages: msgsForApi, mode, brainLevel: br, memoryFacts: S.mem, secretPrompt: (sp ? sp + ' ' : '') + brTag, temperature: temp }
-  });
-  if (!ok) return toast(data.error || 'Ошибка ответа нейросети');
-  let txt = String(data.text || '').replace(/\/\/SAVE:\s*(.+)/gi, (_, f) => {
-    f = f.trim(); if (f && !S.mem.includes(f)) S.mem.push(f); return '';
-  }).trim();
+  S.msgs.push({ role: 'user', content: t }); renderChat();
+  const { ok, data } = await api('/api/chat', { body: { modelRowId: rawId(S.mid), messages: msgsForApi, mode, brainLevel: br, memoryFacts: S.mem, secretPrompt: (sp ? sp + ' ' : '') + brTag, temperature: temp } });
+  if (!ok) return toast(data.error || 'Ошибка ответа');
+  let txt = String(data.text || '').replace(/\/\/SAVE:\s*(.+)/gi, (_, f) => { f = f.trim(); if (f && !S.mem.includes(f)) S.mem.push(f); return ''; }).trim();
   localStorage.setItem('nx_mem', JSON.stringify(S.mem));
-  S.msgs.push({
-    role: 'assistant', content: txt, thinking: data.thinking || '',
-    meta: `${data.provider || ''}/${data.modelId || ''} • ${data.costRub || 0} ₽ • ${data.inTok || 0}/${data.outTok || 0} tok`
-  });
+  S.msgs.push({ role: 'assistant', content: txt, thinking: data.thinking || '', meta: `${data.provider || ''}/${data.modelId || ''} • ${data.costRub || 0} ₽` });
   localStorage.setItem('nx_msgs', JSON.stringify(S.msgs));
   await loadMe(true); renderChat();
 }
 
 function renderCat() {
-  if (S.user?.isQuarantined) return renderQuarantine();
-  $('view').innerHTML = `<div class="card row">
-    <input id="q-s" placeholder="Поиск ИИ (Gemini, Claude, GPT)..." style="flex:1;min-width:150px">
-    <select id="q-p"><option value="">Все провайдеры</option><option>google</option><option>anthropic</option><option>openai</option><option>openrouter</option><option>deepseek</option></select>
-    <label class="row mut"><input type="checkbox" id="q-u"> 18+ RP</label>
-    <label class="row mut"><input type="checkbox" id="q-f"> Free</label>
-    <button class="btn sm" onclick="loadCat()">Найти</button>
-    <button class="btn-g sm" onclick="go('keys')">+ Выложить свой AI (API)</button>
-  </div><div class="grid" id="cat-g"></div>`;
+  $('view').innerHTML = `<div class="card row"><input id="q-s" placeholder="Поиск ИИ..." style="flex:1;min-width:140px">
+    <select id="q-p"><option value="">Все</option><option>google</option><option>anthropic</option><option>openai</option><option>openrouter</option><option>deepseek</option></select>
+    <label class="row mut"><input type="checkbox" id="q-u"> 18+</label><label class="row mut"><input type="checkbox" id="q-f"> Free</label>
+    <button class="btn sm" onclick="loadCat()">Найти</button><button class="btn-g sm" onclick="go('keys')">+ Выложить AI</button></div><div class="grid" id="cat-g"></div>`;
   loadCat();
 }
 
 async function loadCat() {
   const { ok, data } = await api(`/api/catalog?q=${encodeURIComponent($('q-s')?.value || '')}&provider=${$('q-p')?.value || ''}&uncensored=${$('q-u')?.checked ? 1 : ''}&free=${$('q-f')?.checked ? 1 : ''}`);
   if (!ok) return;
-  S.cat = data.models || [];
-  $('cat-g').innerHTML = S.cat.map(m => `<div class="card col sp">
-    <div>
-      <div class="row sp"><b>🤖 ${esc(m.model_id)}</b><span class="tag">${esc(m.provider)}</span></div>
-      <div class="mut">${esc(m.key_title)} • разраб: @${esc(m.owner_name)}</div>
-      <p style="margin:6px 0">${esc(m.description || 'Зашифрованный API-ключ с защитой 470₽.')}</p>
-      <div class="row">
-        <span class="tag ${m.is_free ? 'g' : ''}">${m.is_free ? 'FREE' : (m.est_req_rub || 0) + ' ₽/запр'}</span>
-        ${m.is_uncensored ? '<span class="tag r">18+ RP</span>' : ''}
-        <span class="tag y">Доступ: ${esc((m.tier_required || 'free').toUpperCase())}</span>
-      </div>
-    </div>
-    <div class="row sp" style="margin-top:8px">
-      <button class="sm" onclick="likeMod(${m.id})">❤️ ${m.likes_count || 0}</button>
-      ${m.lock_reason ? `<button class="sm btn-y" onclick="go('bill')">🔒 Нужен ${esc((m.tier_required || 'pro').toUpperCase())}</button>` : `<button class="btn sm" onclick="selectModelForChat('${m.id}')">💬 Открыть в чате</button>`}
-    </div></div>`).join('') || '<div class="card mut">Нейросети пока не добавлены — нажмите «+ Выложить свой AI (API)»!</div>';
+  S.cat = filterCatalog(data.models || []);
+  $('cat-g').innerHTML = S.cat.map(m => `<div class="card col sp"><div>
+    <div class="row sp"><b>🤖 ${esc(m.key_title || m.model_id)}</b><span class="tag">${esc(m.provider)}</span></div>
+    <div class="mut mono" style="font-size:11px">${esc(m.model_id)} • @${esc(m.owner_name)}</div>
+    <p style="margin:6px 0">${esc(cleanDesc(m.description) || 'Зашифрованный API-ключ.')}</p>
+    <div class="row"><span class="tag ${m.is_free ? 'g' : ''}">${m.is_free ? 'FREE' : (m.est_req_rub || 0) + ' ₽'}</span>${m.is_uncensored ? '<span class="tag r">18+ RP</span>' : ''}<span class="tag y">${esc((m.tier_required || 'free').toUpperCase())}</span></div></div>
+    <div class="row sp" style="margin-top:8px"><button class="sm" data-id="${esc(m.id)}" onclick="likeMod(this.dataset.id)">❤️ ${m.likes_count || 0}</button>
+      ${m.lock_reason ? `<button class="sm btn-y" onclick="go('bill')">🔒 Нужен ${esc((m.tier_required || 'pro').toUpperCase())}</button>` : `<button class="btn sm" data-id="${esc(m.id)}" onclick="selectModelForChat(this.dataset.id)">💬 Открыть в чате</button>`}</div></div>`).join('') || '<div class="card mut">Нейросетей пока нет</div>';
+}
+async function likeMod(id) { await api('/api/catalog/like', { body: { modelRowId: rawId(id) } }); loadCat(); }
+                                                                                                                                                 </script>
+                                                                                                                                                 <script>
+function onProvChange() {
+  const p = $('k-p')?.value || 'google', sel = $('k-m-sel');
+  if (!sel) return;
+  const list = PROVIDER_MODELS[p] || [];
+  sel.innerHTML = list.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('') + '<option value="">-- Все модели ключа --</option>';
 }
 
-async function likeMod(id) { await api('/api/catalog/like', { body: { modelRowId: id } }); loadCat(); }
+async function fetchProviderModels() {
+  const p = $('k-p').value, k = $('k-k').value.trim(), sel = $('k-m-sel');
+  if (!k) return toast('Сначала вставьте API-ключ!');
+  toast('Загрузка списка моделей с ключа...');
+  try {
+    let list = [];
+    if (p === 'google') {
+      const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models?key=' + encodeURIComponent(k));
+      const d = await r.json(); list = (d.models || []).map(x => x.name.replace('models/', ''));
+    } else if (p === 'openai' || p === 'openrouter') {
+      const url = p === 'openai' ? 'https://api.openai.com/v1/models' : 'https://openrouter.ai/api/v1/models';
+      const r = await fetch(url, { headers: { Authorization: 'Bearer ' + k } });
+      const d = await r.json(); list = (d.data || []).map(x => x.id).slice(0, 60);
+    }
+    if (list.length) {
+      sel.innerHTML = list.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('') + '<option value="">-- Все модели --</option>';
+      toast(`✅ Найдено моделей: ${list.length}! Выберите нужную.`);
+    } else toast('Используйте выбор из списка или впишите модель вручную');
+  } catch (_) { toast('Выберите модель из списка ниже или впишите вручную'); }
+}
 
 async function renderKeys() {
-  if (S.user?.isQuarantined) return renderQuarantine();
   const { data } = await api('/api/keys/mine');
-  const ks = data.keys || data || [];
+  const ks = Array.isArray(data.keys) ? data.keys : (Array.isArray(data) ? data : []);
   $('view').innerHTML = `<div class="card col" style="border-color:var(--g)">
-    <div class="row sp"><h3>➕ Выложить свой AI (API) и получать 50% по честной системе</h3><span class="tag g">🔒 Шифрование ключа</span></div>
-    <div class="card col" style="margin:0;padding:12px;background:var(--s2)">
-      <p class="mut">💡 <b>Распределение 90% / 10%:</b> с каждой PRO-подписки (500 ₽) половина (<b>250 ₽</b>) идёт в пул разработчиков. Если юзер потратил <b>90% лимитов</b> на ваш ключ и <b>10%</b> на другой, вы получите <b>90% (225 ₽)</b>, второй разраб <b>10% (25 ₽)</b>! Вывод от 300 ₽.</p>
-    </div>
+    <div class="row sp"><h3>➕ Выложить свой AI (выберите 1 модель и назовите её)</h3><span class="tag g">🔒 Шифрование</span></div>
     <div class="grid">
-      <div><span class="lbl">1. Провайдер</span><select id="k-p" class="w1"><option value="google">Google Gemini</option><option value="anthropic">Anthropic Claude</option><option value="openai">OpenAI (GPT)</option><option value="deepseek">DeepSeek</option><option value="openrouter">OpenRouter</option></select></div>
-      <div><span class="lbl">2. Кто может пользоваться?</span>
-        <select id="k-tr" class="w1">
-          <option value="free">🌐 Все юзеры (FREE + PRO + ULTRA)</option>
-          <option value="pro">🔥 PRO + ULTRA юзеры (Доход 50/50)</option>
-          <option value="ultra">💎 Только ULTRA юзеры (VIP)</option>
-        </select>
-      </div>
-      <div><span class="lbl">3. Защитный лимит ₽ (макс. 470 ₽)</span><input id="k-c" type="number" class="w1" value="470" max="470"></div>
+      <div><span class="lbl">1. Провайдер</span><select id="k-p" class="w1" onchange="onProvChange()"><option value="google">Google Gemini</option><option value="anthropic">Anthropic Claude</option><option value="openai">OpenAI (GPT)</option><option value="deepseek">DeepSeek</option><option value="openrouter">OpenRouter</option></select></div>
+      <div><span class="lbl">2. Кто может пользоваться?</span><select id="k-tr" class="w1"><option value="free">🌐 Все (FREE + PRO + ULTRA)</option><option value="pro">🔥 PRO + ULTRA (Доход 50/50)</option><option value="ultra">💎 Только ULTRA (VIP)</option></select></div>
+      <div><span class="lbl">3. Лимит расхода ₽ (макс. 470)</span><input id="k-c" type="number" class="w1" value="470" max="470"></div>
     </div>
     <div class="row">
-      <input id="k-t" placeholder="Название ИИ (например: Gemini 2.5 Flash)" style="flex:1">
-      <input id="k-k" placeholder="Вставьте API-ключ (AIza... или sk-...)" style="flex:1">
+      <input id="k-t" placeholder="Название на русском (например: Ру Джемини)" style="flex:1;min-width:190px">
+      <input id="k-k" placeholder="Вставьте API-ключ (AIza... или sk-...)" style="flex:1;min-width:190px">
+      <button class="sm" onclick="fetchProviderModels()">🔍 Найти модели в ключе</button>
     </div>
-    <input id="k-d" placeholder="Описание для пользователей...">
+    <div class="card col" style="margin:0;padding:12px;background:var(--s2)">
+      <span class="lbl">🎯 Выберите КОНКРЕТНУЮ модель (чтобы не выкладывались все 35 сразу):</span>
+      <div class="row">
+        <select id="k-m-sel" style="flex:1;min-width:180px"></select>
+        <input id="k-m-cus" placeholder="Или впишите ID модели вручную..." style="flex:1;min-width:180px">
+      </div>
+    </div>
+    <input id="k-d" placeholder="Описание для людей...">
     <div class="row sp">
       <div class="row">
-        <label class="row mut"><input type="checkbox" id="k-un" checked> 18+ и Ролеплей</label>
-        <label class="row mut"><input type="checkbox" id="k-fr" checked> Доступен бесплатно</label>
+        <label class="row mut"><input type="checkbox" id="k-un" checked> 18+ и RP</label>
+        <label class="row mut"><input type="checkbox" id="k-fr" checked> Бесплатно (Free)</label>
         <label class="row mut"><input type="checkbox" id="k-pr"> Приватный</label>
       </div>
-      <button class="btn-g" onclick="pubKey()">🔒 Зашифровать и выложить AI</button>
+      <button class="btn-g" onclick="pubKey()">🔒 Выложить выбранную модель</button>
     </div>
   </div>
-  <div class="grid">${(Array.isArray(ks) ? ks : []).map(k => `<div class="card col">
-    <div class="row sp"><b>🔑 ${esc(k.title || k.key_title)}</b><span class="tag g">${esc(k.provider)}</span></div>
-    <div class="row">
-      <button class="sm btn" onclick="go('cat')">💬 В каталог</button>
-      <button class="sm" onclick="keyAct(${k.id},'ping')">Пинг</button>
-      <button class="sm" onclick="keyAct(${k.id},'toggle')">Вкл/Выкл</button>
-      <button class="sm btn-r" onclick="keyAct(${k.id},'del')">✕</button>
-    </div>
-  </div>`).join('')}</div>`;
+  <div class="card col"><h3>🔑 Ваши выложенные ключи (${ks.length})</h3>
+    <div class="grid">${ks.map(k => `<div class="card col" style="margin:0;background:var(--s2)">
+      <div class="row sp"><b>${esc(k.title || k.key_title)}</b><span class="tag g">${esc(k.provider)} • ${esc(k.status || 'ok')}</span></div>
+      ${parseOnly(k.description) ? `<div class="tag y">🎯 Модель: ${esc(parseOnly(k.description))}</div>` : ''}
+      <div class="mut">${esc(cleanDesc(k.description) || '')}</div>
+      <div class="row">
+        <button class="sm btn" onclick="go('cat')">💬 В каталог</button>
+        <button class="sm" data-id="${esc(k.id)}" onclick="keyAct(this.dataset.id,'ping')">📡 Пинг</button>
+        <button class="sm" data-id="${esc(k.id)}" onclick="keyAct(this.dataset.id,'toggle')">⏯ Вкл/Выкл</button>
+        <button class="sm btn-r" data-id="${esc(k.id)}" onclick="keyAct(this.dataset.id,'del')">🗑 Удалить</button>
+      </div>
+    </div>`).join('') || '<span class="mut">Вы ещё не выкладывали ключи</span>'}</div>
+  </div>`;
+  onProvChange();
 }
 
 async function pubKey() {
+  const chosenModel = ($('k-m-cus').value.trim() || $('k-m-sel').value || '').trim();
+  const rawDesc = $('k-d').value.trim();
+  const finalDesc = chosenModel ? (rawDesc ? rawDesc + ' ' : '') + `[only:${chosenModel}]` : rawDesc;
   const { ok, data } = await api('/api/keys/publish', {
-    body: { provider: $('k-p').value, apiKey: $('k-k').value.trim(), title: $('k-t').value.trim(), description: $('k-d').value.trim(), isPrivate: $('k-pr').checked, isUncensored: $('k-un').checked, isFree: $('k-fr').checked, tierRequired: $('k-tr').value, dailyCapRub: +$('k-c').value || 470 }
+    body: { provider: $('k-p').value, apiKey: $('k-k').value.trim(), title: $('k-t').value.trim(), description: finalDesc, modelId: chosenModel || undefined, isPrivate: $('k-pr').checked, isUncensored: $('k-un').checked, isFree: $('k-fr').checked, tierRequired: $('k-tr').value, dailyCapRub: +$('k-c').value || 470 }
   });
-  toast(ok ? 'API-ключ выложен! Открываем каталог...' : (data.error || 'Ошибка'));
-  if (ok) go('cat');
+  if (ok) { S.cat = []; toast('✅ Выложено!'); go('cat'); } else toast('❌ ' + (data.error || 'Ошибка публикации'));
 }
 
-async function keyAct(id, a) { await api(`/api/keys/${id}${a === 'del' ? '' : '/' + a}`, { method: a === 'del' ? 'DELETE' : 'POST' }); renderKeys(); }
-async function pAct(p, b) { const { ok, data } = await api(p, { body: b }); toast(ok ? 'Выполнено!' : (data.error || 'Ошибка')); loadMe(); }
+async function keyAct(id, a) {
+  const path = `/api/keys/${encodeURIComponent(id)}${a === 'del' ? '' : '/' + a}`;
+  const { ok, data } = await api(path, { method: a === 'del' ? 'DELETE' : 'POST' });
+  if (ok) S.cat = [];
+  toast(ok ? (a === 'del' ? '🗑 Удалено!' : '✅ Готово!') : ('❌ ' + (data.error || 'Ошибка')));
+  renderKeys();
+}
+
+async function pAct(p, b) { const { ok, data } = await api(p, { body: b }); toast(ok ? '✅ Выполнено!' : ('❌ ' + (data.error || 'Ошибка'))); loadMe(); }
 
 async function renderBill() {
-  if (S.user?.isQuarantined) return renderQuarantine();
   const { data } = await api('/api/billing/info'); S.payInfo = data || {}; S.cStep = 0;
   $('view').innerHTML = `<div class="col">
-    <div class="card row sp" style="border-color:#3b82f6;background:rgba(59,130,246,0.1)">
-      <div><h3>🤖 Официальный бот оплаты: @NexusKassa_bot</h3><p class="mut">Оплачивайте здесь или отправляйте чек боту кассы!</p></div>
+    <div class="card row sp" style="border-color:#3b82f6;background:rgba(59,130,246,.1)">
+      <div><h3>🤖 Официальный бот оплаты: @NexusKassa_bot</h3><p class="mut">Оплачивайте здесь или через бота кассы в Telegram!</p></div>
       <a class="btn sm" target="_blank" href="https://t.me/NexusKassa_bot">Открыть @NexusKassa_bot</a>
     </div>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(270px,1fr))">
       <div class="plan-card pop"><div class="col"><div class="row sp"><h3>🔥 PRO</h3><span class="tag g">500 ₽ (250₽ разрабам)</span></div><div class="price-big">500 ₽ <span class="mut" style="font-size:13px">/ 30 дн.</span></div>
-        <div class="feat-list"><div><i class="ri-checkbox-circle-fill"></i>Доступ к PRO API (лимит до 470 ₽)</div><div><i class="ri-checkbox-circle-fill"></i>Character.AI Ролеплей со *звёздочками*</div><div><i class="ri-checkbox-circle-fill"></i>50% делятся между авторами ключей по %</div></div></div>
+        <div class="feat-list"><div><i class="ri-checkbox-circle-fill"></i>Доступ к PRO API (лимит 470 ₽)</div><div><i class="ri-checkbox-circle-fill"></i>Character.AI со *звёздочками*</div><div><i class="ri-checkbox-circle-fill"></i>50% делятся по % расхода</div></div></div>
         <button class="btn-g w1" style="padding:12px" onclick="openPayModal('buy_pro','Подписка PRO','500 ₽')">🚀 Купить PRO за 500 ₽</button></div>
-      <div class="plan-card vip"><div class="col"><div class="row sp"><h3>💎 ULTRA</h3><span class="tag y">VIP МАКСИМУМ</span></div><div class="price-big">1499 ₽ <span class="mut" style="font-size:13px">/ 30 дн.</span></div>
-        <div class="feat-list"><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>Все закрытые ULTRA + PRO нейросети</div><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>♾️ Вечная память + Мышление Гений</div></div></div>
+      <div class="plan-card vip"><div class="col"><div class="row sp"><h3>💎 ULTRA</h3><span class="tag y">VIP</span></div><div class="price-big">1499 ₽ <span class="mut" style="font-size:13px">/ 30 дн.</span></div>
+        <div class="feat-list"><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>Все ULTRA + PRO нейросети</div><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>♾️ Вечная память + Гений</div></div></div>
         <button class="btn-y w1" style="padding:12px" onclick="openPayModal('buy_ultra','Подписка ULTRA','1499 ₽')">👑 Купить ULTRA за 1499 ₽</button></div>
     </div>
-    <div class="card row sp" style="border-color:var(--g)"><div><h3>⚡ Сбросить 5-часовой лимит запросов</h3><p class="mut">Мгновенное обнуление таймера (250 ₽ для PRO/ULTRA, 500 ₽ для FREE)</p></div><button class="btn" onclick="openPayModal('reset_5h','Сброс 5ч','250 / 500 ₽')">⚡ Сбросить 5ч</button></div>
+    <div class="card row sp" style="border-color:var(--g)"><div><h3>⚡ Сбросить лимит 5ч</h3><p class="mut">250 ₽ для PRO/ULTRA, 500 ₽ для FREE</p></div><button class="btn" onclick="openPayModal('reset_5h','Сброс 5ч','250 / 500 ₽')">⚡ Сбросить 5ч</button></div>
     <div class="row sp mut"><a onclick="openAccountModal()">🎟 Ввести промокод →</a><button class="sm btn-r" id="ca-b" onclick="canAuto()">Отменить автооплату (в 3 клика)</button></div></div>`;
 }
 
 function openPayModal(type, title, price) {
   const ph = S.payInfo.phone || 'Уточните в @NexusKassa_bot', bk = S.payInfo.bank || 'Сбербанк';
   openMod(`<div class="col"><div class="row sp"><h3>${esc(title)} — ${esc(price)}</h3><button class="sm" onclick="closeMod()">✕</button></div>
-    <div class="card row sp" style="margin:0;background:var(--s2)"><div><span class="lbl">${esc(bk)}</span><b class="mono" style="font-size:16px">${esc(ph)}</b></div><button class="sm btn" onclick="navigator.clipboard.writeText('${esc(ph)}');toast('Скопировано!')">📋 Копировать</button></div>
-    <input id="bl-n" placeholder="Ваш логин" value="${esc(S.user?.username || '')}"><input id="bl-s" placeholder="Имя отправителя и сумма (${esc(price)})">
-    <button class="btn-g w1" style="padding:12px" onclick="ordB('${type}')">✅ Я перевёл — Отправить заявку</button>
-    <a class="sm w1" style="text-align:center;display:block;padding:8px;background:var(--s2);border:1px solid var(--b);border-radius:10px" target="_blank" href="https://t.me/NexusKassa_bot">🤖 Или отправить скриншот в @NexusKassa_bot</a></div>`);
+    <div class="card row sp" style="margin:0;background:var(--s2)"><div><span class="lbl">${esc(bk)}</span><b class="mono" style="font-size:16px">${esc(ph)}</b></div><button class="sm btn" data-p="${esc(ph)}" onclick="navigator.clipboard.writeText(this.dataset.p);toast('Скопировано!')">📋 Копировать</button></div>
+    <input id="bl-n" placeholder="Ваш логин" value="${esc(S.user?.username || '')}"><input id="bl-s" placeholder="Имя отправителя и сумма">
+    <button class="btn-g w1" style="padding:12px" onclick="ordB('${type}')">✅ Я перевёл — Отправить заявку</button></div>`);
 }
 
-async function ordB(t) { const { ok, data } = await api('/api/billing/order', { body: { itemType: t, customNick: $('bl-n').value, senderNote: $('bl-s').value } }); if (ok) closeMod(); toast(ok ? 'Заявка отправлена в Админку и @NexusKassa_bot!' : (data.error || 'Ошибка')); }
+async function ordB(t) { const { ok, data } = await api('/api/billing/order', { body: { itemType: t, customNick: $('bl-n').value, senderNote: $('bl-s').value } }); if (ok) closeMod(); toast(ok ? '✅ Заявка отправлена!' : ('❌ ' + (data.error || 'Ошибка'))); }
 async function canAuto() { S.cStep++; if (S.cStep < 3) $('ca-b').textContent = `Подтвердите отмену (${S.cStep + 1}/3)`; else { await pAct('/api/billing/cancel-auto', {}); S.cStep = 0; } }
+
 async function adm(p, b, m = 'POST') {
   if (!isAdmin()) return toast('⛔ Доступ только для asdcreator!');
+  const box = $('adm-msg');
+  if (box) box.innerHTML = '<span class="mut">⏳ Выполнение запроса...</span>';
   const r = await api('/api/admin/' + p, { method: m, body: b });
-  toast(r.ok ? '✅ Выполнено успешно!' : (r.data.error || 'Ошибка сервера'));
-  if (r.ok) renderAdm();
+  const msg = r.ok ? '✅ Выполнено успешно!' : ('❌ Ошибка сервера: ' + (r.data.error || ('HTTP ' + r.status)));
+  toast(msg);
+  if (box) box.innerHTML = `<b style="color:${r.ok ? 'var(--g)' : 'var(--r)'}">${esc(msg)}</b>`;
+  if (r.ok) { S.cat = []; await renderAdm(); }
 }
 
-async function givePlanByNick(plan) {
-  const uid = $('adm-uid').value, days = +$('adm-days').value || 30;
-  if (!uid) return toast('Выберите челика из списка!');
-  await adm('user-plan', { targetUserId: +uid, plan: plan.toLowerCase(), days });
+const setPlan = (uid, plan, days = 30) => adm('user-plan', { targetUserId: rawId(uid), plan: String(plan).toLowerCase(), days: +days || 30 });
+const resOrder = (oid, approve) => adm('order-resolve', { orderId: rawId(oid), approve });
+const resAppeal = (aid, approve) => adm('appeal', { appealId: rawId(aid), id: rawId(aid), approve });
+const toggleBan = (uid, ban) => adm('user-ban', { targetUserId: rawId(uid), ban });
+const delKeyAdm = kid => adm('key/' + encodeURIComponent(kid), null, 'DELETE');
+
+function drawAdmUsers() {
+  const q = ($('adm-uq')?.value || '').trim().toLowerCase();
+  const users = (S.admData?.users || []).filter(u => !q || String(u.username || '').toLowerCase().includes(q) || String(u.email || '').toLowerCase().includes(q));
+  const box = $('adm-ulist');
+  if (!box) return;
+  box.innerHTML = users.map(u => `<div class="row sp mut" style="padding:6px 0;border-bottom:1px solid var(--b)">
+    <span><b>${esc(u.username)}</b> <span class="tag">${esc(u.plan || 'free')}</span> <small>${esc(u.email || '')}</small></span>
+    <div class="row">
+      <button class="sm btn-g" data-id="${esc(u.id)}" onclick="setPlan(this.dataset.id,'pro',30)">+PRO</button>
+      <button class="sm btn-y" data-id="${esc(u.id)}" onclick="setPlan(this.dataset.id,'ultra',30)">+ULTRA</button>
+      <button class="sm" data-id="${esc(u.id)}" onclick="setPlan(this.dataset.id,'free',30)">FREE</button>
+      <button class="sm btn-r" data-id="${esc(u.id)}" data-b="${!u.is_banned}" onclick="toggleBan(this.dataset.id,this.dataset.b==='true')">${u.is_banned ? 'Разбан' : 'Бан'}</button>
+    </div></div>`).join('') || '<span class="mut">Никого не найдено</span>';
 }
 
 async function renderAdm() {
-  if (!isAdmin()) { $('view').innerHTML = `<div class="card"><h3>⛔ Доступ закрыт</h3><p class="mut">Админ-панель работает только на 1 аккаунте создателя (asdcreator).</p></div>`; return; }
-  if (S.user?.isQuarantined) return renderQuarantine();
+  if (!isAdmin()) { $('view').innerHTML = `<div class="card"><h3>⛔ Доступ закрыт</h3></div>`; return; }
   const { ok, data } = await api('/api/admin/overview');
-  if (!ok) { $('view').innerHTML = `<div class="card"><h3>⚠️ Нет доступа к серверу</h3><p class="mut">${esc(data.error || 'Подтвердите устройство или войдите как asdcreator')}</p></div>`; return; }
-  const d = data || {}, pc = d.payConfig || {}, users = d.users || [], appeals = d.appeals || [], ad = d.ad || {};
-  $('view').innerHTML = `<div class="card col" style="border-color:var(--y)">
-    <h3>👑 Быстро выдать подписку челику</h3>
-    <div class="row">
-      <select id="adm-uid" style="flex:2;min-width:180px">${users.map(u => `<option value="${u.id}">👤 ${esc(u.username)} (сейчас: ${esc(u.plan || 'free')})</option>`).join('')}</select>
-      <input id="adm-days" type="number" value="30" style="width:75px" title="Дней">
-      <button class="btn-g sm" onclick="givePlanByNick('pro')">🔥 Выдать PRO</button>
-      <button class="btn-y sm" onclick="givePlanByNick('ultra')">💎 Выдать ULTRA</button>
-      <button class="sm" onclick="givePlanByNick('free')">Сбросить на FREE</button>
-    </div>
+  if (!ok) { $('view').innerHTML = `<div class="card"><h3>⚠️ Ошибка админки</h3><p class="mut">${esc(data.error || 'Нет доступа')}</p></div>`; return; }
+  S.admData = data || {};
+  const d = S.admData, pc = d.payConfig || {}, users = d.users || [], appeals = d.appeals || [], keys = d.keys || [], ad = d.ad || {};
+  $('view').innerHTML = `<div id="adm-msg" class="card" style="padding:10px 14px"><b>👑 Админ-панель asdcreator</b> • Всего юзеров: <b>${users.length}</b></div>
+  <div class="card col" style="border-color:var(--y)">
+    <div class="row sp"><h3>👥 Все пользователи (${users.length}) — выдача в 1 клик</h3>
+      <input id="adm-uq" placeholder="Поиск по нику..." oninput="drawAdmUsers()" style="width:200px"></div>
+    <div id="adm-ulist" style="max-height:280px;overflow-y:auto"></div>
   </div>
   <div class="grid">
-    <div class="card col" style="border-color:var(--r)"><h4>📩 Письма / Апелляции на разбан (${appeals.length})</h4>
+    <div class="card col" style="border-color:var(--r)"><h4>📩 Письма / Апелляции (${appeals.length})</h4>
       ${appeals.map(a => `<div class="col mut" style="padding:8px;background:var(--s2);border-radius:8px">
-        <div><b>От: ${esc(a.username)}</b> — ${esc(a.message)}</div>
-        <div class="row"><button class="sm btn-g" onclick="adm('appeal',{appealId:${a.id},id:${a.id},approve:true})">✅ Разбанить</button><button class="sm btn-r" onclick="adm('appeal',{appealId:${a.id},id:${a.id},approve:false})">🚫 Отклонить</button></div>
-      </div>`).join('') || '<span class="mut">Новых писем на обжалование нет</span>'}</div>
-    <div class="card col"><h4>📦 Заявки на оплату (${(d.orders || []).length})</h4>${(d.orders || []).map(o => `<div class="row sp mut"><span><b>${esc(o.custom_nick || o.username)}</b>: ${esc(o.item_type)} (${esc(o.sender_note || '')})</span><div class="row"><button class="sm btn-g" onclick="adm('order-resolve',{orderId:${o.id},approve:true})">Выдать</button><button class="sm btn-r" onclick="adm('order-resolve',{orderId:${o.id},approve:false})">✕</button></div></div>`).join('') || '<span class="mut">Заявок пока нет</span>'}</div>
-    <div class="card col"><h4>🎟 Промокоды</h4><div class="row"><input id="pr-c" placeholder="Код" style="flex:1"><select id="pr-p"><option value="pro">PRO</option><option value="ultra">ULTRA</option></select><input id="pr-d" value="30" style="width:55px"><button class="sm btn" onclick="adm('promo',{code:$('pr-c').value,plan:$('pr-p').value,days:+$('pr-d').value})">+</button></div>${(d.promos || []).map(p => `<div class="row sp mut"><span><b>${esc(p.code)}</b> (${esc(p.plan)})</span><button class="sm btn-r" data-c="${esc(p.code)}" onclick="adm('promo/'+encodeURIComponent(this.dataset.c),null,'DELETE')">✕</button></div>`).join('')}</div>
+        <div><b>${esc(a.username)}</b>: ${esc(a.message)}</div>
+        <div class="row"><button class="sm btn-g" data-id="${esc(a.id)}" onclick="resAppeal(this.dataset.id,true)">✅ Разбанить</button><button class="sm btn-r" data-id="${esc(a.id)}" onclick="resAppeal(this.dataset.id,false)">🚫 Отклонить</button></div>
+      </div>`).join('') || '<span class="mut">Писем нет</span>'}</div>
+    <div class="card col"><h4>📦 Заявки на оплату (${(d.orders || []).length})</h4>
+      ${(d.orders || []).map(o => `<div class="row sp mut"><span><b>${esc(o.custom_nick || o.username)}</b>: ${esc(o.item_type)} (${esc(o.sender_note || '')})</span>
+        <div class="row"><button class="sm btn-g" data-id="${esc(o.id)}" onclick="resOrder(this.dataset.id,true)">Выдать</button><button class="sm btn-r" data-id="${esc(o.id)}" onclick="resOrder(this.dataset.id,false)">✕</button></div></div>`).join('') || '<span class="mut">Заявок нет</span>'}</div>
+    <div class="card col"><h4>🔑 Все ключи (${keys.length})</h4>
+      ${keys.map(k => `<div class="row sp mut"><span><b>${esc(k.title || k.key_title || k.id)}</b> (${esc(k.provider || '')})</span><button class="sm btn-r" data-id="${esc(k.id)}" onclick="delKeyAdm(this.dataset.id)">🗑 Удалить</button></div>`).join('') || '<span class="mut">Ключей нет</span>'}</div>
+    <div class="card col"><h4>🎟 Промокоды</h4><div class="row"><input id="pr-c" placeholder="Код" style="flex:1"><select id="pr-p"><option value="pro">PRO</option><option value="ultra">ULTRA</option></select><input id="pr-d" value="30" style="width:55px"><button class="sm btn" onclick="adm('promo',{code:$('pr-c').value,plan:$('pr-p').value,days:+$('pr-d').value})">+</button></div>
+      ${(d.promos || []).map(p => `<div class="row sp mut"><span><b>${esc(p.code)}</b> (${esc(p.plan)})</span><button class="sm btn-r" data-c="${esc(p.code)}" onclick="adm('promo/'+encodeURIComponent(this.dataset.c),null,'DELETE')">✕</button></div>`).join('')}</div>
     <div class="card col"><h4>🏦 Сбер и @NexusKassa_bot</h4><input id="ap-p" placeholder="Телефон Сбера" value="${esc(pc.phone || '')}"><input id="ap-b" placeholder="Банк" value="${esc(pc.bank || 'Сбербанк')}"><input id="ap-t" placeholder="TG Token" value="${esc(pc.tgToken || '')}"><input id="ap-c" placeholder="TG Chat ID" value="${esc(pc.tgChatId || '')}"><button class="btn sm" onclick="adm('pay-config',{phone:$('ap-p').value,bank:$('ap-b').value,tgToken:$('ap-t').value,tgChatId:$('ap-c').value})">Сохранить</button></div>
-    <div class="card col"><h4>📢 Реклама</h4><label class="row mut"><input type="checkbox" id="aa-e" ${ad.enabled ? 'checked' : ''}> Включить баннер</label><input id="aa-t" placeholder="Заголовок" value="${esc(ad.title || '')}"><input id="aa-x" placeholder="Текст" value="${esc(ad.text || '')}"><input id="aa-u" placeholder="URL" value="${esc(ad.url || '')}"><button class="btn sm" onclick="adm('ad',{enabled:$('aa-e').checked,title:$('aa-t').value,text:$('aa-x').value,url:$('aa-u').value})">Сохранить</button></div>
-    <div class="card col"><h4>👥 Пользователи (${users.length}) & Ключи</h4>${users.map(u => `<div class="row sp mut"><span><b>${esc(u.username)}</b> [${esc(u.plan)}]</span><div class="row"><button class="sm btn-g" onclick="adm('user-plan',{targetUserId:${u.id},plan:'pro',days:30})">+PRO</button><button class="sm btn-y" onclick="adm('user-plan',{targetUserId:${u.id},plan:'ultra',days:30})">+ULTRA</button><button class="sm btn-r" onclick="adm('user-ban',{targetUserId:${u.id},ban:${!u.is_banned}})">${u.is_banned ? 'Разбан' : 'Бан'}</button></div></div>`).join('')}${(d.keys || []).map(k => `<div class="row sp mut"><span>🔑 ${esc(k.title || k.id)}</span><button class="sm btn-r" onclick="adm('key/${k.id}',null,'DELETE')">✕</button></div>`).join('')}</div>
+    <div class="card col"><h4>📢 Реклама</h4><label class="row mut"><input type="checkbox" id="aa-e" ${ad.enabled ? 'checked' : ''}> Вкл</label><input id="aa-t" placeholder="Заголовок" value="${esc(ad.title || '')}"><input id="aa-x" placeholder="Текст" value="${esc(ad.text || '')}"><input id="aa-u" placeholder="URL" value="${esc(ad.url || '')}"><button class="btn sm" onclick="adm('ad',{enabled:$('aa-e').checked,title:$('aa-t').value,text:$('aa-x').value,url:$('aa-u').value})">Сохранить</button></div>
   </div>`;
+  drawAdmUsers();
 }
-
 loadStats(); loadMe();
 </script>
 </body>

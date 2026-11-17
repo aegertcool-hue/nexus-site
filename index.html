@@ -199,8 +199,8 @@ async function sendAppeal() {
   $('ban-status').innerHTML = ok ? '<span style="color:#34d399">✅ Апелляция отправлена создателю!</span>' : `<span style="color:#f87171">❌ ${esc(data.error || 'Ошибка')}</span>`;
   toast(ok ? 'Апелляция отправлена!' : (data.error || 'Ошибка'));
 }
-                                                                                                                                                 </script>
-                                                                                                                                                 <script>
+</script>
+<script>
 const SLASH_PROMPTS = {
   rp: '// Отвечай как в Character.AI: описывай действия, мимику и эмоции в звёздочках *вот так*, говори от первого лица и двигай сюжет! //',
   dev: '// Думай как создатель проекта: перед ответом перепроверь каждую строчку кода на баги и логику, пиши рабочий код! //',
@@ -371,8 +371,8 @@ async function doAuth() {
   if (!ok) { loadCap(); return toast(data.error || 'Ошибка входа'); }
   S.tok = data.token; localStorage.setItem('nx_tok', S.tok); S.needCode = false; await loadMe();
 }
-                                                                                                                                                 </script>
-                                                                                                                                                 <script>
+</script>
+<script>
 const PROVIDER_MODELS = {
   google: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-1.5-pro'],
   anthropic: ['claude-3-7-sonnet-latest', 'claude-3-5-sonnet-latest', 'claude-3-5-haiku-latest'],
@@ -517,8 +517,8 @@ async function loadCat() {
       ${m.lock_reason ? `<button class="sm btn-y" onclick="go('bill')">🔒 Нужен ${esc((m.tier_required || 'pro').toUpperCase())}</button>` : `<button class="btn sm" data-id="${esc(m.id)}" onclick="selectModelForChat(this.dataset.id)">💬 Открыть в чате</button>`}</div></div>`).join('') || '<div class="card mut">Нейросетей пока нет</div>';
 }
 async function likeMod(id) { await api('/api/catalog/like', { body: { modelRowId: rawId(id) } }); loadCat(); }
-                                                                                                                                                 </script>
-                                                                                                                                                 <script>
+</script>
+<script>
 function onProvChange() {
   const p = $('k-p')?.value || 'google', sel = $('k-m-sel');
   if (!sel) return;
@@ -543,7 +543,7 @@ async function fetchProviderModels() {
     if (list.length) {
       sel.innerHTML = list.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('') + '<option value="">-- Все модели --</option>';
       toast(`✅ Найдено моделей: ${list.length}! Выберите нужную.`);
-    } else toast('Используйте выбор из списка или впишите модель вручную');
+    } else toast('Выберите модель из списка или впишите вручную');
   } catch (_) { toast('Выберите модель из списка ниже или впишите вручную'); }
 }
 
@@ -557,23 +557,24 @@ async function renderKeys() {
       <div><span class="lbl">2. Кто может пользоваться?</span><select id="k-tr" class="w1"><option value="free">🌐 Все (FREE + PRO + ULTRA)</option><option value="pro">🔥 PRO + ULTRA (Доход 50/50)</option><option value="ultra">💎 Только ULTRA (VIP)</option></select></div>
       <div><span class="lbl">3. Лимит расхода ₽ (макс. 470)</span><input id="k-c" type="number" class="w1" value="470" max="470"></div>
     </div>
-    <div class="row">
-      <input id="k-t" placeholder="Название на русском (например: Ру Джемини)" style="flex:1;min-width:190px">
-      <input id="k-k" placeholder="Вставьте API-ключ (AIza... или sk-...)" style="flex:1;min-width:190px">
-      <button class="sm" onclick="fetchProviderModels()">🔍 Найти модели в ключе</button>
+    <div class="grid">
+      <div><span class="lbl">4. Название на русском (для людей)</span><input id="k-t" class="w1" placeholder="Например: Руджим (Быстрый Gemini)"></div>
+      <div><span class="lbl">5. Секретный API-ключ</span>
+        <div class="row"><input id="k-k" style="flex:1" placeholder="Вставьте ключ (AIza... / AQ... / sk-...)"><button class="sm" onclick="fetchProviderModels()">🔍 Модели</button></div>
+      </div>
     </div>
     <div class="card col" style="margin:0;padding:12px;background:var(--s2)">
-      <span class="lbl">🎯 Выберите КОНКРЕТНУЮ модель (чтобы не выкладывались все 35 сразу):</span>
+      <span class="lbl">6. Выберите КОНКРЕТНУЮ модель (чтобы не выкладывались все сразу):</span>
       <div class="row">
         <select id="k-m-sel" style="flex:1;min-width:180px"></select>
         <input id="k-m-cus" placeholder="Или впишите ID модели вручную..." style="flex:1;min-width:180px">
       </div>
     </div>
-    <input id="k-d" placeholder="Описание для людей...">
+    <div><span class="lbl">7. Описание нейросети</span><input id="k-d" class="w1" placeholder="Для чего подходит (ролеплей, код, учёба)..."></div>
     <div class="row sp">
       <div class="row">
         <label class="row mut"><input type="checkbox" id="k-un" checked> 18+ и RP</label>
-        <label class="row mut"><input type="checkbox" id="k-fr" checked> Бесплатно (Free)</label>
+        <label class="row mut"><input type="checkbox" id="k-fr"> Бесплатно (Free)</label>
         <label class="row mut"><input type="checkbox" id="k-pr"> Приватный</label>
       </div>
       <button class="btn-g" onclick="pubKey()">🔒 Выложить выбранную модель</button>
@@ -596,13 +597,18 @@ async function renderKeys() {
 }
 
 async function pubKey() {
+  const prov = $('k-p').value, key = $('k-k').value.trim(), title = $('k-t').value.trim();
+  if (!title) return toast('Введите название нейросети!');
+  if (!key) return toast('Вставьте API-ключ!');
   const chosenModel = ($('k-m-cus').value.trim() || $('k-m-sel').value || '').trim();
   const rawDesc = $('k-d').value.trim();
   const finalDesc = chosenModel ? (rawDesc ? rawDesc + ' ' : '') + `[only:${chosenModel}]` : rawDesc;
-  const { ok, data } = await api('/api/keys/publish', {
-    body: { provider: $('k-p').value, apiKey: $('k-k').value.trim(), title: $('k-t').value.trim(), description: finalDesc, modelId: chosenModel || undefined, isPrivate: $('k-pr').checked, isUncensored: $('k-un').checked, isFree: $('k-fr').checked, tierRequired: $('k-tr').value, dailyCapRub: +$('k-c').value || 470 }
-  });
-  if (ok) { S.cat = []; toast('✅ Выложено!'); go('cat'); } else toast('❌ ' + (data.error || 'Ошибка публикации'));
+  const body = { provider: prov, apiKey: key, title, description: finalDesc, modelId: chosenModel || undefined, isPrivate: $('k-pr').checked, isUncensored: $('k-un').checked, isFree: $('k-fr').checked, tierRequired: $('k-tr').value, dailyCapRub: +$('k-c').value || 470 };
+  let res = await api('/api/keys/publish', { body });
+  if (!res.ok && prov === 'google') res = await api('/api/keys/publish', { body: { ...body, provider: 'gemini' } });
+  else if (!res.ok && prov === 'anthropic') res = await api('/api/keys/publish', { body: { ...body, provider: 'claude' } });
+  if (res.ok) { S.cat = []; toast('✅ Модель выложена!'); go('cat'); }
+  else toast('❌ ' + (res.data.error || 'Ошибка') + (key.startsWith('AQ.') ? ' — нужен апдейт worker.js под новый формат ключей AQ.!' : ''));
 }
 
 async function keyAct(id, a) {
@@ -647,12 +653,10 @@ async function canAuto() { S.cStep++; if (S.cStep < 3) $('ca-b').textContent = `
 
 async function adm(p, b, m = 'POST') {
   if (!isAdmin()) return toast('⛔ Доступ только для asdcreator!');
-  const box = $('adm-msg');
-  if (box) box.innerHTML = '<span class="mut">⏳ Выполнение запроса...</span>';
+  const box = $('adm-msg'); if (box) box.innerHTML = '<span class="mut">⏳ Выполнение...</span>';
   const r = await api('/api/admin/' + p, { method: m, body: b });
   const msg = r.ok ? '✅ Выполнено успешно!' : ('❌ Ошибка сервера: ' + (r.data.error || ('HTTP ' + r.status)));
-  toast(msg);
-  if (box) box.innerHTML = `<b style="color:${r.ok ? 'var(--g)' : 'var(--r)'}">${esc(msg)}</b>`;
+  toast(msg); if (box) box.innerHTML = `<b style="color:${r.ok ? 'var(--g)' : 'var(--r)'}">${esc(msg)}</b>`;
   if (r.ok) { S.cat = []; await renderAdm(); }
 }
 
@@ -665,8 +669,7 @@ const delKeyAdm = kid => adm('key/' + encodeURIComponent(kid), null, 'DELETE');
 function drawAdmUsers() {
   const q = ($('adm-uq')?.value || '').trim().toLowerCase();
   const users = (S.admData?.users || []).filter(u => !q || String(u.username || '').toLowerCase().includes(q) || String(u.email || '').toLowerCase().includes(q));
-  const box = $('adm-ulist');
-  if (!box) return;
+  const box = $('adm-ulist'); if (!box) return;
   box.innerHTML = users.map(u => `<div class="row sp mut" style="padding:6px 0;border-bottom:1px solid var(--b)">
     <span><b>${esc(u.username)}</b> <span class="tag">${esc(u.plan || 'free')}</span> <small>${esc(u.email || '')}</small></span>
     <div class="row">
@@ -685,8 +688,7 @@ async function renderAdm() {
   const d = S.admData, pc = d.payConfig || {}, users = d.users || [], appeals = d.appeals || [], keys = d.keys || [], ad = d.ad || {};
   $('view').innerHTML = `<div id="adm-msg" class="card" style="padding:10px 14px"><b>👑 Админ-панель asdcreator</b> • Всего юзеров: <b>${users.length}</b></div>
   <div class="card col" style="border-color:var(--y)">
-    <div class="row sp"><h3>👥 Все пользователи (${users.length}) — выдача в 1 клик</h3>
-      <input id="adm-uq" placeholder="Поиск по нику..." oninput="drawAdmUsers()" style="width:200px"></div>
+    <div class="row sp"><h3>👥 Все пользователи (${users.length}) — выдача в 1 клик</h3><input id="adm-uq" placeholder="Поиск по нику..." oninput="drawAdmUsers()" style="width:200px"></div>
     <div id="adm-ulist" style="max-height:280px;overflow-y:auto"></div>
   </div>
   <div class="grid">

@@ -3,98 +3,118 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ASD AI — Нейросети, Ролеплей и Маркетплейс API</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>ASD AI — ИИ без костылей</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 <style>
-:root{--bg:#141416;--s1:#1e1e22;--s2:#28282e;--s3:#34343c;--b:#33333b;--t:#f2f2f5;--m:#9a9aa6;--red:#ff2828;--g:#10b981;--r:#ef4444;--y:#fbbf24}
+:root{--bg:#0a0a0d;--s1:rgba(20,20,26,.84);--s2:#181820;--s3:#23232e;--b:rgba(255,255,255,.08);--bh:rgba(255,46,54,.45);--t:#f5f5f8;--m:#8f91a3;--red:#ff2b35;--red2:#c81622;--g:#10b981;--r:#ef4444;--y:#fbbf24}
 *{box-sizing:border-box;margin:0;padding:0}
-::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-thumb{background:#3d3d46;border-radius:99px}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-thumb{background:#2d2d3a;border-radius:99px}::-webkit-scrollbar-thumb:hover{background:var(--red)}
 @keyframes spinCrown{0%{transform:translateY(0) rotateY(0deg) rotateZ(-8deg)}50%{transform:translateY(-4px) rotateY(180deg) rotateZ(8deg)}100%{transform:translateY(0) rotateY(360deg) rotateZ(-8deg)}}
-@keyframes pulseRed{0%,100%{text-shadow:0 0 14px rgba(255,40,40,.55)}50%{text-shadow:0 0 26px rgba(255,40,40,.95)}}
+@keyframes crownFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes pulseRed{0%,100%{text-shadow:0 0 18px rgba(255,43,53,.5)}50%{text-shadow:0 0 32px rgba(255,43,53,.95)}}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
-body{font:14px/1.5 'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
-h2,h3,h4{font-weight:700;line-height:1.3}code,pre,.mono{font-family:'JetBrains Mono',monospace}
-a{color:#60a5fa;cursor:pointer;text-decoration:none}
-#asd-loader{position:fixed;inset:0;background:#101012;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .35s}
+body{font:14px/1.55 'Inter',system-ui,sans-serif;background:radial-gradient(ellipse 75% 45% at 50% -10%,rgba(255,43,53,.14),transparent 65%),radial-gradient(circle at 85% 20%,rgba(251,191,36,.06),transparent 45%),var(--bg);color:var(--t);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+h2,h3,h4{font-weight:800;line-height:1.25;letter-spacing:-.3px}code,pre,.mono{font-family:'JetBrains Mono',monospace}
+a{color:#60a5fa;cursor:pointer;text-decoration:none;transition:.15s}a:hover{color:#93c5fd}
+#asd-loader{position:fixed;inset:0;background:radial-gradient(circle at 50% 45%,rgba(255,43,53,.14),#08080b 65%);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .35s}
 #asd-loader.hide{opacity:0;pointer-events:none}
 .asd-brand{position:relative;display:inline-flex;flex-direction:column;align-items:center;user-select:none;cursor:pointer}
-.asd-crown{color:var(--y);font-size:20px;line-height:1;margin-bottom:-5px;filter:drop-shadow(0 0 8px rgba(251,191,36,.65));display:inline-block}
-.asd-CrownSpin .asd-crown,#asd-loader .asd-crown{animation:spinCrown 1.1s infinite ease-in-out}
-.asd-letters{font-weight:900;font-size:24px;letter-spacing:1px;color:var(--red);line-height:1;animation:pulseRed 2.5s infinite}
-#asd-loader .asd-crown{font-size:46px;margin-bottom:-10px}#asd-loader .asd-letters{font-size:58px;letter-spacing:3px}
-button,input,select,textarea{font:inherit;color:var(--t);background:var(--s2);border:1px solid var(--b);border-radius:10px;padding:9px 12px;outline:none;transition:.15s;max-width:100%}
-input:focus,select:focus,textarea:focus{border-color:#777;background:#24242a}
+.asd-crown{color:var(--y);font-size:19px;line-height:1;margin-bottom:-5px;filter:drop-shadow(0 0 10px rgba(251,191,36,.75));display:inline-block;animation:crownFloat 2.8s ease-in-out infinite}
+.asd-CrownSpin .asd-crown,#asd-loader .asd-crown{animation:spinCrown 1s infinite ease-in-out}
+.asd-letters{font-weight:900;font-size:24px;letter-spacing:1.2px;color:var(--red);line-height:1;animation:pulseRed 2.6s infinite}
+#asd-loader .asd-crown{font-size:50px;margin-bottom:-10px}#asd-loader .asd-letters{font-size:62px;letter-spacing:4px}
+button,input,select,textarea{font:inherit;color:var(--t);background:var(--s2);border:1px solid var(--b);border-radius:11px;padding:9px 12px;outline:none;transition:all .18s cubic-bezier(.16,1,.3,1);max-width:100%}
+input:focus,select:focus,textarea:focus{border-color:rgba(255,43,53,.55);box-shadow:0 0 0 3px rgba(255,43,53,.14);background:#1b1b24}
 button{cursor:pointer;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
-button:hover:not(:disabled){background:var(--s3)}button:active:not(:disabled){transform:scale(.98)}button:disabled{opacity:.55;cursor:not-allowed}
-.btn{background:#fff;color:#111;border:none;font-weight:700}.btn:hover:not(:disabled){background:#e4e4e7;color:#111}
-.btn-g{background:rgba(16,185,129,.16);color:#34d399;border-color:rgba(16,185,129,.45)}
-.btn-r{background:rgba(239,68,68,.16);color:#f87171;border-color:rgba(239,68,68,.45)}
-.btn-y{background:linear-gradient(135deg,#fbbf24,#d97706);color:#111;border:none;font-weight:700}
-.st-row{display:flex;gap:6px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px;scrollbar-width:none}.st-row::-webkit-scrollbar{display:none}
-.st-btn{background:var(--s2);border:1px solid var(--b);color:var(--m);padding:5px 10px;font-size:12px;border-radius:99px;flex-shrink:0}
-.st-btn.on{background:rgba(251,191,36,.16);border-color:var(--y);color:var(--y)}
-.sm{padding:6px 10px;font-size:12px;border-radius:8px}.mut{font-size:12px;color:var(--m);line-height:1.45}.w1{width:100%}.hd{display:none!important}
-.lbl{font-size:11px;font-weight:700;color:var(--m);margin-bottom:4px;display:block;text-transform:uppercase}
-.top{height:58px;background:var(--bg);border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:8px;position:sticky;top:0;z-index:40;flex-wrap:nowrap}
-.wrap{display:flex;flex:1;min-height:0}.side-bg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:85;display:none}.side-bg.on{display:block}
-.side{width:270px;background:var(--s1);border-right:1px solid var(--b);padding:12px;display:flex;flex-direction:column;gap:5px;flex-shrink:0;overflow-y:auto}
-.nav{background:transparent;border:none;justify-content:flex-start;padding:10px 12px;border-radius:10px;color:var(--m);font-weight:500;width:100%}
-.nav i{font-size:18px}.nav:hover,.nav.act{background:var(--s2);color:var(--t)}.nav.act{font-weight:700;border-left:3px solid var(--red)}
-.chat-list{display:flex;flex-direction:column;gap:3px;max-height:175px;overflow-y:auto;padding:2px 0 6px}
-.chat-it{display:flex;align-items:center;justify-content:space-between;padding:6px 9px;border-radius:8px;font-size:12px;color:var(--m);cursor:pointer;gap:6px;border:1px solid transparent}
-.chat-it:hover,.chat-it.act{background:var(--s2);color:var(--t)}.chat-it.act{border-color:rgba(255,40,40,.45)}
+button:hover:not(:disabled){background:var(--s3);border-color:rgba(255,255,255,.18);transform:translateY(-1px)}
+button:active:not(:disabled){transform:scale(.97)}button:disabled{opacity:.5;cursor:not-allowed}
+.btn{background:linear-gradient(135deg,#fff,#e6e6ee);color:#0d0d12;border:none;font-weight:700;box-shadow:0 4px 14px rgba(255,255,255,.12)}
+.btn:hover:not(:disabled){background:#fff;color:#0d0d12;box-shadow:0 6px 20px rgba(255,255,255,.22)}
+.btn-red{background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;border:none;font-weight:700;box-shadow:0 4px 18px rgba(255,43,53,.35)}
+.btn-red:hover:not(:disabled){box-shadow:0 6px 24px rgba(255,43,53,.55);color:#fff}
+.btn-g{background:rgba(16,185,129,.14);color:#34d399;border-color:rgba(16,185,129,.4)}
+.btn-g:hover:not(:disabled){background:rgba(16,185,129,.22);border-color:#34d399}
+.btn-r{background:rgba(239,68,68,.14);color:#f87171;border-color:rgba(239,68,68,.4)}
+.btn-y{background:linear-gradient(135deg,#fcd34d,#f59e0b);color:#120f05;border:none;font-weight:800;box-shadow:0 4px 16px rgba(251,191,36,.28)}
+.btn-y:hover:not(:disabled){box-shadow:0 6px 24px rgba(251,191,36,.48);color:#120f05}
+.st-row{display:flex;gap:6px;overflow-x:auto;flex-wrap:nowrap;padding:2px 0;scrollbar-width:none}.st-row::-webkit-scrollbar{display:none}
+.st-btn{background:rgba(255,255,255,.04);border:1px solid var(--b);color:var(--m);padding:6px 12px;font-size:12px;border-radius:99px;flex-shrink:0}
+.st-btn.on{background:linear-gradient(135deg,var(--red),var(--red2));border-color:transparent;color:#fff;box-shadow:0 4px 14px rgba(255,43,53,.38)}
+.sm{padding:6px 10px;font-size:12px;border-radius:9px}.mut{font-size:12px;color:var(--m);line-height:1.45}.w1{width:100%}.hd{display:none!important}
+.lbl{font-size:10px;font-weight:700;color:var(--m);margin-bottom:4px;display:block;text-transform:uppercase;letter-spacing:.6px}
+.top{height:60px;background:rgba(12,12,16,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;padding:0 16px;gap:8px;position:sticky;top:0;z-index:40;flex-wrap:nowrap}
+.wrap{display:flex;flex:1;min-height:0}.side-bg{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);z-index:85;display:none}.side-bg.on{display:block}
+.side{width:274px;background:rgba(15,15,20,.92);backdrop-filter:blur(20px);border-right:1px solid var(--b);padding:12px;display:flex;flex-direction:column;gap:4px;flex-shrink:0;overflow-y:auto}
+.nav{background:transparent;border:1px solid transparent;justify-content:flex-start;padding:10px 12px;border-radius:11px;color:var(--m);font-weight:500;width:100%}
+.nav i{font-size:18px}.nav:hover{background:rgba(255,255,255,.05);color:var(--t);transform:translateX(2px)}
+.nav.act{background:linear-gradient(90deg,rgba(255,43,53,.16),rgba(255,43,53,.03));color:#fff;font-weight:700;border-color:rgba(255,43,53,.3);box-shadow:inset 3px 0 0 var(--red)}
+.nav.act i{color:var(--red)}
+.chat-list{display:flex;flex-direction:column;gap:3px;max-height:175px;overflow-y:auto;padding:3px 0 6px}
+.chat-it{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:9px;font-size:12px;color:var(--m);cursor:pointer;gap:6px;border:1px solid transparent;transition:.15s}
+.chat-it:hover,.chat-it.act{background:rgba(255,255,255,.06);color:var(--t)}.chat-it.act{border-color:rgba(255,43,53,.4)}
 .chat-it span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-.acc-btn{margin-top:auto;background:var(--s2);border:1px solid var(--b);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;width:100%;flex-shrink:0}
-.ava{width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex-shrink:0}
-.main{flex:1;padding:14px;overflow-y:auto;max-width:1120px;width:100%;margin:0 auto}
-.card{background:var(--s1);border:1px solid var(--b);border-radius:14px;padding:14px;margin-bottom:12px}
-.plan-card{background:var(--s1);border:1px solid var(--b);border-radius:16px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
-.plan-card.pop{border:2px solid var(--g);background:linear-gradient(180deg,rgba(16,185,129,.09),var(--s1) 42%)}
-.plan-card.vip{border:2px solid var(--y);background:linear-gradient(180deg,rgba(245,158,11,.09),var(--s1) 42%)}
-.price-big{font-size:28px;font-weight:800;color:#fff}
-.feat-list{display:flex;flex-direction:column;gap:8px;font-size:13px;color:#dadade}.feat-list div{display:flex;align-items:center;gap:8px}.feat-list i{color:var(--g);font-size:16px}
+.acc-btn{margin-top:auto;background:rgba(255,255,255,.04);border:1px solid var(--b);border-radius:13px;padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;width:100%;flex-shrink:0;transition:.18s}
+.acc-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18)}
+.ava{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex-shrink:0;box-shadow:0 0 14px rgba(255,43,53,.35)}
+.main{flex:1;padding:16px;overflow-y:auto;max-width:1120px;width:100%;margin:0 auto}
+.card{background:var(--s1);backdrop-filter:blur(16px);border:1px solid var(--b);border-radius:16px;padding:15px;margin-bottom:12px;box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05);animation:msgIn .22s ease}
+.card-h:hover{border-color:rgba(255,43,53,.38);transform:translateY(-2px);transition:.2s}
+.hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:10px;margin-top:14px;text-align:left}
+.hero-card{background:rgba(255,255,255,.035);border:1px solid var(--b);border-radius:13px;padding:12px;cursor:pointer;transition:.2s}
+.hero-card:hover{background:rgba(255,43,53,.09);border-color:rgba(255,43,53,.4);transform:translateY(-2px)}
+.plan-card{background:var(--s1);border:1px solid var(--b);border-radius:18px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:14px;box-shadow:0 12px 32px rgba(0,0,0,.4)}
+.plan-card.pop{border:1.5px solid var(--y);background:linear-gradient(180deg,rgba(251,191,36,.12),var(--s1) 45%);box-shadow:0 0 28px rgba(251,191,36,.14)}
+.plan-card.vip{border:1.5px solid var(--red);background:linear-gradient(180deg,rgba(255,43,53,.14),var(--s1) 45%);box-shadow:0 0 28px rgba(255,43,53,.16)}
+.price-big{font-size:32px;font-weight:900;color:#fff;letter-spacing:-1px}
+.feat-list{display:flex;flex-direction:column;gap:8px;font-size:13px;color:#e0e0e8}.feat-list div{display:flex;align-items:center;gap:8px}.feat-list i{color:var(--g);font-size:16px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.sp{justify-content:space-between}.col{display:flex;flex-direction:column;gap:10px}
-.tag{font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--s2);border:1px solid var(--b);color:var(--m);display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
-.tag.g{color:#34d399;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1)}
-.tag.r{color:#f87171;border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.1)}
-.tag.y{color:#fbbf24;border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.1)}
-.msgs{height:calc(100dvh - 285px);min-height:210px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:6px 0}
-.msg{max-width:88%;padding:12px 14px;border-radius:14px;background:var(--s1);border:1px solid var(--b);white-space:pre-wrap;word-break:break-word;user-select:text;-webkit-user-select:text}
-.msg *{user-select:text;-webkit-user-select:text}.msg.u{align-self:flex-end;background:#2d2d35;border-color:#454552}
-.code-wrap{margin:8px 0;border:1px solid var(--b);border-radius:10px;overflow:hidden;background:#101014}
-.code-hd{background:#18181f;padding:6px 10px;display:flex;align-items:center;justify-content:space-between;gap:6px;border-bottom:1px solid var(--b);font-size:12px}
-.code-wrap.fold .code-hd{border-bottom:none}.code-wrap.fold pre{display:none}.code-wrap pre{background:#101014;padding:10px;overflow-x:auto;margin:0;font-size:12px;white-space:pre}
-.rp-act{color:#fbbf24;font-style:italic;background:rgba(245,158,11,.1);padding:1px 5px;border-radius:4px}
-.think{background:var(--s2);border:1px solid rgba(251,191,36,.3);border-left:3px solid var(--y);padding:8px 10px;margin-bottom:8px;font-size:12px;color:var(--m);border-radius:8px}
+.tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid var(--b);color:var(--m);display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.tag.g{color:#34d399;border-color:rgba(16,185,129,.35);background:rgba(16,185,129,.1)}
+.tag.r{color:#ff6b72;border-color:rgba(255,43,53,.35);background:rgba(255,43,53,.12)}
+.tag.y{color:#fcd34d;border-color:rgba(251,191,36,.35);background:rgba(251,191,36,.1)}
+.msgs{height:calc(100dvh - 295px);min-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:6px 2px}
+.msg{max-width:88%;padding:13px 16px;border-radius:18px 18px 18px 6px;background:rgba(24,24,32,.92);border:1px solid var(--b);white-space:pre-wrap;word-break:break-word;user-select:text;-webkit-user-select:text;animation:msgIn .2s ease;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.msg *{user-select:text;-webkit-user-select:text}
+.msg.u{align-self:flex-end;border-radius:18px 18px 6px 18px;background:linear-gradient(135deg,#e5242d,#b91c24);border-color:rgba(255,107,114,.35);color:#fff;box-shadow:0 6px 22px rgba(229,36,45,.28)}
+.ic{background:rgba(255,255,255,.1);padding:1px 6px;border-radius:5px;font-size:12px;color:#fcd34d}.md-h{font-weight:800;font-size:15px;margin:8px 0 4px;color:#fff}
+.code-wrap{margin:10px 0;border:1px solid var(--b);border-radius:12px;overflow:hidden;background:#0c0c10}
+.code-hd{background:#16161e;padding:7px 11px;display:flex;align-items:center;justify-content:space-between;gap:6px;border-bottom:1px solid var(--b);font-size:12px}
+.code-wrap.fold .code-hd{border-bottom:none}.code-wrap.fold pre{display:none}.code-wrap pre{background:#0c0c10;padding:12px;overflow-x:auto;margin:0;font-size:12px;white-space:pre}
+.rp-act{color:#fcd34d;font-style:italic;background:rgba(251,191,36,.1);padding:1px 5px;border-radius:5px}
+.think{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.25);border-left:3px solid var(--y);padding:9px 11px;margin-bottom:9px;font-size:12px;color:var(--m);border-radius:10px}
 .think summary{cursor:pointer;font-weight:700;color:var(--y);display:flex;align-items:center;gap:6px;list-style:none}
+.composer{background:rgba(22,22,29,.95);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:8px 10px 8px 14px;display:flex;align-items:flex-end;gap:8px;box-shadow:0 10px 30px rgba(0,0,0,.45);transition:.2s}
+.composer:focus-within{border-color:rgba(255,43,53,.55);box-shadow:0 0 0 3px rgba(255,43,53,.14),0 12px 32px rgba(0,0,0,.5)}
 .typing-pill{display:inline-flex;align-items:center;gap:8px;color:var(--y);font-weight:600}
 .typing-dot{width:8px;height:8px;border-radius:50%;background:var(--y);animation:blink 1s infinite}
-.bar{height:7px;background:var(--s2);border-radius:99px;overflow:hidden;margin:4px 0}.bar>i{display:block;height:100%;background:var(--g);border-radius:99px}
-.mod,.ban{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:14px;z-index:100;background:rgba(0,0,0,.82)}
-.mod.on,.ban.on{display:flex}.mod-in{background:var(--s1);border:1px solid #444;border-radius:16px;padding:18px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto}
-.ban{background:#2b0707;color:#fecaca;z-index:150;text-align:center;flex-direction:column}
-.toast{position:fixed;bottom:18px;right:18px;left:18px;max-width:400px;margin:0 auto;background:#26262c;border:1px solid #555;padding:11px 15px;border-radius:10px;z-index:160;display:none}
+.bar{height:7px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;margin:4px 0}.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--y));border-radius:99px}
+.mod,.ban{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:14px;z-index:100;background:rgba(4,4,8,.82);backdrop-filter:blur(8px)}
+.mod.on,.ban.on{display:flex}.mod-in{background:#14141b;border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:20px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.65);animation:msgIn .2s ease}
+.ban{background:radial-gradient(circle,#380707,#120303);color:#fecaca;z-index:150;text-align:center;flex-direction:column}
+.toast{position:fixed;bottom:18px;right:18px;left:18px;max-width:410px;margin:0 auto;background:#1b1b24;border:1px solid rgba(255,255,255,.16);box-shadow:0 12px 32px rgba(0,0,0,.6);padding:12px 16px;border-radius:12px;z-index:160;display:none;animation:msgIn .2s ease}
 .toast.on{display:flex;align-items:center;gap:8px}
-.ad{background:var(--s1);border:1px solid var(--b);border-radius:12px;padding:10px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-iframe.sbx{width:100%;height:65vh;border:none;background:#fff;border-radius:10px}.mob-btn{display:none}
-@media(max-width:860px){.desk-only{display:none!important}.side{position:fixed;left:-280px;top:0;bottom:0;z-index:90;transition:.2s}.side.on{left:0}.mob-btn{display:inline-flex}.msg{max-width:96%}input,select,textarea{font-size:16px}.msgs{height:calc(100dvh - 245px)}}
-@media(max-width:480px){.top{padding:0 8px;gap:4px}.top .sm{padding:5px 7px;font-size:11px}.hide-xs{display:none}.main{padding:10px}}
+.ad{background:linear-gradient(90deg,rgba(255,43,53,.12),rgba(251,191,36,.08));border:1px solid rgba(255,43,53,.28);border-radius:14px;padding:10px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+iframe.sbx{width:100%;height:65vh;border:none;background:#fff;border-radius:12px}.mob-btn{display:none}
+@media(max-width:860px){.desk-only{display:none!important}.side{position:fixed;left:-284px;top:0;bottom:0;z-index:90;transition:.22s}.side.on{left:0}.mob-btn{display:inline-flex}.msg{max-width:95%}input,select,textarea{font-size:16px}.msgs{height:calc(100dvh - 250px)}}
+@media(max-width:480px){.top{padding:0 8px;gap:5px}.top .sm{padding:6px 8px;font-size:11px}.hide-xs{display:none}.main{padding:10px}}
 </style>
 </head>
 <body>
 <div id="asd-loader">
   <div class="asd-brand"><i class="ri-vip-crown-fill asd-crown"></i><div class="asd-letters">ASD</div></div>
-  <div class="mut">Загрузка ASD AI...</div>
+  <div class="mut" style="letter-spacing:.5px">ИИ без костылей • Без VPN</div>
 </div>
 <div id="side-bg" class="side-bg" onclick="toggleMenu(false)"></div>
 <header class="top">
   <div class="row" style="flex-wrap:nowrap;gap:10px">
-    <button class="mob-btn sm" onclick="toggleMenu(true)"><i class="ri-menu-line"></i></button>
+    <button class="mob-btn sm" onclick="toggleMenu(true)"><i class="ri-menu-2-line"></i></button>
     <div id="top-logo" class="asd-brand asd-CrownSpin" onclick="spinLogo(1200);go('chat')" title="ASD AI">
       <i class="ri-vip-crown-fill asd-crown"></i><div class="asd-letters">ASD</div>
     </div>
+    <span class="tag g desk-only">🇷🇺 Без VPN</span>
   </div>
   <div id="stats-bar" class="row mut desk-only"></div>
   <div class="row" style="flex-wrap:nowrap">
@@ -105,27 +125,30 @@ iframe.sbx{width:100%;height:65vh;border:none;background:#fff;border-radius:10px
 <div class="wrap">
   <aside id="side" class="side">
     <div class="row sp mob-btn" style="padding-bottom:8px;margin-bottom:6px;border-bottom:1px solid var(--b)">
-      <div class="asd-brand"><i class="ri-vip-crown-fill asd-crown" style="font-size:15px"></i><div class="asd-letters" style="font-size:18px">ASD</div></div>
+      <div class="asd-brand"><i class="ri-vip-crown-fill asd-crown" style="font-size:15px"></i><div class="asd-letters" style="font-size:19px">ASD</div></div>
       <button class="sm" onclick="toggleMenu(false)">✕</button>
     </div>
-    <button class="nav act" data-t="chat" onclick="go('chat')"><i class="ri-chat-3-line"></i>1. Чат и Стили ИИ</button>
+    <button class="nav act" data-t="chat" onclick="go('chat')"><i class="ri-chat-voice-ai-line"></i>Чат и Стили ИИ</button>
     <div class="row sp" style="padding:4px 6px 0">
       <span class="lbl" style="margin:0">Мои чаты</span>
       <button class="sm btn-g" onclick="newChat()"><i class="ri-add-line"></i>Новый</button>
     </div>
     <div id="chat-list" class="chat-list"></div>
-    <button class="nav" data-t="cat" onclick="go('cat')"><i class="ri-compass-3-line"></i>2. Каталог нейросетей</button>
-    <button class="nav" data-t="bill" onclick="go('bill')"><i class="ri-vip-diamond-line" style="color:var(--y)"></i>3. Подписки PRO / ULTRA</button>
-    <button class="nav" data-t="keys" onclick="go('keys')"><i class="ri-key-2-line"></i>4. Мои API и публикация</button>
-    <button class="nav" data-t="sbx" onclick="go('sbx')"><i class="ri-code-box-line"></i>5. HTML Песочница</button>
-    <button class="nav hd" id="nav-adm" data-t="adm" onclick="go('adm')"><i class="ri-shield-star-line"></i>6. Админка (Создатель)</button>
+    <button class="nav" data-t="cat" onclick="go('cat')"><i class="ri-compass-3-line"></i>Каталог моделей</button>
+    <button class="nav" data-t="bill" onclick="go('bill')"><i class="ri-vip-diamond-line" style="color:var(--y)"></i>Тарифы PRO / ULTRA</button>
+    <button class="nav" data-t="keys" onclick="go('keys')"><i class="ri-key-2-line"></i>Мои API (50/50)</button>
+    <button class="nav" data-t="sbx" onclick="go('sbx')"><i class="ri-code-s-slash-line"></i>HTML Песочница</button>
+    <button class="nav hd" id="nav-adm" data-t="adm" onclick="go('adm')"><i class="ri-shield-star-line"></i>Админ-центр</button>
+    <a class="tag" style="margin:6px 0;justify-content:center;padding:7px;text-decoration:none" target="_blank" rel="noopener noreferrer" href="https://t.me/asd_ai_lol">
+      <i class="ri-telegram-fill" style="color:#38bdf8;font-size:15px"></i>Наш ТГ: @asd_ai_lol 😎
+    </a>
     <div id="acc-box" class="acc-btn" onclick="openAccountModal()">
       <div class="ava" id="acc-ava">A</div>
       <div style="flex:1;min-width:0">
         <div class="row sp" style="gap:4px"><b id="acc-name" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Профиль</b><span class="tag g" id="acc-plan">FREE</span></div>
         <div class="mut" id="acc-mail" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Промокод и Gmail</div>
       </div>
-      <i class="ri-more-2-fill mut"></i>
+      <i class="ri-settings-3-line mut"></i>
     </div>
   </aside>
   <main class="main"><div id="ad-box" class="ad hd"></div><div id="sec-alert" class="hd"></div><div id="creator-bar" class="hd"></div><div id="view"></div></main>
@@ -171,8 +194,7 @@ function saveChats() {
   renderChatList();
 }
 function initChats() {
-  let arr = [];
-  try { arr = JSON.parse(localStorage.getItem('nx_chats') || '[]'); } catch {}
+  let arr = []; try { arr = JSON.parse(localStorage.getItem('nx_chats') || '[]'); } catch {}
   if (!Array.isArray(arr) || !arr.length) {
     const oldM = JSON.parse(localStorage.getItem('nx_msgs') || '[]'), oldMem = JSON.parse(localStorage.getItem('nx_mem') || '[]');
     const firstU = oldM.find(m => m.role === 'user');
@@ -195,17 +217,13 @@ function newChat() {
 function switchChat(id) {
   if (S.sending) return toast('Дождитесь окончания ответа!');
   const target = S.chats.find(c => c.id === id); if (!target) return;
-  saveChats();
-  S.cid = target.id; S.msgs = target.msgs || []; S.mem = target.mem || [];
-  if (target.mid) S.mid = target.mid;
-  S.styleKey = target.styleKey || 'roleplay';
-  const st = window.CHAT_STYLES?.[S.styleKey];
-  if (st) { S.br = st.br; S.customPrompt = st.prompt; }
+  saveChats(); S.cid = target.id; S.msgs = target.msgs || []; S.mem = target.mem || [];
+  if (target.mid) S.mid = target.mid; S.styleKey = target.styleKey || 'roleplay';
+  const st = window.CHAT_STYLES?.[S.styleKey]; if (st) { S.br = st.br; S.customPrompt = st.prompt; }
   localStorage.setItem('nx_cid', S.cid); renderChatList(); closeMod(); go('chat');
 }
 function delChat(id) {
-  if (S.sending) return;
-  if (!confirm('Удалить этот чат?')) return;
+  if (S.sending || !confirm('Удалить этот чат?')) return;
   S.chats = S.chats.filter(c => c.id !== id);
   if (!S.chats.length) return newChat();
   if (S.cid === id) { const n = S.chats[0]; S.cid = n.id; S.msgs = n.msgs || []; S.mem = n.mem || []; }
@@ -226,10 +244,8 @@ function openChatsModal() {
           <b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.id === S.cid ? '● ' : ''}${esc(c.title || 'Новый чат')}</b>
           <span class="mut">${(c.msgs || []).length} сообщ. • память: ${(c.mem || []).length}</span>
         </div>
-        <div class="row" style="flex-shrink:0">
-          <button class="sm" data-id="${esc(c.id)}" onclick="renameChat(this.dataset.id)" title="Переименовать">✏️</button>
-          <button class="sm btn-r" data-id="${esc(c.id)}" onclick="delChat(this.dataset.id)" title="Удалить">🗑</button>
-        </div></div>`).join('')}
+        <div class="row" style="flex-shrink:0"><button class="sm" data-id="${esc(c.id)}" onclick="renameChat(this.dataset.id)">✏️</button>
+          <button class="sm btn-r" data-id="${esc(c.id)}" onclick="delChat(this.dataset.id)">🗑</button></div></div>`).join('')}
     </div></div>`);
 }
 initChats();
@@ -248,7 +264,7 @@ function getDev() {
   return { d, h };
 }
 function toast(m) {
-  const t = $('toast'); t.innerHTML = `<i class="ri-information-fill" style="color:var(--y)"></i><span>${esc(m)}</span>`;
+  const t = $('toast'); t.innerHTML = `<i class="ri-sparkling-2-fill" style="color:var(--y)"></i><span>${esc(m)}</span>`;
   t.classList.add('on'); clearTimeout(window._tT); window._tT = setTimeout(() => t.classList.remove('on'), 3800);
 }
 function openMod(h) { $('mod-in').innerHTML = h; $('mod').classList.add('on'); }
@@ -272,15 +288,14 @@ async function api(p, o = {}) {
 
 function showBan(rs) {
   const b = $('ban'); b.classList.add('on');
-  b.innerHTML = `<div class="card col" style="max-width:460px;background:#220707;border-color:#ef4444">
+  b.innerHTML = `<div class="card col" style="max-width:460px;background:#1f0606;border-color:#ef4444">
     <h2>⚠️⚠️ ИЗВИНИТЕ, НО ВЫ ЗАБАНЕНЫ ПО ЭТОЙ ПРИЧИНЕ ⚠️⚠️</h2>
     <p style="font-size:15px;color:#fecaca">${esc(Array.isArray(rs) ? rs.join(', ') : (rs || 'Подозрение в мошенничестве'))}</p>
     <input id="ban-u" class="w1" placeholder="Ваш логин" value="${esc(S.user?.username || '')}">
     <textarea id="ban-m" class="w1" rows="3" placeholder="Причина обжалования (придёт создателю)..."></textarea>
     <div id="ban-status" class="mut"></div>
-    <button class="btn w1" onclick="sendAppeal(this)">📩 Отправить обжалование</button></div>`;
+    <button class="btn-red w1" onclick="sendAppeal(this)">📩 Отправить обжалование</button></div>`;
 }
-
 async function sendAppeal(btn) {
   const u = $('ban-u').value.trim(), m = $('ban-m').value.trim();
   if (!u || m.length < 4) { $('ban-status').innerHTML = '<span style="color:#f87171">Введите логин и текст (от 4 символов)!</span>'; return; }
@@ -309,10 +324,10 @@ function renderCreatorBar() {
   const cb = $('creator-bar'), admOk = isAdmin() && !S.user?.isQuarantined;
   cb.classList.toggle('hd', !admOk);
   if (!admOk) return;
-  cb.innerHTML = `<div class="card row sp" style="border-color:var(--red);background:rgba(255,40,40,.08);padding:10px 14px">
-    <div class="row"><span class="tag r">👑 СОЗДАТЕЛЬ ASD</span><span class="mut">Управление доступно только тебе:</span></div>
+  cb.innerHTML = `<div class="card row sp" style="border-color:rgba(255,43,53,.45);background:linear-gradient(90deg,rgba(255,43,53,.12),rgba(251,191,36,.05));padding:10px 14px">
+    <div class="row"><span class="tag r"><i class="ri-vip-crown-fill"></i>СОЗДАТЕЛЬ ASD</span><span class="mut">Управление платформой:</span></div>
     <div class="row">
-      <button class="sm btn-y" onclick="go('adm')">👑 Админка и Выдача</button>
+      <button class="sm btn-y" onclick="go('adm')">👑 Админка</button>
       <button class="sm btn-g" onclick="go('keys')">➕ Выложить AI</button>
       <button class="sm" onclick="openAccountModal()">🎟 Промокоды</button>
     </div></div>`;
@@ -323,12 +338,10 @@ function getUntrustedDevices() {
   const curId = S.user.currentDeviceId || getDev().d;
   return (S.user.devices || []).filter(dv => !dv.trusted && dv.device_id !== curId);
 }
-
 async function confirmDevice(id) {
   const { ok, data } = await api('/api/devices/trust', { body: { deviceRowId: String(id) } });
   closeMod(); toast(ok ? '✅ Вход подтверждён! 48ч сняты.' : (data.error || 'Ошибка')); await loadMe();
 }
-
 async function rejectDevice(id) {
   const { ok, data } = await api('/api/devices/kick', { body: { deviceRowId: String(id) } });
   if (ok && data.token) { S.tok = data.token; localStorage.setItem('nx_tok', data.token); }
@@ -347,8 +360,8 @@ function checkSecurityAlerts() {
   if (!S.seenUntrusted.has(dv.id)) {
     S.seenUntrusted.add(dv.id);
     openMod(`<div class="col"><div class="row sp"><h3 style="color:var(--y)">🚨 Вход с нового устройства!</h3><button class="sm" onclick="closeMod()">✕</button></div>
-      <p>Кто-то вошёл в ваш аккаунт <b>${esc(S.user.username)}</b>: <b class="mono">${esc(dv.device_id)}</b> (${esc(dv.country || 'XX')})</p>
-      <p class="mut">Оно заблокировано на 48 часов. Если это вы — подтвердите. Если чужой — выкиньте его!</p>
+      <p>В ваш аккаунт <b>${esc(S.user.username)}</b> выполнен вход: <b class="mono">${esc(dv.device_id)}</b> (${esc(dv.country || 'XX')})</p>
+      <p class="mut">Оно ограничено на 48 часов. Если это вы — подтвердите. Если чужой — выкиньте его!</p>
       <div class="row"><button class="btn-g" style="flex:1;padding:12px" data-id="${esc(dv.id)}" onclick="confirmDevice(this.dataset.id)">✅ Да, это я</button>
         <button class="btn-r" style="flex:1;padding:12px" data-id="${esc(dv.id)}" onclick="rejectDevice(this.dataset.id)">🚫 Нет, не я</button></div></div>`);
   }
@@ -363,11 +376,16 @@ function updateSidebarAccount() {
   $('acc-name').textContent = u.username; $('acc-plan').textContent = (u.plan || 'free').toUpperCase();
   $('acc-mail').textContent = u.isQuarantined ? '⏳ Карантин 48ч' : ((u.email || 'Gmail') + ` • Free: ${freeLeft}`);
 }
-
 function withdrawWallet() {
   const bal = Number(S.user?.wallet?.balanceRub || 0);
   if (bal < 300) return toast('Минимум для вывода 300 ₽!');
   pAct('/api/wallet/withdraw', { details: $('wd-d')?.value || '' });
+}
+function copyRefCode() {
+  const code = S.user?.refCode || '';
+  if (!code) return;
+  navigator.clipboard?.writeText(code);
+  toast(`📋 Реф-код ${code} скопирован! Делись с друзьями ради розыгрыша PRO.`);
 }
 
 function openAccountModal() {
@@ -375,23 +393,27 @@ function openAccountModal() {
   const u = S.user, l = u.limits || {}, w = u.wallet || {}, freeLeft = Math.max(0, (l.freeReqsLimit || 0) - (l.freeReqsUsed || 0));
   const bar = (a, b) => `<div class="bar"><i style="width:${Math.min(100, ((a || 0) / (b || 1)) * 100)}%"></i></div>`;
   openMod(`<div class="col">
-    <div class="row sp"><div class="row"><div class="ava" style="width:44px;height:44px">${esc((u.username || 'A')[0].toUpperCase())}</div>
-      <div><h3>${esc(u.username)} <span class="tag g">${esc((u.plan || 'free').toUpperCase())}</span></h3><div class="mut">📧 Gmail: <b>${esc(u.email || 'не указан')}</b></div></div></div>
+    <div class="row sp"><div class="row"><div class="ava" style="width:46px;height:46px;font-size:18px">${esc((u.username || 'A')[0].toUpperCase())}</div>
+      <div><h3>${esc(u.username)} <span class="tag g">${esc((u.plan || 'free').toUpperCase())}</span></h3><div class="mut">📧 ${esc(u.email || 'Почта не указана')}</div></div></div>
       <button class="sm" onclick="closeMod()">✕</button></div>
     ${u.isQuarantined ? `<div class="card" style="margin:0;border-color:var(--r);color:#f87171">🔒 Карантин 48 часов до подтверждения с основного устройства.</div>` : `
-    <div class="card col" style="margin:0;padding:12px;background:var(--s2);border-color:var(--y)">
+    <div class="card row sp" style="margin:0;padding:11px;border-color:rgba(255,43,53,.35);background:rgba(255,43,53,.07)">
+      <div><span class="lbl" style="color:var(--red)">🏆 Твой реферальный код (для розыгрыша PRO)</span><b class="mono" style="font-size:15px">${esc(u.refCode || '-')}</b></div>
+      <button class="sm btn-red" onclick="copyRefCode()">📋 Копировать</button>
+    </div>
+    <div class="card col" style="margin:0;padding:12px;background:var(--s2);border-color:rgba(251,191,36,.35)">
       <span class="lbl" style="color:var(--y)">🎟 ПРОМОКОД</span>
-      <div class="row"><input id="mod-prm" placeholder="Введите промокод..." style="flex:1"><button class="btn sm" onclick="pAct('/api/promo/redeem',{code:$('mod-prm').value});closeMod()">ОК</button></div>
+      <div class="row"><input id="mod-prm" placeholder="Введите промокод..." style="flex:1"><button class="btn-y sm" onclick="pAct('/api/promo/redeem',{code:$('mod-prm').value});closeMod()">ОК</button></div>
     </div>
     <div class="card col" style="margin:0;padding:12px">
-      <div class="row sp"><b>⚡ Бесплатных запросов (5ч): <span style="color:var(--g)">${freeLeft}/${l.freeReqsLimit || 0}</span></b><span class="tag y">Память ∞: ${hasInfMem() ? 'ВКЛ' : 'PRO/ULTRA'}</span></div>
+      <div class="row sp"><b>⚡ Бесплатных (5ч): <span style="color:var(--g)">${freeLeft}/${l.freeReqsLimit || 0}</span></b><span class="tag y">Память ∞: ${hasInfMem() ? 'ВКЛ' : 'PRO/ULTRA'}</span></div>
       <div><span class="lbl">Платные ИИ (5ч): ${l.used5h || 0} / ${l.cap5h || 0} ₽</span>${bar(l.used5h, l.cap5h)}</div>
       <div><span class="lbl">Неделя: ${l.usedWeek || 0} / ${l.capWeek || 0} ₽</span>${bar(l.usedWeek, l.capWeek)}</div>
       <div><span class="lbl">Месяц: ${l.usedMonth || 0} / ${l.capMonth || 0} ₽</span>${bar(l.usedMonth, l.capMonth)}</div>
-      <div class="row sp"><button class="sm btn-g" onclick="pAct('/api/bonus/checkin',{});closeMod()">🎁 Бонус (${u.checkinStreak || 0})</button><button class="sm btn-y" onclick="closeMod();go('bill')">⚡ PRO / ULTRA</button></div>
+      <div class="row sp"><button class="sm btn-g" onclick="pAct('/api/bonus/checkin',{});closeMod()">🎁 Бонус (${u.checkinStreak || 0} дн.)</button><button class="sm btn-y" onclick="closeMod();go('bill')">⚡ PRO / ULTRA</button></div>
     </div>
     <div class="card col" style="margin:0;padding:12px">
-      <span class="lbl">💰 Кошелёк 50/50: ${w.balanceRub || 0} ₽ (вывод от 300 ₽) • Реф: <b class="mono">${esc(u.refCode || '-')}</b></span>
+      <span class="lbl">💰 Кошелёк 50/50: ${w.balanceRub || 0} ₽ (вывод от 300 ₽)</span>
       <div class="row"><input id="wd-d" placeholder="Карта Сбер / СБП" style="flex:1"><button class="sm btn" onclick="withdrawWallet()">Вывести</button></div>
     </div>`}
     <div class="card col" style="margin:0;padding:12px"><span class="lbl">📱 Устройства</span>
@@ -403,23 +425,23 @@ function openAccountModal() {
 
 function renderQuarantine() {
   const u = S.user || {}, diff = Math.max(0, (u.quarantineUntil || 0) - Date.now());
-  $('view').innerHTML = `<div class="card col" style="max-width:500px;margin:24px auto;border:2px solid var(--y);text-align:center">
+  $('view').innerHTML = `<div class="card col" style="max-width:500px;margin:24px auto;border:1.5px solid var(--y);text-align:center">
     <i class="ri-lock-2-fill" style="font-size:48px;color:var(--y)"></i>
     <h2>🔒 Карантин нового устройства (48 часов)</h2>
     <p class="mut">Это новое устройство ограничено на 48ч. Подтвердите вход на основном телефоне кнопкой <b>«✅ Да, это я»</b>!</p>
-    <div class="card" style="margin:0;background:var(--s2)"><b style="font-size:20px;color:var(--y)">${Math.floor(diff / 3600000)} ч. ${Math.floor((diff % 3600000) / 60000)} мин.</b></div>
+    <div class="card" style="margin:0;background:var(--s2)"><b style="font-size:22px;color:var(--y)">${Math.floor(diff / 3600000)} ч. ${Math.floor((diff % 3600000) / 60000)} мин.</b></div>
     <div class="row"><button class="btn-g" style="flex:1" onclick="loadMe()">🔄 Проверить</button><button class="btn-r" style="flex:1" onclick="logout()">🚪 Выйти</button></div></div>`;
 }
 
 async function loadStats() {
   const { ok, data } = await api('/api/stats');
   if (ok) {
-    $('stats-bar').innerHTML = `<span class="tag">👥 Юзеров: ${data.users || 0}</span><span class="tag">🤖 Моделей: ${data.models || 0}</span><span class="tag">⚡ Запросов: ${data.requests || 0}</span>`;
+    $('stats-bar').innerHTML = `<span class="tag">👥 ${data.users || 0}</span><span class="tag">🤖 ${data.models || 0} мод.</span><span class="tag">⚡ ${data.requests || 0} запр.</span>`;
     const adHref = safeUrl(data.ad?.url);
     if (data.ad?.enabled) {
       $('ad-box').classList.remove('hd');
       $('ad-box').innerHTML = `<div><b>${esc(data.ad.title)}</b> <span class="mut">${esc(data.ad.text)}</span></div>` +
-        (adHref ? `<a class="btn sm" target="_blank" rel="noopener noreferrer" href="${esc(adHref)}">Открыть</a>` : '');
+        (adHref ? `<a class="btn-red sm" target="_blank" rel="noopener noreferrer" href="${esc(adHref)}">Открыть →</a>` : '');
     }
   }
 }
@@ -468,17 +490,20 @@ function showRules() { openMod(`<div class="col"><h3>Правила ASD AI (199-
 
 function renderAuth() {
   const reg = S.authMode === 'register';
-  $('view').innerHTML = `<div class="card col" style="max-width:420px;margin:20px auto">
-    <div class="row sp"><h3>${reg ? 'Регистрация' : 'Вход в ASD AI'}</h3><span class="tag">199-ФЗ РФ</span></div>
-    <div class="row"><button class="w1 ${!reg ? 'btn' : ''}" onclick="S.authMode='login';renderAuth()">Вход</button><button class="w1 ${reg ? 'btn' : ''}" onclick="S.authMode='register';renderAuth()">Регистрация</button></div>
-    <div><span class="lbl">Логин</span><input id="au-u" class="w1" placeholder="Логин"></div>
+  $('view').innerHTML = `<div class="card col" style="max-width:430px;margin:20px auto;padding:22px">
+    <div class="col" style="align-items:center;margin-bottom:4px">
+      <div class="asd-brand"><i class="ri-vip-crown-fill asd-crown" style="font-size:28px"></i><div class="asd-letters" style="font-size:34px">ASD</div></div>
+      <div class="mut">ИИ без костылей и VPN • 199-ФЗ РФ</div>
+    </div>
+    <div class="row"><button class="w1 ${!reg ? 'btn-red' : ''}" onclick="S.authMode='login';renderAuth()">Вход</button><button class="w1 ${reg ? 'btn-red' : ''}" onclick="S.authMode='register';renderAuth()">Регистрация</button></div>
+    <div><span class="lbl">Логин</span><input id="au-u" class="w1" placeholder="Придумайте или введите логин"></div>
     ${reg ? '<div><span class="lbl">Почта (Gmail / Mail / Яндекс)</span><input id="au-e" type="email" class="w1" placeholder="you@gmail.com"></div>' : ''}
     <div><span class="lbl">Пароль</span><input id="au-p" type="password" class="w1" placeholder="••••••••"></div>
-    ${reg ? '<div><span class="lbl">Реферальный код</span><input id="au-ref" class="w1" placeholder="Необязательно"></div>' : ''}
-    <div class="row"><span class="tag">Капча: <b id="cap-q">...</b></span><input id="cap-a" placeholder="Ответ" style="flex:1"><button class="sm" onclick="loadCap()">↻</button></div>
+    ${reg ? '<div><span class="lbl">Реферальный код друга (+бонус запросов)</span><input id="au-ref" class="w1" placeholder="Необязательно"></div>' : ''}
+    <div class="row"><span class="tag y">Капча: <b id="cap-q">...</b></span><input id="cap-a" placeholder="Ответ" style="flex:1"><button class="sm" onclick="loadCap()">↻</button></div>
     ${reg || S.needCode ? `<div class="row"><input id="au-c" placeholder="5-значный код с почты" style="flex:1"><button class="sm btn-g" onclick="sendCode('${S.authMode}',this)">Получить код</button></div>` : ''}
     ${reg ? `<label class="row mut"><input type="checkbox" id="au-r" checked> Принимаю <a onclick="showRules()">Правила проекта</a></label>` : ''}
-    <button class="btn w1" onclick="doAuth(this)">${reg ? 'Создать аккаунт' : 'Войти'}</button></div>`;
+    <button class="btn-red w1" style="padding:11px" onclick="doAuth(this)">${reg ? '🚀 Создать аккаунт' : 'Войти в ASD AI'}</button></div>`;
   loadCap();
 }
 
@@ -490,7 +515,6 @@ async function sendCode(mode, btn) {
     loadCap();
   } finally { if (btn) btn.disabled = false; }
 }
-
 async function doAuth(btn) {
   const reg = S.authMode === 'register', u = $('au-u').value.trim(), p = $('au-p').value, c = $('au-c')?.value.trim() || '', ca = $('cap-a').value.trim(), ct = S.cap?.challengeToken;
   if (reg && !$('au-r').checked) return toast('Примите Правила!');
@@ -575,26 +599,30 @@ function fmtMsg(m, idx) {
         <button class="sm" data-l="${esc(l)}" onclick="dlCode(${sbxIdx},this.dataset.l)" title="Скачать">💾</button>
         ${isH ? `<button class="sm btn-g" onclick="runSbx(${sbxIdx})" title="Запустить HTML">▶</button>` : ''}
       </div></div><pre>${code}</pre></div>`);
-    return `\u0000CODE_${blocks.length - 1}\u0000`;
+    return `\u0000B_${blocks.length - 1}\u0000`;
   });
+  h = h.replace(/`([^`\n]+)`/g, (_, c) => { blocks.push(`<code class="ic">${c}</code>`); return `\u0000B_${blocks.length - 1}\u0000`; });
+  h = h.replace(/^#{1,3}\s+(.+)$/gm, '<div class="md-h">$1</div>');
+  h = h.replace(/\*\*([^*\n]+)\*\*/g, '<b>$1</b>');
   h = h.replace(/\*([^*\n]+)\*/g, '<span class="rp-act">*$1*</span>');
-  h = h.replace(/\u0000CODE_(\d+)\u0000/g, (_, i) => blocks[+i] || '');
+  h = h.replace(/\u0000B_(\d+)\u0000/g, (_, i) => blocks[+i] || '');
   if (m.thinking) {
     h = `<details class="think"><summary>🧠 Thinking ${m.timeSec ? `• ⏱ ${esc(m.timeSec)}с` : ''} <span class="mut">(развернуть ▾)</span></summary><div style="margin-top:6px;white-space:pre-wrap">${esc(m.thinking)}</div></details>` + h;
   }
-  const foot = m.role === 'assistant'
-    ? `<div class="row sp mut" style="margin-top:8px;padding-top:6px;border-top:1px solid var(--b)"><span>${m.timeSec ? `⏱ ${esc(m.timeSec)}с • ` : ''}${esc(m.meta || '')}</span><button class="sm" onclick="copyMsg(${idx})">📋 Копировать</button></div>`
-    : '';
-  return `<div class="msg ${m.role === 'user' ? 'u' : ''}"><div>${h}</div>${foot}</div>`;
+  const head = m.role === 'assistant' ? `<div class="row sp" style="margin-bottom:6px"><span class="tag r"><i class="ri-vip-crown-fill" style="color:var(--y)"></i>ASD AI</span>${m.timeSec ? `<span class="tag y">⏱ ${esc(m.timeSec)}с</span>` : ''}</div>` : '';
+  const foot = m.role === 'assistant' ? `<div class="row sp mut" style="margin-top:8px;padding-top:6px;border-top:1px solid var(--b)"><span>${esc(m.meta || '')}</span><button class="sm" onclick="copyMsg(${idx})">📋 Копировать</button></div>` : '';
+  return `<div class="msg ${m.role === 'user' ? 'u' : ''}">${head}<div>${h}</div>${foot}</div>`;
 }
 
 function runSbx(i) {
-  openMod(`<div class="row sp" style="margin-bottom:8px"><b>HTML Песочница</b><button class="sm" onclick="closeMod()">✕</button></div><iframe class="sbx" sandbox="allow-scripts"></iframe>`);
+  openMod(`<div class="row sp" style="margin-bottom:8px"><b>▶ HTML Песочница</b><button class="sm" onclick="closeMod()">✕</button></div><iframe class="sbx" sandbox="allow-scripts"></iframe>`);
   $('mod-in').querySelector('iframe').srcdoc = decodeHtml(S.sbx[i]);
 }
 
 function renderSbxPage() {
-  $('view').innerHTML = `<div class="card col"><div class="row sp"><h3>HTML Песочница</h3><button class="btn sm" onclick="$('sbx-frame').srcdoc=$('sbx-code').value">▶ Запустить</button></div><textarea id="sbx-code" class="mono" rows="8" style="width:100%"><h1>ASD AI Sandbox</h1></textarea><iframe id="sbx-frame" class="sbx" style="height:360px" sandbox="allow-scripts"></iframe></div>`;
+  $('view').innerHTML = `<div class="card col"><div class="row sp"><h3>💻 HTML Песочница</h3><button class="btn-red sm" onclick="$('sbx-frame').srcdoc=$('sbx-code').value">▶ Запустить код</button></div>
+    <textarea id="sbx-code" class="mono" rows="8" style="width:100%"><!doctype html><html><body style="background:#0a0a0d;color:#ff2b35;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:90vh;margin:0"><h1>👑 ASD AI Sandbox</h1></body></html></textarea>
+    <iframe id="sbx-frame" class="sbx" style="height:360px" sandbox="allow-scripts"></iframe></div>`;
   $('sbx-frame').srcdoc = $('sbx-code').value;
 }
 
@@ -607,47 +635,45 @@ function setStyle(k) {
   saveChats();
 }
 
-async function syncGMemServer() { if (hasInfMem() && S.tok) await api('/api/memory/sync', { body: { facts: S.gmem } }); }
+function useStarter(style, text) {
+  setStyle(style);
+  if ($('ch-in')) $('ch-in').value = text;
+  if ($('ch-m')?.value && $('ch-m').value !== '0') sendChat();
+  else { toast('Сначала выберите модель сверху!'); if ($('ch-in')) $('ch-in').focus(); }
+}
 
+async function syncGMemServer() { if (hasInfMem() && S.tok) await api('/api/memory/sync', { body: { facts: S.gmem } }); }
 async function promoteFact(idx) {
   if (!hasInfMem()) return toast('🔒 Глобальная память доступна на PRO и ULTRA!');
   const f = S.mem[idx];
   if (f && !S.gmem.includes(f)) { S.gmem.push(f); S.gmem = S.gmem.slice(-40); localStorage.setItem('nx_gmem', JSON.stringify(S.gmem)); await syncGMemServer(); }
   toast('↗️ Перенесено в Глобальную память! Теперь помнят все чаты и нейронки.'); renderChat();
 }
-
 async function promoteAllFacts() {
   if (!hasInfMem()) return toast('🔒 Доступно на PRO и ULTRA!');
   S.gmem = [...new Set([...S.gmem, ...S.mem])].slice(-40);
   localStorage.setItem('nx_gmem', JSON.stringify(S.gmem)); await syncGMemServer();
   toast('↗️ Вся память чата стала Глобальной!'); renderChat();
 }
-
 function addMem(isGlobal = false) {
   if (!hasInfMem()) return toast('🔒 Вечная память доступна на PRO и ULTRA!');
   const f = prompt(isGlobal ? 'Факт в ГЛОБАЛЬНУЮ память:' : 'Факт в память этого чата:');
   if (!f || !f.trim()) return;
-  const arr = isGlobal ? S.gmem : S.mem;
-  arr.push(f.trim().slice(0, 180));
+  const arr = isGlobal ? S.gmem : S.mem; arr.push(f.trim().slice(0, 180));
   if (arr.length > 40) arr.splice(0, arr.length - 40);
-  if (isGlobal) { localStorage.setItem('nx_gmem', JSON.stringify(arr)); syncGMemServer(); }
-  else saveChats();
+  if (isGlobal) { localStorage.setItem('nx_gmem', JSON.stringify(arr)); syncGMemServer(); } else saveChats();
   renderChat();
 }
-
 function delMem(isGlobal, idx) {
   const arr = isGlobal ? S.gmem : S.mem; arr.splice(idx, 1);
-  if (isGlobal) { localStorage.setItem('nx_gmem', JSON.stringify(arr)); syncGMemServer(); }
-  else saveChats();
+  if (isGlobal) { localStorage.setItem('nx_gmem', JSON.stringify(arr)); syncGMemServer(); } else saveChats();
   renderChat();
 }
-
 function exportGlobalMem() {
   const all = [...new Set([...S.gmem, ...S.mem])];
   if (!all.length) return toast('Память пока пуста');
   copyText(`(Вечная память: ${all.join('; ')})`, '📤 Скопировано в скобочках!');
 }
-
 function clearChatHistory() {
   if (!S.msgs.length || !confirm('Точно очистить историю этого чата?')) return;
   S.msgs = []; const c = curChat(); if (c) c.title = 'Новый чат';
@@ -662,30 +688,30 @@ async function renderChat() {
   const l = S.user?.limits || {}, inf = hasInfMem(), freeLeft = Math.max(0, (l.freeReqsLimit || 0) - (l.freeReqsUsed || 0));
   S.sbx = []; renderChatList();
 
-  $('view').innerHTML = `<div class="card col" style="padding:10px 12px;gap:8px">
+  $('view').innerHTML = `<div class="card col" style="padding:10px 12px;gap:8px;margin-bottom:8px">
     <div class="row sp" style="flex-wrap:nowrap">
       <button class="sm" onclick="openChatsModal()" title="Список чатов">💬 ${S.chats.length}</button>
       <button class="sm btn-g" onclick="newChat()" title="Новый чат">➕</button>
       <select id="ch-m" style="flex:1;min-width:110px" onchange="S.mid=this.value;localStorage.setItem('nx_mid',this.value);saveChats()">
         ${S.cat.map(m => `<option value="${esc(m.id)}" ${String(m.id) === String(S.mid) ? 'selected' : ''}>🤖 ${esc(m.key_title || m.display_name || m.model_id)} (${esc(m.model_id)})</option>`).join('') || '<option value="0">Нет моделей</option>'}
       </select>
-      <button class="sm ${S.setOpen ? 'btn' : ''}" onclick="S.setOpen=!S.setOpen;renderChat()" title="Настройки и Память">⚙️</button>
+      <button class="sm ${S.setOpen ? 'btn-red' : ''}" onclick="S.setOpen=!S.setOpen;renderChat()" title="Настройки и Память">⚙️</button>
       <button class="sm btn-r" onclick="clearChatHistory()" title="Очистить чат">🗑</button>
     </div>
     <div class="st-row">
       ${Object.entries(CHAT_STYLES).map(([k, v]) => `<button class="st-btn ${k === S.styleKey ? 'on' : ''}" data-s="${k}" onclick="setStyle('${k}')">${v.label}</button>`).join('')}
     </div>
-    <div class="col ${S.setOpen ? '' : 'hd'}" style="gap:8px;padding-top:4px;border-top:1px solid var(--b)">
+    <div class="col ${S.setOpen ? '' : 'hd'}" style="gap:8px;padding-top:6px;border-top:1px solid var(--b)">
       <div class="row">
         <select id="ch-br" style="flex:1" onchange="S.br=this.value">
-          <option value="fast" ${S.br === 'fast' ? 'selected' : ''}>⚡ Быстро</option>
-          <option value="balanced" ${S.br === 'balanced' ? 'selected' : ''}>⚖️ Баланс</option>
-          <option value="genius" ${S.br === 'genius' ? 'selected' : ''}>🔮 Гений</option>
+          <option value="fast" ${S.br === 'fast' ? 'selected' : ''}>⚡ Мышление: Быстро</option>
+          <option value="balanced" ${S.br === 'balanced' ? 'selected' : ''}>⚖️ Мышление: Баланс</option>
+          <option value="genius" ${S.br === 'genius' ? 'selected' : ''}>🔮 Мышление: Гений</option>
         </select>
         <input id="ch-t" type="number" step="0.1" min="0" max="2" value="${S.temp}" oninput="S.temp=this.value===''?0.8:Math.min(2,Math.max(0,+this.value))" style="width:74px" title="Температура (0-2)">
       </div>
       <input id="ch-sp" value="${esc(S.customPrompt)}" oninput="S.customPrompt=this.value" placeholder="Скрытый // промпт // после сообщения...">
-      ${inf ? `<div class="col" style="background:var(--s2);padding:10px;border-radius:10px;gap:6px">
+      ${inf ? `<div class="col" style="background:var(--s2);padding:10px;border-radius:11px;gap:6px">
         <div class="row sp"><span class="mut"><b>🧠 Чат (${S.mem.length})</b> • <b>♾️ Глобал (${S.gmem.length})</b></span>
           <div class="row"><button class="sm" onclick="addMem(false)">+ Чат</button><button class="sm btn-g" onclick="addMem(true)">+ Глобал</button>
             <button class="sm btn-y" onclick="promoteAllFacts()">↗️ Всё</button><button class="sm" onclick="exportGlobalMem()">📤</button></div></div>
@@ -697,18 +723,24 @@ async function renderChat() {
     </div>
   </div>
   <div class="msgs" id="ch-msgs">
-    ${S.msgs.length ? S.msgs.map((m, i) => fmtMsg(m, i)).join('') : `<div class="col" style="margin:auto;text-align:center;max-width:480px;padding:14px">
-      <h2><span style="color:var(--red)">ASD</span> AI — ${esc(curChat()?.title || 'Новый чат')}</h2>
-      <p class="mut">Модель: <b>${esc(curMod ? (curMod.key_title || curMod.display_name || curMod.model_id) : 'Не выбрана')}</b> • Выберите стиль сверху и напишите сообщение!</p></div>`}
+    ${S.msgs.length ? S.msgs.map((m, i) => fmtMsg(m, i)).join('') : `<div class="col" style="margin:auto;text-align:center;max-width:600px;padding:12px">
+      <div class="asd-brand" style="margin:0 auto"><i class="ri-vip-crown-fill asd-crown" style="font-size:32px"></i><div class="asd-letters" style="font-size:40px">ASD</div></div>
+      <div class="mut" style="margin-top:2px">Активна модель: <b style="color:#fff">${esc(curMod ? (curMod.key_title || curMod.display_name || curMod.model_id) : 'Не выбрана')}</b></div>
+      <div class="hero-grid">
+        <div class="hero-card" onclick="useStarter('coding','Напиши красивую неоновую HTML-игру Кликер в одном файле')"><b>🎮 HTML-игра в 1 клик</b><div class="mut">Напишет код и запустит прямо в чате</div></div>
+        <div class="hero-card" onclick="useStarter('roleplay','Привет! Давай начнём крутой сюжет в киберпанк-городе, я только вошёл в неоновый бар.')"><b>🎭 Ролеплей Character.AI</b><div class="mut">Живой сюжет и действия в *звёздочках*</div></div>
+        <div class="hero-card" onclick="useStarter('simple','Объясни на пальцах, как работает рекурсия в программировании')"><b>🎓 Объясни на пальцах</b><div class="mut">Сложные темы простыми словами</div></div>
+        <div class="hero-card" onclick="useStarter('combo','Придумай 3 вирусные идеи для моего проекта и разбери лучшую по шагам')"><b>🔥 Режим Комбо</b><div class="mut">Логика + чёткий пошаговый план</div></div>
+      </div></div>`}
     ${S.sending ? `<div class="msg" id="ai-typing"><div class="typing-pill"><span class="typing-dot"></span><span>Нейросеть думает и отвечает...</span><b class="mono" id="ai-sec">0.0с</b></div></div>` : ''}
   </div>
-  <div class="row sp mut" style="padding:0 6px 6px">
+  <div class="row sp mut" style="padding:2px 6px 6px">
     <span>⚡ Бесплатных (5ч): <b style="color:var(--g)">${freeLeft}/${l.freeReqsLimit || 0}</b> ${l.cap5h ? `• Платные: <b>${l.used5h || 0}/${l.cap5h} ₽</b>` : ''}</span>
-    <a onclick="go('bill')" style="color:var(--y);font-weight:700">⚡ PRO 500₽ / ULTRA 1490₽ →</a>
+    <a onclick="go('bill')" style="color:var(--y);font-weight:700">👑 PRO 500₽ / ULTRA 1490₽ →</a>
   </div>
-  <div class="card row" style="margin:0;padding:8px 10px;border-radius:16px">
-    <textarea id="ch-in" rows="2" style="flex:1;border:none;background:transparent" placeholder="Напишите сообщение... (Enter — отправить)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"></textarea>
-    <button id="ch-send" class="btn" style="border-radius:99px;width:44px;height:44px;padding:0" ${S.sending ? 'disabled' : ''} onclick="sendChat()"><i class="ri-arrow-up-line" style="font-size:18px"></i></button>
+  <div class="composer">
+    <textarea id="ch-in" rows="2" style="flex:1;border:none;background:transparent;padding:6px 0;box-shadow:none" placeholder="Спросите что угодно... (Enter — отправить)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"></textarea>
+    <button id="ch-send" class="btn-red" style="border-radius:50%;width:42px;height:42px;padding:0;flex-shrink:0" ${S.sending ? 'disabled' : ''} onclick="sendChat()"><i class="ri-arrow-up-line" style="font-size:20px"></i></button>
   </div>`;
   const b = $('ch-msgs'); if (b) b.scrollTop = b.scrollHeight;
 }
@@ -729,21 +761,13 @@ async function sendChat() {
   const allFacts = hasInfMem() ? [...new Set([...S.gmem, ...S.mem])].slice(0, 40) : [];
   const msgsForApi = S.msgs.map(m => ({ role: m.role, content: m.content }));
   msgsForApi.push({ role: 'user', content: t });
-  S.msgs.push({ role: 'user', content: t });
-  saveChats();
+  S.msgs.push({ role: 'user', content: t }); saveChats();
 
-  const t0 = performance.now();
-  clearInterval(window._secTimer);
-  renderChat();
-  window._secTimer = setInterval(() => {
-    const el = $('ai-sec');
-    if (el) el.textContent = ((performance.now() - t0) / 1000).toFixed(1) + 'с';
-  }, 100);
+  const t0 = performance.now(); clearInterval(window._secTimer); renderChat();
+  window._secTimer = setInterval(() => { const el = $('ai-sec'); if (el) el.textContent = ((performance.now() - t0) / 1000).toFixed(1) + 'с'; }, 100);
 
   try {
-    const { ok, data } = await api('/api/chat', {
-      body: { modelRowId: S.mid, messages: msgsForApi, mode: st.mode, brainLevel: br, memoryFacts: allFacts, secretPrompt: sp, temperature: temp }
-    });
+    const { ok, data } = await api('/api/chat', { body: { modelRowId: S.mid, messages: msgsForApi, mode: st.mode, brainLevel: br, memoryFacts: allFacts, secretPrompt: sp, temperature: temp } });
     const sec = ((performance.now() - t0) / 1000).toFixed(1);
     if (!ok) return toast(data.error || 'Ошибка ответа');
     let txt = String(data.text || '').replace(/\/\/SAVE:\s*(.+)/gi, (_, f) => {
@@ -754,16 +778,17 @@ async function sendChat() {
     if (!txt) txt = data.thinking ? '(Весь ответ сформирован внутри блока Thinking выше)' : '(Пустой ответ от модели)';
     if (S.mem.length > 40) S.mem = S.mem.slice(-40);
     S.msgs.push({ role: 'assistant', content: txt, thinking: data.thinking || '', timeSec: sec, meta: `${data.provider || ''}/${data.modelId || ''} • ${data.costRub || 0} ₽` });
-    saveChats();
-    await loadMe(true);
+    saveChats(); await loadMe(true);
   } finally { clearInterval(window._secTimer); S.sending = false; renderChat(); }
 }
 
 function renderCat() {
-  $('view').innerHTML = `<div class="card row"><input id="q-s" placeholder="Поиск ИИ..." style="flex:1;min-width:140px">
-    <select id="q-p"><option value="">Все провайдеры</option><option value="gemini">Google Gemini</option><option value="openai">OpenAI</option><option value="anthropic">Claude</option><option value="openrouter">OpenRouter</option><option value="deepseek">DeepSeek</option><option value="groq">Groq</option><option value="xai">xAI Grok</option><option value="mistral">Mistral</option></select>
-    <label class="row mut"><input type="checkbox" id="q-u"> 18+</label><label class="row mut"><input type="checkbox" id="q-f"> Free</label>
-    <button class="btn sm" onclick="loadCat()">Найти</button><button class="btn-g sm" onclick="go('keys')">+ Выложить AI</button></div><div class="grid" id="cat-g"></div>`;
+  $('view').innerHTML = `<div class="card col">
+    <div class="row sp"><h3><i class="ri-compass-3-line" style="color:var(--red)"></i> Каталог нейросетей ASD</h3><button class="btn-g sm" onclick="go('keys')">+ Выложить свой AI (50/50)</button></div>
+    <div class="row"><input id="q-s" placeholder="Поиск ИИ (Gemini, Qwen, Claude)..." style="flex:1;min-width:140px">
+      <select id="q-p"><option value="">Все провайдеры</option><option value="gemini">Google Gemini</option><option value="openai">OpenAI</option><option value="anthropic">Claude</option><option value="openrouter">OpenRouter</option><option value="deepseek">DeepSeek</option><option value="groq">Groq</option><option value="xai">xAI Grok</option><option value="mistral">Mistral</option></select>
+      <label class="row mut"><input type="checkbox" id="q-u"> 18+</label><label class="row mut"><input type="checkbox" id="q-f"> Free</label>
+      <button class="btn-red sm" onclick="loadCat()"><i class="ri-search-line"></i>Найти</button></div></div><div class="grid" id="cat-g"></div>`;
   loadCat();
 }
 
@@ -775,25 +800,25 @@ async function loadCat() {
   $('cat-g').innerHTML = S.cat.map(m => {
     const tReq = String(m.tier_required || 'free').toLowerCase();
     const needUp = !isAdmin() && !m.is_free && ((myPlan === 'free') || (myPlan === 'pro' && tReq === 'ultra'));
-    return `<div class="card col sp"><div>
+    return `<div class="card card-h col sp"><div>
       <div class="row sp"><b>🤖 ${esc(m.key_title || m.display_name || m.model_id)}</b><span class="tag">${esc(m.provider)}</span></div>
-      <div class="mut mono" style="font-size:11px">${esc(m.model_id)} • @${esc(m.owner_name)}</div>
-      <p style="margin:6px 0">${esc(cleanDesc(m.description) || 'Зашифрованный API-ключ.')}</p>
+      <div class="mut mono" style="font-size:11px;margin-top:2px">${esc(m.model_id)} • @${esc(m.owner_name)}</div>
+      <p class="mut" style="margin:8px 0;color:#c9cad6">${esc(cleanDesc(m.description) || 'Зашифрованный API-ключ без VPN.')}</p>
       <div class="row"><span class="tag ${m.is_free ? 'g' : ''}">${m.is_free ? 'FREE' : (m.est_req_rub || 0) + ' ₽'}</span>${m.is_uncensored ? '<span class="tag r">18+ RP</span>' : ''}<span class="tag y">${esc(tReq.toUpperCase())}</span></div></div>
-      <div class="row sp" style="margin-top:8px"><button class="sm" data-id="${esc(m.id)}" onclick="likeMod(this.dataset.id)">❤️ ${m.likes_count || 0}</button>
-        ${m.lock_reason ? `<span class="tag r">🔒 ${esc(m.lock_reason)}</span>` : (needUp ? `<button class="sm btn-y" onclick="go('bill')">🔒 Нужен ${esc(tReq.toUpperCase())}</button>` : `<button class="btn sm" data-id="${esc(m.id)}" onclick="selectModelForChat(this.dataset.id)">💬 Открыть в чате</button>`)}</div></div>`;
+      <div class="row sp" style="margin-top:10px;padding-top:8px;border-top:1px solid var(--b)"><button class="sm" data-id="${esc(m.id)}" onclick="likeMod(this.dataset.id)">❤️ ${m.likes_count || 0}</button>
+        ${m.lock_reason ? `<span class="tag r">🔒 ${esc(m.lock_reason)}</span>` : (needUp ? `<button class="sm btn-y" onclick="go('bill')">🔓 Открыть (${esc(tReq.toUpperCase())})</button>` : `<button class="btn-red sm" data-id="${esc(m.id)}" onclick="selectModelForChat(this.dataset.id)">💬 Открыть в чате</button>`)}</div></div>`;
   }).join('') || '<div class="card mut">Нейросети не найдены</div>';
 }
 async function likeMod(id) { await api('/api/catalog/like', { body: { modelRowId: String(id) } }); loadCat(); }
 </script>
 <script>
 const PROVIDER_MODELS = {
-  gemini: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-3.8-flash'],
+  gemini: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-2.5-flash', 'gemini-2.5-pro'],
   openai: ['gpt-4o', 'gpt-4o-mini', 'o3-mini', 'gpt-4.1'],
   anthropic: ['claude-3-7-sonnet-latest', 'claude-3-5-sonnet-latest', 'claude-3-5-haiku-latest'],
   deepseek: ['deepseek-chat', 'deepseek-reasoner'],
-  openrouter: ['google/gemini-2.0-flash-001', 'anthropic/claude-3.5-sonnet', 'openai/gpt-4o', 'deepseek/deepseek-r1'],
-  groq: ['llama-3.3-70b-versatile', 'deepseek-r1-distill-llama-70b'],
+  openrouter: ['qwen/qwen3.8-27b:free', 'nvidia/nemotron-3-ultra:free', 'google/gemma-4-31b:free', 'anthropic/claude-3.5-sonnet'],
+  groq: ['openai/gpt-oss-120b', 'llama-3.3-70b-versatile', 'qwen/qwen3.8-27b'],
   xai: ['grok-3', 'grok-3-mini'],
   mistral: ['mistral-large-latest', 'codestral-latest'],
   together: ['meta-llama/Llama-3.3-70B-Instruct-Turbo'],
@@ -819,7 +844,7 @@ async function fetchProviderModels(btn) {
       list = srv.data.models;
     } else if (p === 'gemini') {
       const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models?key=' + encodeURIComponent(k));
-      if (r.status === 403) return toast('Регион заблокирован — выберите модель ниже или впишите ID вручную');
+      if (r.status === 403) return toast('Регион заблокирован — выберите модель ниже или впишите вручную');
       const d = await r.json();
       list = (d.models || []).filter(m => (m.supportedGenerationMethods || []).includes('generateContent')).map(m => m.name.replace(/^models\//, ''));
     } else if (['openai', 'openrouter', 'groq', 'mistral'].includes(p)) {
@@ -833,30 +858,30 @@ async function fetchProviderModels(btn) {
       toast(`✅ Найдено моделей: ${list.length}! Выберите нужную.`);
     } else toast(srv.data?.error || 'Выберите модель из списка ниже или впишите вручную');
   } catch (_) {
-    toast('Запрос недоступен (попробуйте включить VPN или выбрать из списка ниже)');
+    toast('Выберите модель из списка ниже или впишите вручную');
   } finally { if (btn) btn.disabled = false; }
 }
 
 async function renderKeys() {
   const { ok, data } = await api('/api/keys/mine');
   const ks = ok ? (Array.isArray(data.keys) ? data.keys : (Array.isArray(data) ? data : [])) : [];
-  $('view').innerHTML = `<div class="card col" style="border-color:var(--g)">
-    <div class="row sp"><h3>➕ Выложить свой AI (1 модель под твоим названием)</h3><span class="tag g">🔒 Шифрование</span></div>
-    <div class="card col" style="margin:0;padding:10px;background:var(--s2)">
-      <p class="mut">💡 Совет: создайте отдельный лимитный ключ на $5 (470 ₽) или Free-ключ. Вы ничем не рискуете, а с подписок PRO/ULTRA получаете до 50%!</p>
+  $('view').innerHTML = `<div class="card col" style="border-color:rgba(16,185,129,.4)">
+    <div class="row sp"><h3><i class="ri-key-2-fill" style="color:var(--g)"></i> Выложить свой AI (доход 50/50)</h3><span class="tag g">🔒 AES-256 Шифрование</span></div>
+    <div class="card col" style="margin:0;padding:11px;background:var(--s2)">
+      <p class="mut">💡 <b>Безопасный старт:</b> создайте отдельный лимитный ключ на $5 (470 ₽) или Free-ключ (Gemini / Groq / OpenRouter). Ключ шифруется на сервере, а вы получаете до <b>50% от подписок</b> пропорционально расходу!</p>
     </div>
     <div class="grid">
       <div><span class="lbl">1. Провайдер</span><select id="k-p" class="w1" onchange="onProvChange()">
-        <option value="gemini">Google Gemini</option><option value="openai">OpenAI (GPT)</option><option value="anthropic">Anthropic Claude</option>
-        <option value="openrouter">OpenRouter</option><option value="deepseek">DeepSeek</option><option value="groq">Groq</option>
+        <option value="gemini">Google Gemini</option><option value="groq">Groq (Бесплатные 120B)</option><option value="openrouter">OpenRouter (:free и платные)</option>
+        <option value="openai">OpenAI (GPT)</option><option value="anthropic">Anthropic Claude</option><option value="deepseek">DeepSeek</option>
         <option value="xai">xAI Grok</option><option value="mistral">Mistral AI</option><option value="together">Together AI</option><option value="cerebras">Cerebras</option>
       </select></div>
       <div><span class="lbl">2. Кто может пользоваться?</span><select id="k-tr" class="w1"><option value="free">🌐 Все (FREE + PRO + ULTRA)</option><option value="pro">🔥 PRO + ULTRA (Доход 50/50)</option><option value="ultra">💎 Только ULTRA (VIP)</option></select></div>
       <div><span class="lbl">3. Лимит расхода ₽ (макс. 470)</span><input id="k-c" type="number" class="w1" value="470" min="1" max="470"></div>
     </div>
     <div class="grid">
-      <div><span class="lbl">4. Название на русском</span><input id="k-t" class="w1" placeholder="Например: Руджим"></div>
-      <div><span class="lbl">5. Секретный API-ключ</span><div class="row"><input id="k-k" style="flex:1" placeholder="AIza... / AQ... / sk-..."><button class="sm" onclick="fetchProviderModels(this)">🔍 Модели</button></div></div>
+      <div><span class="lbl">4. Название на русском</span><input id="k-t" class="w1" placeholder="Например: Qwen 27B PRO"></div>
+      <div><span class="lbl">5. Секретный API-ключ</span><div class="row"><input id="k-k" style="flex:1" placeholder="AIza... / AQ... / sk-..."><button class="sm btn" onclick="fetchProviderModels(this)">🔍 Модели</button></div></div>
     </div>
     <div class="card col" style="margin:0;padding:12px;background:var(--s2)">
       <span class="lbl">6. Конкретная модель (чтобы выложилась ровно 1 штука):</span>
@@ -869,7 +894,7 @@ async function renderKeys() {
     </div>
   </div>
   <div class="card col"><h3>🔑 Ваши выложенные ключи (${ks.length})</h3>
-    ${!ok ? `<div class="tag r">❌ Не удалось загрузить ключи: ${esc(data.error || 'ошибка сервера')}</div>` : `
+    ${!ok ? `<div class="tag r">❌ Не удалось загрузить ключи: ${esc(data.error || 'ошибка')}</div>` : `
     <div class="grid">${ks.map(k => `<div class="card col" style="margin:0;background:var(--s2)">
       <div class="row sp"><b>${esc(k.title)}</b><span class="tag g">${esc(k.provider)} • ${k.enabled ? 'Вкл' : 'Выкл'}</span></div>
       ${parseOnly(k.description) ? `<div class="tag y">🎯 ${esc(parseOnly(k.description))}</div>` : ''}
@@ -877,7 +902,7 @@ async function renderKeys() {
       <div class="row">
         <button class="sm btn" onclick="go('cat')">💬 В каталог</button>
         <button class="sm" data-id="${esc(k.id)}" onclick="keyAct(this.dataset.id,'ping')">📡 Пинг</button>
-        <button class="sm" data-id="${esc(k.id)}" onclick="keyAct(this.dataset.id,'toggle')">⏯ Вкл/Выкл</button>
+        <button class="sm" data-id="${esc(k.id)}" onclick="keyAct(this.dataset.id,'toggle')">⏯</button>
         <button class="sm btn-r" data-id="${esc(k.id)}" onclick="keyAct(this.dataset.id,'del')">🗑 Удалить</button>
       </div></div>`).join('') || '<span class="mut">Ключей пока нет</span>'}</div>`}
   </div>`;
@@ -910,25 +935,37 @@ async function keyAct(id, a) {
   toast(ok ? (a === 'del' ? '🗑 Удалено!' : `✅ Готово!${data.okCount !== undefined ? ` (Ок: ${data.okCount}, Блок: ${data.lockedCount})` : ''}`) : ('❌ ' + (data.error || 'Ошибка')));
   renderKeys();
 }
-
 async function pAct(p, b) { const { ok, data } = await api(p, { body: b }); toast(ok ? (data.message || '✅ Выполнено!') : ('❌ ' + (data.error || 'Ошибка'))); loadMe(); }
 
 async function renderBill() {
   const { data } = await api('/api/billing/info'); S.payInfo = data || {}; S.cStep = 0;
   $('view').innerHTML = `<div class="col">
-    <div class="card row sp" style="border-color:#3b82f6;background:rgba(59,130,246,.1)">
-      <div><h3>🤖 Бот кассы: @NexusKassa_bot</h3><p class="mut">Оплачивайте на сайте или через нашего бота в Telegram!</p></div>
-      <a class="btn sm" target="_blank" rel="noopener noreferrer" href="https://t.me/NexusKassa_bot">Открыть @NexusKassa_bot</a>
+    <div style="text-align:center;margin-bottom:4px">
+      <h2>Тарифы <span style="color:var(--red)">ASD</span> AI</h2>
+      <div class="row" style="justify-content:center;margin-top:8px">
+        <span class="tag g">✓ Оплата через Сбербанк</span>
+        <span class="mut"><s style="color:var(--r)">зарубежные карты</s> не нужны</span>
+      </div>
     </div>
-    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))">
-      <div class="plan-card pop"><div class="col"><div class="row sp"><h3>🔥 PRO</h3><span class="tag g">500 ₽ (50% разрабам)</span></div><div class="price-big">500 ₽ <span class="mut" style="font-size:13px">/ 30 дн.</span></div>
-        <div class="feat-list"><div><i class="ri-checkbox-circle-fill"></i><b>♾️ Вечная глобальная память</b> (для GPT/Gemini/Claude)</div><div><i class="ri-checkbox-circle-fill"></i>Доступ к PRO-моделям (лимит 25₽/5ч, 190₽/мес)</div><div><i class="ri-checkbox-circle-fill"></i>Все стили ответа (Ролеплей, Код, Комбо)</div></div></div>
-        <button class="btn-g w1" style="padding:12px" onclick="openPayModal('buy_pro','Подписка PRO','500 ₽')">🚀 Купить PRO за 500 ₽</button></div>
-      <div class="plan-card vip"><div class="col"><div class="row sp"><h3>💎 ULTRA</h3><span class="tag y">VIP МАКСИМУМ</span></div><div class="price-big">1490 ₽ <span class="mut" style="font-size:13px">/ 30 дн.</span></div>
-        <div class="feat-list"><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i><b>♾️ Вечная глобальная память</b> + макс. контекст</div><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>Все ULTRA + PRO нейросети (550₽/мес)</div><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>Режим 🧠 Гений и 100 беспл. запросов</div></div></div>
-        <button class="btn-y w1" style="padding:12px" onclick="openPayModal('buy_ultra','Подписка ULTRA','1490 ₽')">👑 Купить ULTRA за 1490 ₽</button></div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,255px),1fr))">
+      <div class="plan-card"><div class="col"><div class="row sp"><h3>Free</h3><span class="tag">Бесплатный старт</span></div>
+        <div class="price-big">0 ₽</div>
+        <div class="feat-list"><div><i class="ri-check-line"></i>25 бесплатных запросов каждые 5ч</div><div><i class="ri-check-line"></i>Все стили ответа + HTML-песочница</div><div><i class="ri-check-line"></i>Работает в РФ без VPN</div></div></div>
+        <button class="w1" disabled>Базовый тариф</button></div>
+      <div class="plan-card pop"><div class="col"><div class="row sp"><h3>🔥 PRO</h3><span class="tag y">ХИТ • ВЫБОР 85%</span></div>
+        <div class="price-big" style="color:var(--y)">500 ₽ <span class="mut" style="font-size:13px;font-weight:500">/ 30 дн.</span></div>
+        <div class="feat-list"><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i><b>♾️ Вечная глобальная память</b> между моделями</div><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>PRO-модели (Qwen 27B и др.) • 190 ₽/мес</div><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>50 беспл. запросов / 5ч + сброс за 250 ₽</div></div></div>
+        <button class="btn-y w1" style="padding:12px" onclick="openPayModal('buy_pro','Подписка PRO','500 ₽')">🚀 Купить PRO за 500 ₽</button></div>
+      <div class="plan-card vip"><div class="col"><div class="row sp"><h3>👑 ULTRA</h3><span class="tag r">VIP МАКСИМУМ</span></div>
+        <div class="price-big">1490 ₽ <span class="mut" style="font-size:13px;font-weight:500">/ 30 дн.</span></div>
+        <div class="feat-list"><div><i class="ri-checkbox-circle-fill" style="color:var(--red)"></i><b>Все ULTRA + PRO нейросети</b> (550 ₽/мес)</div><div><i class="ri-checkbox-circle-fill" style="color:var(--red)"></i><b>♾️ Вечная память</b> + макс. контекст 30к</div><div><i class="ri-checkbox-circle-fill" style="color:var(--red)"></i>Режим 🔮 Гений + 100 беспл. запросов</div></div></div>
+        <button class="btn-red w1" style="padding:12px" onclick="openPayModal('buy_ultra','Подписка ULTRA','1490 ₽')">👑 Купить ULTRA за 1490 ₽</button></div>
     </div>
-    <div class="card row sp" style="border-color:var(--g)"><div><h3>⚡ Сбросить лимит 5ч</h3><p class="mut">250 ₽ (PRO) / 500 ₽ (ULTRA)</p></div><button class="btn" onclick="openPayModal('reset_5h','Сброс 5ч','250 / 500 ₽')">⚡ Сбросить 5ч</button></div>
+    <div class="card row sp" style="border-color:rgba(16,185,129,.35)"><div><h4>⚡ Сбросить лимит 5ч прямо сейчас</h4><p class="mut">250 ₽ (PRO) / 500 ₽ (ULTRA)</p></div><button class="btn-g" onclick="openPayModal('reset_5h','Сброс 5ч','250 / 500 ₽')">⚡ Сбросить 5ч</button></div>
+    <div class="card row sp" style="border-color:rgba(56,189,248,.35);background:rgba(56,189,248,.07)">
+      <div><h4>🎁 Розыгрыш PRO на 2 мес + Бот кассы</h4><p class="mut">Участвуй в конкурсе в <b>@asd_ai_lol</b> или оплачивай через <b>@NexusKassa_bot</b></p></div>
+      <div class="row"><a class="btn sm" target="_blank" rel="noopener noreferrer" href="https://t.me/asd_ai_lol">ТГК @asd_ai_lol</a><a class="sm btn-g" target="_blank" rel="noopener noreferrer" href="https://t.me/NexusKassa_bot">@NexusKassa_bot</a></div>
+    </div>
     <div class="row sp mut"><a onclick="openAccountModal()">🎟 Ввести промокод →</a><button class="sm btn-r" id="ca-b" onclick="canAuto()">Отменить автооплату (в 3 клика)</button></div></div>`;
 }
 
@@ -939,7 +976,6 @@ function openPayModal(type, title, price) {
     <input id="bl-n" placeholder="Ваш логин" value="${esc(S.user?.username || '')}"><input id="bl-s" placeholder="Имя отправителя и сумма (от 3 симв.)">
     <button class="btn-g w1" style="padding:12px" onclick="ordB('${type}',this)">✅ Я перевёл — Отправить заявку</button></div>`);
 }
-
 async function ordB(t, btn) {
   if (btn) btn.disabled = true;
   try {
@@ -986,12 +1022,12 @@ async function renderAdm() {
   S.admData = data || {};
   const d = S.admData, pc = d.payConfig || {}, users = d.users || [], appeals = d.appeals || [], keys = d.keys || [], alerts = d.alerts || [], ad = d.ad || {};
   $('view').innerHTML = `<div id="adm-msg" class="card" style="padding:10px 14px"><b>👑 Админ-панель asdcreator</b> • Юзеров: <b>${users.length}</b> • Тревог: <b>${alerts.length}</b></div>
-  <div class="card col" style="border-color:var(--y)">
+  <div class="card col" style="border-color:rgba(251,191,36,.4)">
     <div class="row sp"><h3>👥 Все пользователи (${users.length}) — выдача в 1 клик</h3><input id="adm-uq" placeholder="Поиск по нику..." oninput="drawAdmUsers()" style="width:200px"></div>
     <div id="adm-ulist" style="max-height:280px;overflow-y:auto"></div>
   </div>
   <div class="grid">
-    <div class="card col" style="border-color:var(--r)"><h4>📩 Письма / Апелляции (${appeals.length})</h4>
+    <div class="card col" style="border-color:rgba(239,68,68,.4)"><h4>📩 Письма / Апелляции (${appeals.length})</h4>
       ${appeals.map(a => `<div class="col mut" style="padding:8px;background:var(--s2);border-radius:8px"><div><b>${esc(a.username)}</b>: ${esc(a.message)}</div>
         <div class="row"><button class="sm btn-g" data-id="${esc(a.id)}" onclick="resAppeal(this.dataset.id,true)">✅ Разбанить</button><button class="sm btn-r" data-id="${esc(a.id)}" onclick="resAppeal(this.dataset.id,false)">🚫 Отклонить</button></div></div>`).join('') || '<span class="mut">Писем нет</span>'}</div>
     <div class="card col"><h4>📦 Заявки на оплату (${(d.orders || []).length})</h4>
@@ -1001,15 +1037,5 @@ async function renderAdm() {
       <div style="max-height:200px;overflow-y:auto">${alerts.map(a => `<div class="mut" style="padding:4px 0;border-bottom:1px solid var(--b)"><b>${esc(a.username)}</b>: ${esc(a.message)}</div>`).join('') || '<span class="mut">Всё чисто</span>'}</div></div>
     <div class="card col"><h4>🔑 Все ключи (${keys.length})</h4>
       ${keys.map(k => `<div class="row sp mut"><span><b>${esc(k.title || k.id)}</b> (${esc(k.provider)})</span><button class="sm btn-r" data-id="${esc(k.id)}" onclick="delKeyAdm(this.dataset.id)">🗑</button></div>`).join('') || '<span class="mut">Ключей нет</span>'}</div>
-    <div class="card col"><h4>🎟 Промокоды</h4><div class="row"><input id="pr-c" placeholder="Код" style="flex:1"><select id="pr-p"><option value="pro">PRO</option><option value="ultra">ULTRA</option></select><input id="pr-d" value="30" style="width:55px"><button class="sm btn" onclick="adm('promo',{code:$('pr-c').value,plan:$('pr-p').value,days:+$('pr-d').value})">+</button></div>
-      ${(d.promos || []).map(p => `<div class="row sp mut"><span><b>${esc(p.code)}</b> (${esc(p.plan)})</span><button class="sm btn-r" data-c="${esc(p.code)}" onclick="adm('promo/'+encodeURIComponent(this.dataset.c),null,'DELETE')">✕</button></div>`).join('')}</div>
-    <div class="card col"><h4>🏦 Сбер и @NexusKassa_bot</h4><input id="ap-p" placeholder="Телефон Сбера" value="${esc(pc.phone || '')}"><input id="ap-b" placeholder="Банк" value="${esc(pc.bank || 'Сбербанк')}"><input id="ap-t" placeholder="TG Token" value="${esc(pc.tgToken || '')}"><input id="ap-c" placeholder="TG Chat ID" value="${esc(pc.tgChatId || '')}"><button class="btn sm" onclick="adm('pay-config',{phone:$('ap-p').value,bank:$('ap-b').value,tgToken:$('ap-t').value,tgChatId:$('ap-c').value})">Сохранить</button></div>
-    <div class="card col"><h4>📢 Реклама и 🏆 Реф-топ</h4><label class="row mut"><input type="checkbox" id="aa-e" ${ad.enabled ? 'checked' : ''}> Вкл</label><input id="aa-t" placeholder="Заголовок" value="${esc(ad.title || '')}"><input id="aa-x" placeholder="Текст" value="${esc(ad.text || '')}"><input id="aa-u" placeholder="URL" value="${esc(ad.url || '')}"><button class="btn sm" onclick="adm('ad',{enabled:$('aa-e').checked,title:$('aa-t').value,text:$('aa-x').value,url:$('aa-u').value})">Сохранить</button>
-      <div class="mut">Топ рефоводов: ${(d.refTop || []).map(r => esc(r.username) + ':' + r.valid_refs).join(', ') || 'пока нет'}</div></div>
-  </div>`;
-  drawAdmUsers();
-}
-loadStats(); loadMe();
-</script>
-</body>
-</html>
+    <div class="card col"><h4>🎟 Промокоды</h4><div class="row"><input id="pr-c" placeholder="Код" style="flex:1"><select id="pr-p"><option value="pro">PRO</option><option value="ultra">ULTRA</option></select><input id="pr-d" value="30" style="width:55px"><button class="sm btn-red" onclick="adm('promo',{code:$('pr-c').value,plan:$('pr-p').value,days:+$('pr-d').value})">+</button></div>
+      ${(d.promos || []).map(p => `<div class="row sp mut"><span><b>${esc(p.code)}</b> (${esc(p.plan)})</span><button class="sm btn-r" data-c="${esc(p.code)}" onclick="adm('promo/'+encodeURIComponent(this.dataset.c),null,'DELETE')">✕</button></di

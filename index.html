@@ -41,6 +41,10 @@ button:hover:not(:disabled){background:var(--s3)}button:active:not(:disabled){tr
 .side{width:270px;background:var(--s1);border-right:1px solid var(--b);padding:12px;display:flex;flex-direction:column;gap:5px;flex-shrink:0;overflow-y:auto}
 .nav{background:transparent;border:none;justify-content:flex-start;padding:10px 12px;border-radius:10px;color:var(--m);font-weight:500;width:100%}
 .nav i{font-size:18px}.nav:hover,.nav.act{background:var(--s2);color:var(--t)}.nav.act{font-weight:700;border-left:3px solid var(--red)}
+.chat-list{display:flex;flex-direction:column;gap:3px;max-height:175px;overflow-y:auto;padding:2px 0 6px}
+.chat-it{display:flex;align-items:center;justify-content:space-between;padding:6px 9px;border-radius:8px;font-size:12px;color:var(--m);cursor:pointer;gap:6px;border:1px solid transparent}
+.chat-it:hover,.chat-it.act{background:var(--s2);color:var(--t)}.chat-it.act{border-color:rgba(255,40,40,.45)}
+.chat-it span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
 .acc-btn{margin-top:auto;background:var(--s2);border:1px solid var(--b);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;width:100%;flex-shrink:0}
 .ava{width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex-shrink:0}
 .main{flex:1;padding:14px;overflow-y:auto;max-width:1120px;width:100%;margin:0 auto}
@@ -58,12 +62,10 @@ button:hover:not(:disabled){background:var(--s3)}button:active:not(:disabled){tr
 .tag.y{color:#fbbf24;border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.1)}
 .msgs{height:calc(100dvh - 285px);min-height:210px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:6px 0}
 .msg{max-width:88%;padding:12px 14px;border-radius:14px;background:var(--s1);border:1px solid var(--b);white-space:pre-wrap;word-break:break-word;user-select:text;-webkit-user-select:text}
-.msg *{user-select:text;-webkit-user-select:text}
-.msg.u{align-self:flex-end;background:#2d2d35;border-color:#454552}
+.msg *{user-select:text;-webkit-user-select:text}.msg.u{align-self:flex-end;background:#2d2d35;border-color:#454552}
 .code-wrap{margin:8px 0;border:1px solid var(--b);border-radius:10px;overflow:hidden;background:#101014}
 .code-hd{background:#18181f;padding:6px 10px;display:flex;align-items:center;justify-content:space-between;gap:6px;border-bottom:1px solid var(--b);font-size:12px}
-.code-wrap.fold .code-hd{border-bottom:none}.code-wrap.fold pre{display:none}
-.code-wrap pre{background:#101014;padding:10px;overflow-x:auto;margin:0;font-size:12px;white-space:pre}
+.code-wrap.fold .code-hd{border-bottom:none}.code-wrap.fold pre{display:none}.code-wrap pre{background:#101014;padding:10px;overflow-x:auto;margin:0;font-size:12px;white-space:pre}
 .rp-act{color:#fbbf24;font-style:italic;background:rgba(245,158,11,.1);padding:1px 5px;border-radius:4px}
 .think{background:var(--s2);border:1px solid rgba(251,191,36,.3);border-left:3px solid var(--y);padding:8px 10px;margin-bottom:8px;font-size:12px;color:var(--m);border-radius:8px}
 .think summary{cursor:pointer;font-weight:700;color:var(--y);display:flex;align-items:center;gap:6px;list-style:none}
@@ -107,6 +109,11 @@ iframe.sbx{width:100%;height:65vh;border:none;background:#fff;border-radius:10px
       <button class="sm" onclick="toggleMenu(false)">✕</button>
     </div>
     <button class="nav act" data-t="chat" onclick="go('chat')"><i class="ri-chat-3-line"></i>1. Чат и Стили ИИ</button>
+    <div class="row sp" style="padding:4px 6px 0">
+      <span class="lbl" style="margin:0">Мои чаты</span>
+      <button class="sm btn-g" onclick="newChat()"><i class="ri-add-line"></i>Новый</button>
+    </div>
+    <div id="chat-list" class="chat-list"></div>
     <button class="nav" data-t="cat" onclick="go('cat')"><i class="ri-compass-3-line"></i>2. Каталог нейросетей</button>
     <button class="nav" data-t="bill" onclick="go('bill')"><i class="ri-vip-diamond-line" style="color:var(--y)"></i>3. Подписки PRO / ULTRA</button>
     <button class="nav" data-t="keys" onclick="go('keys')"><i class="ri-key-2-line"></i>4. Мои API и публикация</button>
@@ -137,13 +144,95 @@ window.S = {
   user: JSON.parse(localStorage.getItem('nx_user_cache') || 'null'),
   ad: null, cap: null, needCode: false, authMode: 'login',
   cat: [], mid: localStorage.getItem('nx_mid') || '',
-  msgs: JSON.parse(localStorage.getItem('nx_msgs') || '[]'),
-  mem: JSON.parse(localStorage.getItem('nx_mem') || '[]'),
+  chats: [], cid: '', msgs: [], mem: [],
   gmem: JSON.parse(localStorage.getItem('nx_gmem') || '[]'),
   tab: 'chat', cStep: 0, sbx: [], payInfo: {}, styleKey: 'roleplay',
   customPrompt: '', temp: 0.8, br: 'balanced', sending: false,
   setOpen: window.innerWidth > 860, seenUntrusted: new Set(), admData: null
 };
+
+const curChat = () => S.chats.find(c => c.id === S.cid) || S.chats[0];
+function renderChatList() {
+  const box = $('chat-list'); if (!box) return;
+  box.innerHTML = S.chats.map(c => `<div class="chat-it ${c.id === S.cid ? 'act' : ''}" data-id="${esc(c.id)}" onclick="switchChat(this.dataset.id)">
+    <span>💬 ${esc(c.title || 'Новый чат')}</span>
+    <a data-id="${esc(c.id)}" onclick="event.stopPropagation();delChat(this.dataset.id)" title="Удалить">×</a>
+  </div>`).join('');
+}
+function saveChats() {
+  const c = curChat();
+  if (c) {
+    c.msgs = S.msgs; c.mem = S.mem; c.mid = S.mid; c.styleKey = S.styleKey;
+    const firstU = S.msgs.find(m => m.role === 'user');
+    if (firstU && (!c.title || c.title === 'Новый чат')) c.title = String(firstU.content || '').slice(0, 28) || 'Чат';
+  }
+  localStorage.setItem('nx_chats', JSON.stringify(S.chats.slice(0, 30)));
+  localStorage.setItem('nx_cid', S.cid);
+  renderChatList();
+}
+function initChats() {
+  let arr = [];
+  try { arr = JSON.parse(localStorage.getItem('nx_chats') || '[]'); } catch {}
+  if (!Array.isArray(arr) || !arr.length) {
+    const oldM = JSON.parse(localStorage.getItem('nx_msgs') || '[]'), oldMem = JSON.parse(localStorage.getItem('nx_mem') || '[]');
+    const firstU = oldM.find(m => m.role === 'user');
+    arr = [{ id: 'c_' + Date.now().toString(36), title: firstU ? String(firstU.content).slice(0, 28) : 'Новый чат', mid: localStorage.getItem('nx_mid') || '', styleKey: 'roleplay', msgs: oldM, mem: oldMem }];
+  }
+  S.chats = arr;
+  const active = S.chats.find(c => c.id === localStorage.getItem('nx_cid')) || S.chats[0];
+  S.cid = active.id; S.msgs = active.msgs || []; S.mem = active.mem || [];
+  if (active.mid) S.mid = active.mid; if (active.styleKey) S.styleKey = active.styleKey;
+  saveChats();
+}
+function newChat() {
+  if (S.sending) return toast('Дождитесь окончания ответа!');
+  const c = { id: 'c_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), title: 'Новый чат', mid: S.mid || '', styleKey: S.styleKey || 'roleplay', msgs: [], mem: [] };
+  S.chats.unshift(c); S.cid = c.id; S.msgs = []; S.mem = [];
+  saveChats(); closeMod(); go('chat');
+  setTimeout(() => { if ($('ch-in')) $('ch-in').focus(); }, 80);
+  toast('💬 Создан новый чат!');
+}
+function switchChat(id) {
+  if (S.sending) return toast('Дождитесь окончания ответа!');
+  const target = S.chats.find(c => c.id === id); if (!target) return;
+  saveChats();
+  S.cid = target.id; S.msgs = target.msgs || []; S.mem = target.mem || [];
+  if (target.mid) S.mid = target.mid;
+  S.styleKey = target.styleKey || 'roleplay';
+  const st = window.CHAT_STYLES?.[S.styleKey];
+  if (st) { S.br = st.br; S.customPrompt = st.prompt; }
+  localStorage.setItem('nx_cid', S.cid); renderChatList(); closeMod(); go('chat');
+}
+function delChat(id) {
+  if (S.sending) return;
+  if (!confirm('Удалить этот чат?')) return;
+  S.chats = S.chats.filter(c => c.id !== id);
+  if (!S.chats.length) return newChat();
+  if (S.cid === id) { const n = S.chats[0]; S.cid = n.id; S.msgs = n.msgs || []; S.mem = n.mem || []; }
+  saveChats(); if ($('mod').classList.contains('on')) openChatsModal();
+  if (S.tab === 'chat') renderChat();
+}
+function renameChat(id) {
+  const c = S.chats.find(x => x.id === id); if (!c) return;
+  const t = prompt('Название чата:', c.title);
+  if (t && t.trim()) { c.title = t.trim().slice(0, 40); saveChats(); if ($('mod').classList.contains('on')) openChatsModal(); }
+}
+function openChatsModal() {
+  openMod(`<div class="col"><div class="row sp"><h3>💬 Мои чаты (${S.chats.length})</h3>
+    <div class="row"><button class="sm btn-g" onclick="newChat()">+ Новый чат</button><button class="sm" onclick="closeMod()">✕</button></div></div>
+    <div class="col" style="max-height:60vh;overflow-y:auto">
+      ${S.chats.map(c => `<div class="card row sp" style="margin:0;padding:10px;border-color:${c.id === S.cid ? 'var(--red)' : 'var(--b)'}">
+        <div style="flex:1;min-width:0;cursor:pointer" data-id="${esc(c.id)}" onclick="switchChat(this.dataset.id)">
+          <b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.id === S.cid ? '● ' : ''}${esc(c.title || 'Новый чат')}</b>
+          <span class="mut">${(c.msgs || []).length} сообщ. • память: ${(c.mem || []).length}</span>
+        </div>
+        <div class="row" style="flex-shrink:0">
+          <button class="sm" data-id="${esc(c.id)}" onclick="renameChat(this.dataset.id)" title="Переименовать">✏️</button>
+          <button class="sm btn-r" data-id="${esc(c.id)}" onclick="delChat(this.dataset.id)" title="Удалить">🗑</button>
+        </div></div>`).join('')}
+    </div></div>`);
+}
+initChats();
 
 const isAdmin = () => Boolean(S.user && (S.user.isAdmin === true || String(S.user.username || '').toLowerCase() === 'asdcreator'));
 const hasInfMem = () => Boolean(S.user && (S.user.isAdmin || S.user.limits?.infiniteMem || ['pro', 'ultra'].includes(String(S.user.plan || '').toLowerCase())));
@@ -158,12 +247,9 @@ function getDev() {
   if (!h) { h = 'hw_' + Math.random().toString(16).slice(2) + Date.now().toString(16); localStorage.setItem('nx_hw_v5', h); }
   return { d, h };
 }
-
 function toast(m) {
-  const t = $('toast');
-  t.innerHTML = `<i class="ri-information-fill" style="color:var(--y)"></i><span>${esc(m)}</span>`;
-  t.classList.add('on'); clearTimeout(window._tT);
-  window._tT = setTimeout(() => t.classList.remove('on'), 3800);
+  const t = $('toast'); t.innerHTML = `<i class="ri-information-fill" style="color:var(--y)"></i><span>${esc(m)}</span>`;
+  t.classList.add('on'); clearTimeout(window._tT); window._tT = setTimeout(() => t.classList.remove('on'), 3800);
 }
 function openMod(h) { $('mod-in').innerHTML = h; $('mod').classList.add('on'); }
 function closeMod() { $('mod').classList.remove('on'); }
@@ -177,17 +263,11 @@ async function api(p, o = {}) {
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + S.tok, 'X-Device-Id': d, 'X-Hw-Hash': h },
       body: o.body ? JSON.stringify(o.body) : undefined
     });
-    const txt = await r.text();
-    let data = {};
+    const txt = await r.text(); let data = {};
     try { data = txt ? JSON.parse(txt) : {}; } catch (_) { data = { error: txt || ('HTTP ' + r.status) }; }
-    if (r.status === 403 && data.errorCode === 'DEVICE_BANNED' && p !== '/api/ban/appeal') {
-      hideLoader(); showBan(data.reasons); throw new Error('DEVICE_BANNED');
-    }
+    if (r.status === 403 && data.errorCode === 'DEVICE_BANNED' && p !== '/api/ban/appeal') { hideLoader(); showBan(data.reasons); throw new Error('DEVICE_BANNED'); }
     return { status: r.status, ok: r.ok && data.ok !== false, data };
-  } catch (e) {
-    if (e.message === 'DEVICE_BANNED') throw e;
-    return { status: 0, ok: false, data: { error: 'Ошибка сети: ' + (e.message || '') } };
-  }
+  } catch (e) { if (e.message === 'DEVICE_BANNED') throw e; return { status: 0, ok: false, data: { error: 'Ошибка сети: ' + (e.message || '') } }; }
 }
 
 function showBan(rs) {
@@ -196,7 +276,7 @@ function showBan(rs) {
     <h2>⚠️⚠️ ИЗВИНИТЕ, НО ВЫ ЗАБАНЕНЫ ПО ЭТОЙ ПРИЧИНЕ ⚠️⚠️</h2>
     <p style="font-size:15px;color:#fecaca">${esc(Array.isArray(rs) ? rs.join(', ') : (rs || 'Подозрение в мошенничестве'))}</p>
     <input id="ban-u" class="w1" placeholder="Ваш логин" value="${esc(S.user?.username || '')}">
-    <textarea id="ban-m" class="w1" rows="3" placeholder="Напишите причину обжалования (придёт создателю)..."></textarea>
+    <textarea id="ban-m" class="w1" rows="3" placeholder="Причина обжалования (придёт создателю)..."></textarea>
     <div id="ban-status" class="mut"></div>
     <button class="btn w1" onclick="sendAppeal(this)">📩 Отправить обжалование</button></div>`;
 }
@@ -207,13 +287,13 @@ async function sendAppeal(btn) {
   if (btn) btn.disabled = true;
   try {
     const { ok, data } = await api('/api/ban/appeal', { body: { username: u, message: m } });
-    $('ban-status').innerHTML = ok ? '<span style="color:#34d399">✅ Апелляция отправлена прямо создателю!</span>' : `<span style="color:#f87171">❌ ${esc(data.error || 'Ошибка')}</span>`;
+    $('ban-status').innerHTML = ok ? '<span style="color:#34d399">✅ Апелляция отправлена создателю!</span>' : `<span style="color:#f87171">❌ ${esc(data.error || 'Ошибка')}</span>`;
     toast(ok ? 'Апелляция отправлена!' : (data.error || 'Ошибка'));
   } finally { if (btn) btn.disabled = false; }
 }
 </script>
 <script>
-const CHAT_STYLES = {
+var CHAT_STYLES = window.CHAT_STYLES = {
   roleplay: { label: '🎭 Ролеплей', mode: 'roleplay', br: 'balanced', prompt: 'Отвечай как в Character.AI: пиши действия и эмоции в *звёздочках*, активно двигай сюжет!' },
   coding: { label: '💻 Код', mode: 'coding', br: 'genius', prompt: 'Перепроверь каждую строчку кода на баги и дай полный рабочий код без заглушек.' },
   combo: { label: '🔥 Комбо', mode: 'combo', br: 'genius', prompt: 'Соедини глубокий анализ, точный код/факты и живое понятное объяснение с примерами!' },
@@ -222,7 +302,8 @@ const CHAT_STYLES = {
   short: { label: '⚡ Краткий', mode: 'short', br: 'fast', prompt: 'Ответь максимально кратко — только главная суть в 2-3 предложениях.' },
   simple: { label: '🎓 На пальцах', mode: 'simple', br: 'fast', prompt: 'Объясни как школьнику 13 лет максимально простыми словами без сложных терминов.' }
 };
-S.customPrompt = CHAT_STYLES.roleplay.prompt;
+S.customPrompt = (CHAT_STYLES[S.styleKey] || CHAT_STYLES.roleplay).prompt;
+S.br = (CHAT_STYLES[S.styleKey] || CHAT_STYLES.roleplay).br;
 
 function renderCreatorBar() {
   const cb = $('creator-bar'), admOk = isAdmin() && !S.user?.isQuarantined;
@@ -310,7 +391,7 @@ function openAccountModal() {
       <div class="row sp"><button class="sm btn-g" onclick="pAct('/api/bonus/checkin',{});closeMod()">🎁 Бонус (${u.checkinStreak || 0})</button><button class="sm btn-y" onclick="closeMod();go('bill')">⚡ PRO / ULTRA</button></div>
     </div>
     <div class="card col" style="margin:0;padding:12px">
-      <span class="lbl">💰 Кошелёк 50/50: ${w.balanceRub || 0} ₽ (вывод от 300 ₽)</span>
+      <span class="lbl">💰 Кошелёк 50/50: ${w.balanceRub || 0} ₽ (вывод от 300 ₽) • Реф: <b class="mono">${esc(u.refCode || '-')}</b></span>
       <div class="row"><input id="wd-d" placeholder="Карта Сбер / СБП" style="flex:1"><button class="sm btn" onclick="withdrawWallet()">Вывести</button></div>
     </div>`}
     <div class="card col" style="margin:0;padding:12px"><span class="lbl">📱 Устройства</span>
@@ -421,8 +502,8 @@ async function doAuth(btn) {
     S.tok = data.token; localStorage.setItem('nx_tok', S.tok); S.needCode = false; await loadMe();
   } finally { if (btn) btn.disabled = false; }
 }
-      </script>
-      <script>
+</script>
+<script>
 function parseOnly(desc) { const m = String(desc || '').match(/\[only:([^\]]+)\]/i); return m ? m[1].trim() : ''; }
 function cleanDesc(desc) { return String(desc || '').replace(/\s*\[only:[^\]]+\]/gi, '').trim(); }
 function filterCatalog(list) {
@@ -449,7 +530,7 @@ async function selectModelForChat(id) {
   if (!S.cat.length) { const r = await api('/api/catalog'); if (r.ok) S.cat = filterCatalog(r.data.models || []); }
   const found = S.cat.find(x => String(x.id) === String(id));
   if (!found) return toast('Модель не найдена в каталоге!');
-  S.mid = String(found.id); localStorage.setItem('nx_mid', S.mid);
+  S.mid = String(found.id); localStorage.setItem('nx_mid', S.mid); saveChats();
   toast(`✅ Подключена: ${found.display_name || found.key_title || found.model_id}`);
   go('chat'); setTimeout(() => { if ($('ch-in')) $('ch-in').focus(); }, 100);
 }
@@ -523,6 +604,7 @@ function setStyle(k) {
   if ($('ch-br')) $('ch-br').value = st.br;
   if ($('ch-sp')) $('ch-sp').value = st.prompt;
   document.querySelectorAll('.st-btn').forEach(b => b.classList.toggle('on', b.dataset.s === k));
+  saveChats();
 }
 
 async function syncGMemServer() { if (hasInfMem() && S.tok) await api('/api/memory/sync', { body: { facts: S.gmem } }); }
@@ -531,7 +613,7 @@ async function promoteFact(idx) {
   if (!hasInfMem()) return toast('🔒 Глобальная память доступна на PRO и ULTRA!');
   const f = S.mem[idx];
   if (f && !S.gmem.includes(f)) { S.gmem.push(f); S.gmem = S.gmem.slice(-40); localStorage.setItem('nx_gmem', JSON.stringify(S.gmem)); await syncGMemServer(); }
-  toast('↗️ Перенесено в Глобальную память! Теперь помнят все нейронки.'); renderChat();
+  toast('↗️ Перенесено в Глобальную память! Теперь помнят все чаты и нейронки.'); renderChat();
 }
 
 async function promoteAllFacts() {
@@ -543,20 +625,20 @@ async function promoteAllFacts() {
 
 function addMem(isGlobal = false) {
   if (!hasInfMem()) return toast('🔒 Вечная память доступна на PRO и ULTRA!');
-  const f = prompt(isGlobal ? 'Факт в ГЛОБАЛЬНУЮ память:' : 'Факт в память чата:');
+  const f = prompt(isGlobal ? 'Факт в ГЛОБАЛЬНУЮ память:' : 'Факт в память этого чата:');
   if (!f || !f.trim()) return;
   const arr = isGlobal ? S.gmem : S.mem;
   arr.push(f.trim().slice(0, 180));
   if (arr.length > 40) arr.splice(0, arr.length - 40);
-  localStorage.setItem(isGlobal ? 'nx_gmem' : 'nx_mem', JSON.stringify(arr));
-  if (isGlobal) syncGMemServer();
+  if (isGlobal) { localStorage.setItem('nx_gmem', JSON.stringify(arr)); syncGMemServer(); }
+  else saveChats();
   renderChat();
 }
 
 function delMem(isGlobal, idx) {
   const arr = isGlobal ? S.gmem : S.mem; arr.splice(idx, 1);
-  localStorage.setItem(isGlobal ? 'nx_gmem' : 'nx_mem', JSON.stringify(arr));
-  if (isGlobal) syncGMemServer();
+  if (isGlobal) { localStorage.setItem('nx_gmem', JSON.stringify(arr)); syncGMemServer(); }
+  else saveChats();
   renderChat();
 }
 
@@ -567,8 +649,9 @@ function exportGlobalMem() {
 }
 
 function clearChatHistory() {
-  if (!S.msgs.length || !confirm('Точно очистить всю историю диалога?')) return;
-  S.msgs = []; localStorage.setItem('nx_msgs', '[]'); renderChat();
+  if (!S.msgs.length || !confirm('Точно очистить историю этого чата?')) return;
+  S.msgs = []; const c = curChat(); if (c) c.title = 'Новый чат';
+  saveChats(); renderChat();
 }
 
 async function renderChat() {
@@ -577,11 +660,13 @@ async function renderChat() {
   if (!S.mid && S.cat[0]) S.mid = String(S.cat[0].id);
   const curMod = S.cat.find(x => String(x.id) === String(S.mid));
   const l = S.user?.limits || {}, inf = hasInfMem(), freeLeft = Math.max(0, (l.freeReqsLimit || 0) - (l.freeReqsUsed || 0));
-  S.sbx = [];
+  S.sbx = []; renderChatList();
 
   $('view').innerHTML = `<div class="card col" style="padding:10px 12px;gap:8px">
     <div class="row sp" style="flex-wrap:nowrap">
-      <select id="ch-m" style="flex:1;min-width:120px" onchange="S.mid=this.value;localStorage.setItem('nx_mid',this.value)">
+      <button class="sm" onclick="openChatsModal()" title="Список чатов">💬 ${S.chats.length}</button>
+      <button class="sm btn-g" onclick="newChat()" title="Новый чат">➕</button>
+      <select id="ch-m" style="flex:1;min-width:110px" onchange="S.mid=this.value;localStorage.setItem('nx_mid',this.value);saveChats()">
         ${S.cat.map(m => `<option value="${esc(m.id)}" ${String(m.id) === String(S.mid) ? 'selected' : ''}>🤖 ${esc(m.key_title || m.display_name || m.model_id)} (${esc(m.model_id)})</option>`).join('') || '<option value="0">Нет моделей</option>'}
       </select>
       <button class="sm ${S.setOpen ? 'btn' : ''}" onclick="S.setOpen=!S.setOpen;renderChat()" title="Настройки и Память">⚙️</button>
@@ -613,7 +698,7 @@ async function renderChat() {
   </div>
   <div class="msgs" id="ch-msgs">
     ${S.msgs.length ? S.msgs.map((m, i) => fmtMsg(m, i)).join('') : `<div class="col" style="margin:auto;text-align:center;max-width:480px;padding:14px">
-      <h2><span style="color:var(--red)">ASD</span> AI готов к работе</h2>
+      <h2><span style="color:var(--red)">ASD</span> AI — ${esc(curChat()?.title || 'Новый чат')}</h2>
       <p class="mut">Модель: <b>${esc(curMod ? (curMod.key_title || curMod.display_name || curMod.model_id) : 'Не выбрана')}</b> • Выберите стиль сверху и напишите сообщение!</p></div>`}
     ${S.sending ? `<div class="msg" id="ai-typing"><div class="typing-pill"><span class="typing-dot"></span><span>Нейросеть думает и отвечает...</span><b class="mono" id="ai-sec">0.0с</b></div></div>` : ''}
   </div>
@@ -645,7 +730,7 @@ async function sendChat() {
   const msgsForApi = S.msgs.map(m => ({ role: m.role, content: m.content }));
   msgsForApi.push({ role: 'user', content: t });
   S.msgs.push({ role: 'user', content: t });
-  localStorage.setItem('nx_msgs', JSON.stringify(S.msgs));
+  saveChats();
 
   const t0 = performance.now();
   clearInterval(window._secTimer);
@@ -668,9 +753,8 @@ async function sendChat() {
     }).trim();
     if (!txt) txt = data.thinking ? '(Весь ответ сформирован внутри блока Thinking выше)' : '(Пустой ответ от модели)';
     if (S.mem.length > 40) S.mem = S.mem.slice(-40);
-    localStorage.setItem('nx_mem', JSON.stringify(S.mem));
     S.msgs.push({ role: 'assistant', content: txt, thinking: data.thinking || '', timeSec: sec, meta: `${data.provider || ''}/${data.modelId || ''} • ${data.costRub || 0} ₽` });
-    localStorage.setItem('nx_msgs', JSON.stringify(S.msgs));
+    saveChats();
     await loadMe(true);
   } finally { clearInterval(window._secTimer); S.sending = false; renderChat(); }
 }
@@ -701,8 +785,8 @@ async function loadCat() {
   }).join('') || '<div class="card mut">Нейросети не найдены</div>';
 }
 async function likeMod(id) { await api('/api/catalog/like', { body: { modelRowId: String(id) } }); loadCat(); }
-  </script>
-  <script>
+</script>
+<script>
 const PROVIDER_MODELS = {
   gemini: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-3.8-flash'],
   openai: ['gpt-4o', 'gpt-4o-mini', 'o3-mini', 'gpt-4.1'],

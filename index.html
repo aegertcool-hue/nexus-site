@@ -526,8 +526,8 @@ async function doAuth(btn) {
     S.tok = data.token; localStorage.setItem('nx_tok', S.tok); S.needCode = false; await loadMe();
   } finally { if (btn) btn.disabled = false; }
 }
-</script>
-<script>
+        </script>
+        <script>
 function parseOnly(desc) { const m = String(desc || '').match(/\[only:([^\]]+)\]/i); return m ? m[1].trim() : ''; }
 function cleanDesc(desc) { return String(desc || '').replace(/\s*\[only:[^\]]+\]/gi, '').trim(); }
 function filterCatalog(list) {
@@ -555,7 +555,7 @@ async function selectModelForChat(id) {
   const found = S.cat.find(x => String(x.id) === String(id));
   if (!found) return toast('Модель не найдена в каталоге!');
   S.mid = String(found.id); localStorage.setItem('nx_mid', S.mid); saveChats();
-  toast(`✅ Подключена: ${found.display_name || found.key_title || found.model_id}`);
+  toast(`✅ Подключена: ${found.key_title || found.display_name || found.model_id}`);
   go('chat'); setTimeout(() => { if ($('ch-in')) $('ch-in').focus(); }, 100);
 }
 
@@ -599,17 +599,17 @@ function fmtMsg(m, idx) {
         <button class="sm" data-l="${esc(l)}" onclick="dlCode(${sbxIdx},this.dataset.l)" title="Скачать">💾</button>
         ${isH ? `<button class="sm btn-g" onclick="runSbx(${sbxIdx})" title="Запустить HTML">▶</button>` : ''}
       </div></div><pre>${code}</pre></div>`);
-    return `\u0000B_${blocks.length - 1}\u0000`;
+    return `\u0000CODE_${blocks.length - 1}\u0000`;
   });
-  h = h.replace(/`([^`\n]+)`/g, (_, c) => { blocks.push(`<code class="ic">${c}</code>`); return `\u0000B_${blocks.length - 1}\u0000`; });
+  h = h.replace(/`([^`\r\n]+)`/g, (_, ic) => { blocks.push(`<code class="ic">${ic}</code>`); return `\u0000CODE_${blocks.length - 1}\u0000`; });
   h = h.replace(/^#{1,3}\s+(.+)$/gm, '<div class="md-h">$1</div>');
   h = h.replace(/\*\*([^*\n]+)\*\*/g, '<b>$1</b>');
   h = h.replace(/\*([^*\n]+)\*/g, '<span class="rp-act">*$1*</span>');
-  h = h.replace(/\u0000B_(\d+)\u0000/g, (_, i) => blocks[+i] || '');
+  h = h.replace(/\u0000CODE_(\d+)\u0000/g, (_, i) => blocks[+i] || '');
   if (m.thinking) {
     h = `<details class="think"><summary>🧠 Thinking ${m.timeSec ? `• ⏱ ${esc(m.timeSec)}с` : ''} <span class="mut">(развернуть ▾)</span></summary><div style="margin-top:6px;white-space:pre-wrap">${esc(m.thinking)}</div></details>` + h;
   }
-  const head = m.role === 'assistant' ? `<div class="row sp" style="margin-bottom:6px"><span class="tag r"><i class="ri-vip-crown-fill" style="color:var(--y)"></i>ASD AI</span>${m.timeSec ? `<span class="tag y">⏱ ${esc(m.timeSec)}с</span>` : ''}</div>` : '';
+  const head = m.role === 'assistant' ? `<div class="row sp" style="margin-bottom:6px"><span class="tag r" style="padding:2px 8px">👑 ASD AI</span>${m.timeSec ? `<span class="tag y" style="padding:2px 8px">⏱ ${esc(m.timeSec)}с</span>` : ''}</div>` : '';
   const foot = m.role === 'assistant' ? `<div class="row sp mut" style="margin-top:8px;padding-top:6px;border-top:1px solid var(--b)"><span>${esc(m.meta || '')}</span><button class="sm" onclick="copyMsg(${idx})">📋 Копировать</button></div>` : '';
   return `<div class="msg ${m.role === 'user' ? 'u' : ''}">${head}<div>${h}</div>${foot}</div>`;
 }
@@ -618,11 +618,8 @@ function runSbx(i) {
   openMod(`<div class="row sp" style="margin-bottom:8px"><b>▶ HTML Песочница</b><button class="sm" onclick="closeMod()">✕</button></div><iframe class="sbx" sandbox="allow-scripts"></iframe>`);
   $('mod-in').querySelector('iframe').srcdoc = decodeHtml(S.sbx[i]);
 }
-
 function renderSbxPage() {
-  $('view').innerHTML = `<div class="card col"><div class="row sp"><h3>💻 HTML Песочница</h3><button class="btn-red sm" onclick="$('sbx-frame').srcdoc=$('sbx-code').value">▶ Запустить код</button></div>
-    <textarea id="sbx-code" class="mono" rows="8" style="width:100%"><!doctype html><html><body style="background:#0a0a0d;color:#ff2b35;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:90vh;margin:0"><h1>👑 ASD AI Sandbox</h1></body></html></textarea>
-    <iframe id="sbx-frame" class="sbx" style="height:360px" sandbox="allow-scripts"></iframe></div>`;
+  $('view').innerHTML = `<div class="card col"><div class="row sp"><h3>▶ HTML / JS Песочница</h3><button class="btn-red sm" onclick="$('sbx-frame').srcdoc=$('sbx-code').value">▶ Запустить</button></div><textarea id="sbx-code" class="mono" rows="8" style="width:100%"><h1 style="font-family:sans-serif;text-align:center;margin-top:40px">👑 ASD AI Sandbox</h1></textarea><iframe id="sbx-frame" class="sbx" style="height:360px" sandbox="allow-scripts"></iframe></div>`;
   $('sbx-frame').srcdoc = $('sbx-code').value;
 }
 
@@ -634,13 +631,7 @@ function setStyle(k) {
   document.querySelectorAll('.st-btn').forEach(b => b.classList.toggle('on', b.dataset.s === k));
   saveChats();
 }
-
-function useStarter(style, text) {
-  setStyle(style);
-  if ($('ch-in')) $('ch-in').value = text;
-  if ($('ch-m')?.value && $('ch-m').value !== '0') sendChat();
-  else { toast('Сначала выберите модель сверху!'); if ($('ch-in')) $('ch-in').focus(); }
-}
+function useStarter(style, text) { setStyle(style); if ($('ch-in')) $('ch-in').value = text; sendChat(); }
 
 async function syncGMemServer() { if (hasInfMem() && S.tok) await api('/api/memory/sync', { body: { facts: S.gmem } }); }
 async function promoteFact(idx) {
@@ -659,7 +650,8 @@ function addMem(isGlobal = false) {
   if (!hasInfMem()) return toast('🔒 Вечная память доступна на PRO и ULTRA!');
   const f = prompt(isGlobal ? 'Факт в ГЛОБАЛЬНУЮ память:' : 'Факт в память этого чата:');
   if (!f || !f.trim()) return;
-  const arr = isGlobal ? S.gmem : S.mem; arr.push(f.trim().slice(0, 180));
+  const arr = isGlobal ? S.gmem : S.mem;
+  arr.push(f.trim().slice(0, 180));
   if (arr.length > 40) arr.splice(0, arr.length - 40);
   if (isGlobal) { localStorage.setItem('nx_gmem', JSON.stringify(arr)); syncGMemServer(); } else saveChats();
   renderChat();
@@ -679,7 +671,8 @@ function clearChatHistory() {
   S.msgs = []; const c = curChat(); if (c) c.title = 'Новый чат';
   saveChats(); renderChat();
 }
-
+        </script>
+        <script>
 async function renderChat() {
   if (S.user?.isQuarantined) return renderQuarantine();
   if (!S.cat.length) { const r = await api('/api/catalog'); if (r.ok) S.cat = filterCatalog(r.data.models || []); }
@@ -690,7 +683,7 @@ async function renderChat() {
 
   $('view').innerHTML = `<div class="card col" style="padding:10px 12px;gap:8px;margin-bottom:8px">
     <div class="row sp" style="flex-wrap:nowrap">
-      <button class="sm" onclick="openChatsModal()" title="Список чатов">💬 ${S.chats.length}</button>
+      <button class="sm" onclick="openChatsModal()" title="Мои чаты">💬 ${S.chats.length}</button>
       <button class="sm btn-g" onclick="newChat()" title="Новый чат">➕</button>
       <select id="ch-m" style="flex:1;min-width:110px" onchange="S.mid=this.value;localStorage.setItem('nx_mid',this.value);saveChats()">
         ${S.cat.map(m => `<option value="${esc(m.id)}" ${String(m.id) === String(S.mid) ? 'selected' : ''}>🤖 ${esc(m.key_title || m.display_name || m.model_id)} (${esc(m.model_id)})</option>`).join('') || '<option value="0">Нет моделей</option>'}
@@ -708,29 +701,30 @@ async function renderChat() {
           <option value="balanced" ${S.br === 'balanced' ? 'selected' : ''}>⚖️ Мышление: Баланс</option>
           <option value="genius" ${S.br === 'genius' ? 'selected' : ''}>🔮 Мышление: Гений</option>
         </select>
-        <input id="ch-t" type="number" step="0.1" min="0" max="2" value="${S.temp}" oninput="S.temp=this.value===''?0.8:Math.min(2,Math.max(0,+this.value))" style="width:74px" title="Температура (0-2)">
+        <input id="ch-t" type="number" step="0.1" min="0" max="2" value="${S.temp}" oninput="S.temp=this.value===''?0.8:Math.min(2,Math.max(0,+this.value))" style="width:74px" title="Температура">
       </div>
       <input id="ch-sp" value="${esc(S.customPrompt)}" oninput="S.customPrompt=this.value" placeholder="Скрытый // промпт // после сообщения...">
-      ${inf ? `<div class="col" style="background:var(--s2);padding:10px;border-radius:11px;gap:6px">
+      ${inf ? `<div class="col" style="background:rgba(255,255,255,.03);border:1px solid var(--b);padding:10px;border-radius:11px;gap:6px">
         <div class="row sp"><span class="mut"><b>🧠 Чат (${S.mem.length})</b> • <b>♾️ Глобал (${S.gmem.length})</b></span>
           <div class="row"><button class="sm" onclick="addMem(false)">+ Чат</button><button class="sm btn-g" onclick="addMem(true)">+ Глобал</button>
             <button class="sm btn-y" onclick="promoteAllFacts()">↗️ Всё</button><button class="sm" onclick="exportGlobalMem()">📤</button></div></div>
         ${S.mem.length ? `<div class="row">${S.mem.map((f, k) => `<span class="tag">${esc(f)} <a onclick="promoteFact(${k})">↗️</a> <a onclick="delMem(false,${k})">×</a></span>`).join('')}</div>` : ''}
         ${S.gmem.length ? `<div class="row">${S.gmem.map((f, k) => `<span class="tag y">${esc(f)} <a onclick="delMem(true,${k})">×</a></span>`).join('')}</div>` : ''}
-      </div>` : `<div class="row sp mut" style="background:var(--s2);padding:8px 10px;border-radius:10px">
+      </div>` : `<div class="row sp mut" style="background:rgba(255,255,255,.03);border:1px solid var(--b);padding:8px 10px;border-radius:10px">
         <span>🔒 <b>Вечная память</b> отключена на Free (чтобы не сжечь 25 запросов за 15 ответов).</span>
         <button class="sm btn-y" onclick="go('bill')">⚡ PRO / ULTRA</button></div>`}
     </div>
   </div>
   <div class="msgs" id="ch-msgs">
-    ${S.msgs.length ? S.msgs.map((m, i) => fmtMsg(m, i)).join('') : `<div class="col" style="margin:auto;text-align:center;max-width:600px;padding:12px">
-      <div class="asd-brand" style="margin:0 auto"><i class="ri-vip-crown-fill asd-crown" style="font-size:32px"></i><div class="asd-letters" style="font-size:40px">ASD</div></div>
-      <div class="mut" style="margin-top:2px">Активна модель: <b style="color:#fff">${esc(curMod ? (curMod.key_title || curMod.display_name || curMod.model_id) : 'Не выбрана')}</b></div>
+    ${S.msgs.length ? S.msgs.map((m, i) => fmtMsg(m, i)).join('') : `<div class="col" style="margin:auto;text-align:center;max-width:560px;padding:12px 4px">
+      <div class="asd-brand" style="margin:0 auto"><i class="ri-vip-crown-fill asd-crown" style="font-size:30px"></i><div class="asd-letters" style="font-size:38px">ASD</div></div>
+      <h3 style="margin-top:4px">ИИ без костылей и VPN</h3>
+      <p class="mut">Активна: <b style="color:#fff">${esc(curMod ? (curMod.key_title || curMod.display_name || curMod.model_id) : 'Выберите модель сверху')}</b> • Нажми на карточку или напиши свой запрос:</p>
       <div class="hero-grid">
-        <div class="hero-card" onclick="useStarter('coding','Напиши красивую неоновую HTML-игру Кликер в одном файле')"><b>🎮 HTML-игра в 1 клик</b><div class="mut">Напишет код и запустит прямо в чате</div></div>
-        <div class="hero-card" onclick="useStarter('roleplay','Привет! Давай начнём крутой сюжет в киберпанк-городе, я только вошёл в неоновый бар.')"><b>🎭 Ролеплей Character.AI</b><div class="mut">Живой сюжет и действия в *звёздочках*</div></div>
-        <div class="hero-card" onclick="useStarter('simple','Объясни на пальцах, как работает рекурсия в программировании')"><b>🎓 Объясни на пальцах</b><div class="mut">Сложные темы простыми словами</div></div>
-        <div class="hero-card" onclick="useStarter('combo','Придумай 3 вирусные идеи для моего проекта и разбери лучшую по шагам')"><b>🔥 Режим Комбо</b><div class="mut">Логика + чёткий пошаговый план</div></div>
+        <div class="hero-card" onclick="useStarter('coding','Напиши красивую неоновую HTML-игру Кликер в одном файле чтобы я запустил её в песочнице')"><b>🎮 HTML-игра в 1 клик</b><div class="mut">Код + запуск прямо в чате</div></div>
+        <div class="hero-card" onclick="useStarter('roleplay','*Я захожу в тёмную неоновую таверну киберпанк-города и сажусь за барную стойку* — Привет, кто ты?')"><b>🎭 Ролеплей (Character.AI)</b><div class="mut">Живой сюжет со *звёздочками*</div></div>
+        <div class="hero-card" onclick="useStarter('simple','Объясни на пальцах как работает рекурсия в программировании на простом примере')"><b>🎓 Объясни на пальцах</b><div class="mut">Понятно за 10 секунд</div></div>
+        <div class="hero-card" onclick="useStarter('combo','Придумай 5 мощных идей для стартапа который школьник может собрать с телефона')"><b>🔥 Комбо-режим (Гений)</b><div class="mut">Глубокая логика + идеи</div></div>
       </div></div>`}
     ${S.sending ? `<div class="msg" id="ai-typing"><div class="typing-pill"><span class="typing-dot"></span><span>Нейросеть думает и отвечает...</span><b class="mono" id="ai-sec">0.0с</b></div></div>` : ''}
   </div>
@@ -739,8 +733,8 @@ async function renderChat() {
     <a onclick="go('bill')" style="color:var(--y);font-weight:700">👑 PRO 500₽ / ULTRA 1490₽ →</a>
   </div>
   <div class="composer">
-    <textarea id="ch-in" rows="2" style="flex:1;border:none;background:transparent;padding:6px 0;box-shadow:none" placeholder="Спросите что угодно... (Enter — отправить)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"></textarea>
-    <button id="ch-send" class="btn-red" style="border-radius:50%;width:42px;height:42px;padding:0;flex-shrink:0" ${S.sending ? 'disabled' : ''} onclick="sendChat()"><i class="ri-arrow-up-line" style="font-size:20px"></i></button>
+    <textarea id="ch-in" rows="2" style="flex:1;border:none;background:transparent;padding:4px 0" placeholder="Спросите что угодно... (Enter — отправить)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"></textarea>
+    <button id="ch-send" class="btn-red" style="border-radius:99px;width:44px;height:44px;padding:0;flex-shrink:0" ${S.sending ? 'disabled' : ''} onclick="sendChat()"><i class="ri-arrow-up-line" style="font-size:20px"></i></button>
   </div>`;
   const b = $('ch-msgs'); if (b) b.scrollTop = b.scrollHeight;
 }
@@ -761,9 +755,11 @@ async function sendChat() {
   const allFacts = hasInfMem() ? [...new Set([...S.gmem, ...S.mem])].slice(0, 40) : [];
   const msgsForApi = S.msgs.map(m => ({ role: m.role, content: m.content }));
   msgsForApi.push({ role: 'user', content: t });
-  S.msgs.push({ role: 'user', content: t }); saveChats();
+  S.msgs.push({ role: 'user', content: t });
+  saveChats();
 
-  const t0 = performance.now(); clearInterval(window._secTimer); renderChat();
+  const t0 = performance.now();
+  clearInterval(window._secTimer); renderChat();
   window._secTimer = setInterval(() => { const el = $('ai-sec'); if (el) el.textContent = ((performance.now() - t0) / 1000).toFixed(1) + 'с'; }, 100);
 
   try {
@@ -775,7 +771,7 @@ async function sendChat() {
       if (hasInfMem() && f && !/^(none|нет|пусто|null|-)$/i.test(f) && !S.mem.includes(f)) S.mem.push(f.slice(0, 180));
       return '';
     }).trim();
-    if (!txt) txt = data.thinking ? '(Весь ответ сформирован внутри блока Thinking выше)' : '(Пустой ответ от модели)';
+    if (!txt) txt = data.thinking ? '(Ответ сформирован в блоке Thinking выше)' : '(Пустой ответ от модели)';
     if (S.mem.length > 40) S.mem = S.mem.slice(-40);
     S.msgs.push({ role: 'assistant', content: txt, thinking: data.thinking || '', timeSec: sec, meta: `${data.provider || ''}/${data.modelId || ''} • ${data.costRub || 0} ₽` });
     saveChats(); await loadMe(true);
@@ -783,12 +779,10 @@ async function sendChat() {
 }
 
 function renderCat() {
-  $('view').innerHTML = `<div class="card col">
-    <div class="row sp"><h3><i class="ri-compass-3-line" style="color:var(--red)"></i> Каталог нейросетей ASD</h3><button class="btn-g sm" onclick="go('keys')">+ Выложить свой AI (50/50)</button></div>
-    <div class="row"><input id="q-s" placeholder="Поиск ИИ (Gemini, Qwen, Claude)..." style="flex:1;min-width:140px">
-      <select id="q-p"><option value="">Все провайдеры</option><option value="gemini">Google Gemini</option><option value="openai">OpenAI</option><option value="anthropic">Claude</option><option value="openrouter">OpenRouter</option><option value="deepseek">DeepSeek</option><option value="groq">Groq</option><option value="xai">xAI Grok</option><option value="mistral">Mistral</option></select>
-      <label class="row mut"><input type="checkbox" id="q-u"> 18+</label><label class="row mut"><input type="checkbox" id="q-f"> Free</label>
-      <button class="btn-red sm" onclick="loadCat()"><i class="ri-search-line"></i>Найти</button></div></div><div class="grid" id="cat-g"></div>`;
+  $('view').innerHTML = `<div class="card row"><input id="q-s" placeholder="Поиск ИИ (Gemini, Qwen, GPT)..." style="flex:1;min-width:140px">
+    <select id="q-p"><option value="">Все провайдеры</option><option value="gemini">Google Gemini</option><option value="openai">OpenAI</option><option value="anthropic">Claude</option><option value="openrouter">OpenRouter</option><option value="deepseek">DeepSeek</option><option value="groq">Groq</option><option value="xai">xAI Grok</option><option value="mistral">Mistral</option></select>
+    <label class="row mut"><input type="checkbox" id="q-u"> 18+</label><label class="row mut"><input type="checkbox" id="q-f"> Free</label>
+    <button class="btn-red sm" onclick="loadCat()">Найти</button><button class="btn-g sm" onclick="go('keys')">+ Выложить AI</button></div><div class="grid" id="cat-g"></div>`;
   loadCat();
 }
 
@@ -803,76 +797,67 @@ async function loadCat() {
     return `<div class="card card-h col sp"><div>
       <div class="row sp"><b>🤖 ${esc(m.key_title || m.display_name || m.model_id)}</b><span class="tag">${esc(m.provider)}</span></div>
       <div class="mut mono" style="font-size:11px;margin-top:2px">${esc(m.model_id)} • @${esc(m.owner_name)}</div>
-      <p class="mut" style="margin:8px 0;color:#c9cad6">${esc(cleanDesc(m.description) || 'Зашифрованный API-ключ без VPN.')}</p>
+      <p class="mut" style="margin:8px 0;color:#d0d0dc">${esc(cleanDesc(m.description) || 'Зашифрованный API-ключ.')}</p>
       <div class="row"><span class="tag ${m.is_free ? 'g' : ''}">${m.is_free ? 'FREE' : (m.est_req_rub || 0) + ' ₽'}</span>${m.is_uncensored ? '<span class="tag r">18+ RP</span>' : ''}<span class="tag y">${esc(tReq.toUpperCase())}</span></div></div>
       <div class="row sp" style="margin-top:10px;padding-top:8px;border-top:1px solid var(--b)"><button class="sm" data-id="${esc(m.id)}" onclick="likeMod(this.dataset.id)">❤️ ${m.likes_count || 0}</button>
-        ${m.lock_reason ? `<span class="tag r">🔒 ${esc(m.lock_reason)}</span>` : (needUp ? `<button class="sm btn-y" onclick="go('bill')">🔓 Открыть (${esc(tReq.toUpperCase())})</button>` : `<button class="btn-red sm" data-id="${esc(m.id)}" onclick="selectModelForChat(this.dataset.id)">💬 Открыть в чате</button>`)}</div></div>`;
+        ${m.lock_reason ? `<span class="tag r">🔒 ${esc(m.lock_reason)}</span>` : (needUp ? `<button class="sm btn-y" onclick="go('bill')">🔒 Нужен ${esc(tReq.toUpperCase())}</button>` : `<button class="btn-red sm" data-id="${esc(m.id)}" onclick="selectModelForChat(this.dataset.id)">💬 Открыть</button>`)}</div></div>`;
   }).join('') || '<div class="card mut">Нейросети не найдены</div>';
 }
 async function likeMod(id) { await api('/api/catalog/like', { body: { modelRowId: String(id) } }); loadCat(); }
-</script>
-<script>
+
 const PROVIDER_MODELS = {
   gemini: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-2.5-flash', 'gemini-2.5-pro'],
   openai: ['gpt-4o', 'gpt-4o-mini', 'o3-mini', 'gpt-4.1'],
   anthropic: ['claude-3-7-sonnet-latest', 'claude-3-5-sonnet-latest', 'claude-3-5-haiku-latest'],
   deepseek: ['deepseek-chat', 'deepseek-reasoner'],
-  openrouter: ['qwen/qwen3.8-27b:free', 'nvidia/nemotron-3-ultra:free', 'google/gemma-4-31b:free', 'anthropic/claude-3.5-sonnet'],
+  openrouter: ['qwen/qwen3.8-27b:free', 'google/gemma-4-31b:free', 'nvidia/nemotron-3-ultra:free', 'anthropic/claude-3.5-sonnet'],
   groq: ['openai/gpt-oss-120b', 'llama-3.3-70b-versatile', 'qwen/qwen3.8-27b'],
   xai: ['grok-3', 'grok-3-mini'],
   mistral: ['mistral-large-latest', 'codestral-latest'],
   together: ['meta-llama/Llama-3.3-70B-Instruct-Turbo'],
   cerebras: ['llama-3.3-70b']
 };
-
 function onProvChange() {
-  const p = $('k-p')?.value || 'gemini', sel = $('k-m-sel');
-  if (!sel) return;
-  const list = PROVIDER_MODELS[p] || [];
-  sel.innerHTML = list.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('') + '<option value="">-- Все модели ключа --</option>';
+  const p = $('k-p')?.value || 'gemini', sel = $('k-m-sel'); if (!sel) return;
+  sel.innerHTML = (PROVIDER_MODELS[p] || []).map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('') + '<option value="">-- Все модели ключа --</option>';
 }
-
 async function fetchProviderModels(btn) {
   const p = $('k-p').value, k = $('k-k').value.trim(), sel = $('k-m-sel');
   if (!k) return toast('Сначала вставьте API-ключ!');
-  if (btn) btn.disabled = true;
-  toast('Ищу модели по ключу...');
+  if (btn) btn.disabled = true; toast('Ищу модели по ключу...');
   try {
     let list = [];
     const srv = await api('/api/keys/discover', { body: { provider: p, apiKey: k } });
-    if (srv.ok && Array.isArray(srv.data.models) && srv.data.models.length) {
-      list = srv.data.models;
-    } else if (p === 'gemini') {
+    if (srv.ok && Array.isArray(srv.data.models) && srv.data.models.length) list = srv.data.models;
+    else if (p === 'gemini') {
       const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models?key=' + encodeURIComponent(k));
-      if (r.status === 403) return toast('Регион заблокирован — выберите модель ниже или впишите вручную');
-      const d = await r.json();
-      list = (d.models || []).filter(m => (m.supportedGenerationMethods || []).includes('generateContent')).map(m => m.name.replace(/^models\//, ''));
+      if (r.status === 403) return toast('Регион заблокирован — выберите модель ниже или впишите ID вручную');
+      const d = await r.json(); list = (d.models || []).filter(m => (m.supportedGenerationMethods || []).includes('generateContent')).map(m => m.name.replace(/^models\//, ''));
     } else if (['openai', 'openrouter', 'groq', 'mistral'].includes(p)) {
       const urls = { openai: 'https://api.openai.com/v1/models', openrouter: 'https://openrouter.ai/api/v1/models', groq: 'https://api.groq.com/openai/v1/models', mistral: 'https://api.mistral.ai/v1/models' };
       const r = await fetch(urls[p], { headers: { Authorization: 'Bearer ' + k } });
-      if (r.status === 403) return toast('Регион заблокирован — выберите модель ниже или впишите вручную');
       const d = await r.json(); list = (d.data || []).map(x => x.id).slice(0, 60);
     }
     if (list.length) {
       sel.innerHTML = list.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('') + '<option value="">-- Все модели --</option>';
-      toast(`✅ Найдено моделей: ${list.length}! Выберите нужную.`);
-    } else toast(srv.data?.error || 'Выберите модель из списка ниже или впишите вручную');
-  } catch (_) {
-    toast('Выберите модель из списка ниже или впишите вручную');
-  } finally { if (btn) btn.disabled = false; }
+      toast(`✅ Найдено моделей: ${list.length}!`);
+    } else toast(srv.data?.error || 'Выберите модель ниже или впишите вручную');
+  } catch (_) { toast('Выберите модель из списка ниже или впишите вручную'); }
+  finally { if (btn) btn.disabled = false; }
 }
-
+                                  </script>
+                                  <script>
 async function renderKeys() {
   const { ok, data } = await api('/api/keys/mine');
   const ks = ok ? (Array.isArray(data.keys) ? data.keys : (Array.isArray(data) ? data : [])) : [];
-  $('view').innerHTML = `<div class="card col" style="border-color:rgba(16,185,129,.4)">
-    <div class="row sp"><h3><i class="ri-key-2-fill" style="color:var(--g)"></i> Выложить свой AI (доход 50/50)</h3><span class="tag g">🔒 AES-256 Шифрование</span></div>
-    <div class="card col" style="margin:0;padding:11px;background:var(--s2)">
-      <p class="mut">💡 <b>Безопасный старт:</b> создайте отдельный лимитный ключ на $5 (470 ₽) или Free-ключ (Gemini / Groq / OpenRouter). Ключ шифруется на сервере, а вы получаете до <b>50% от подписок</b> пропорционально расходу!</p>
+  $('view').innerHTML = `<div class="card col" style="border-color:rgba(16,185,129,.45)">
+    <div class="row sp"><h3>➕ Выложить свой AI (1 модель под твоим названием)</h3><span class="tag g">🔒 AES-256 Шифрование</span></div>
+    <div class="card col" style="margin:0;padding:10px;background:rgba(255,255,255,.03)">
+      <p class="mut">💡 Совет: создайте отдельный лимитный ключ на $5 (470 ₽) или бесплатный Free-ключ (Groq/Gemini/OpenRouter) — вы ничем не рискуете, а с подписок PRO/ULTRA получаете до 50%!</p>
     </div>
     <div class="grid">
       <div><span class="lbl">1. Провайдер</span><select id="k-p" class="w1" onchange="onProvChange()">
-        <option value="gemini">Google Gemini</option><option value="groq">Groq (Бесплатные 120B)</option><option value="openrouter">OpenRouter (:free и платные)</option>
+        <option value="gemini">Google Gemini</option><option value="groq">Groq (Бесплатно 1000/дн)</option><option value="openrouter">OpenRouter</option>
         <option value="openai">OpenAI (GPT)</option><option value="anthropic">Anthropic Claude</option><option value="deepseek">DeepSeek</option>
         <option value="xai">xAI Grok</option><option value="mistral">Mistral AI</option><option value="together">Together AI</option><option value="cerebras">Cerebras</option>
       </select></div>
@@ -881,9 +866,9 @@ async function renderKeys() {
     </div>
     <div class="grid">
       <div><span class="lbl">4. Название на русском</span><input id="k-t" class="w1" placeholder="Например: Qwen 27B PRO"></div>
-      <div><span class="lbl">5. Секретный API-ключ</span><div class="row"><input id="k-k" style="flex:1" placeholder="AIza... / AQ... / sk-..."><button class="sm btn" onclick="fetchProviderModels(this)">🔍 Модели</button></div></div>
+      <div><span class="lbl">5. Секретный API-ключ</span><div class="row"><input id="k-k" style="flex:1" placeholder="AIza... / AQ... / sk-..."><button class="sm" onclick="fetchProviderModels(this)">🔍 Модели</button></div></div>
     </div>
-    <div class="card col" style="margin:0;padding:12px;background:var(--s2)">
+    <div class="card col" style="margin:0;padding:12px;background:rgba(255,255,255,.03)">
       <span class="lbl">6. Конкретная модель (чтобы выложилась ровно 1 штука):</span>
       <div class="row"><select id="k-m-sel" style="flex:1;min-width:180px"></select><input id="k-m-cus" placeholder="Или впишите ID модели вручную..." style="flex:1;min-width:180px"></div>
     </div>
@@ -894,15 +879,15 @@ async function renderKeys() {
     </div>
   </div>
   <div class="card col"><h3>🔑 Ваши выложенные ключи (${ks.length})</h3>
-    ${!ok ? `<div class="tag r">❌ Не удалось загрузить ключи: ${esc(data.error || 'ошибка')}</div>` : `
-    <div class="grid">${ks.map(k => `<div class="card col" style="margin:0;background:var(--s2)">
+    ${!ok ? `<div class="tag r">❌ Не удалось загрузить ключи: ${esc(data.error || 'ошибка сервера')}</div>` : `
+    <div class="grid">${ks.map(k => `<div class="card col" style="margin:0;background:rgba(255,255,255,.03)">
       <div class="row sp"><b>${esc(k.title)}</b><span class="tag g">${esc(k.provider)} • ${k.enabled ? 'Вкл' : 'Выкл'}</span></div>
       ${parseOnly(k.description) ? `<div class="tag y">🎯 ${esc(parseOnly(k.description))}</div>` : ''}
       <div class="mut">Заработано: <b>${k.earned_rub || 0} ₽</b> • Запросов: ${k.total_requests || 0}</div>
       <div class="row">
         <button class="sm btn" onclick="go('cat')">💬 В каталог</button>
         <button class="sm" data-id="${esc(k.id)}" onclick="keyAct(this.dataset.id,'ping')">📡 Пинг</button>
-        <button class="sm" data-id="${esc(k.id)}" onclick="keyAct(this.dataset.id,'toggle')">⏯</button>
+        <button class="sm" data-id="${esc(k.id)}" onclick="keyAct(this.dataset.id,'toggle')">⏯ Вкл/Выкл</button>
         <button class="sm btn-r" data-id="${esc(k.id)}" onclick="keyAct(this.dataset.id,'del')">🗑 Удалить</button>
       </div></div>`).join('') || '<span class="mut">Ключей пока нет</span>'}</div>`}
   </div>`;
@@ -919,11 +904,8 @@ async function pubKey(btn) {
   const cap = Math.min(470, Math.max(1, +$('k-c').value || 470));
   if (btn) btn.disabled = true;
   try {
-    const { ok, data } = await api('/api/keys/publish', {
-      body: { provider: prov, apiKey: key, title, displayName: title, description: finalDesc, modelId: chosen || undefined, isPrivate: $('k-pr').checked, isUncensored: $('k-un').checked, isFree: $('k-fr').checked, tierRequired: $('k-tr').value, dailyCapRub: cap }
-    });
-    if (ok) { S.cat = []; toast('✅ Модель выложена!'); go('cat'); }
-    else toast('❌ ' + (data.error || 'Ошибка публикации'));
+    const { ok, data } = await api('/api/keys/publish', { body: { provider: prov, apiKey: key, title, displayName: title, description: finalDesc, modelId: chosen || undefined, isPrivate: $('k-pr').checked, isUncensored: $('k-un').checked, isFree: $('k-fr').checked, tierRequired: $('k-tr').value, dailyCapRub: cap } });
+    if (ok) { S.cat = []; toast('✅ Модель выложена!'); go('cat'); } else toast('❌ ' + (data.error || 'Ошибка публикации'));
   } finally { if (btn) btn.disabled = false; }
 }
 
@@ -940,31 +922,28 @@ async function pAct(p, b) { const { ok, data } = await api(p, { body: b }); toas
 async function renderBill() {
   const { data } = await api('/api/billing/info'); S.payInfo = data || {}; S.cStep = 0;
   $('view').innerHTML = `<div class="col">
-    <div style="text-align:center;margin-bottom:4px">
-      <h2>Тарифы <span style="color:var(--red)">ASD</span> AI</h2>
+    <div style="text-align:center;padding:8px 0">
+      <h2>Бесплатный старт + честные тарифы 👑</h2>
       <div class="row" style="justify-content:center;margin-top:8px">
         <span class="tag g">✓ Оплата через Сбербанк</span>
-        <span class="mut"><s style="color:var(--r)">зарубежные карты</s> не нужны</span>
+        <span class="mut"><span style="text-decoration:line-through;color:var(--r)">зарубежные карты</span> не нужны</span>
       </div>
     </div>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,255px),1fr))">
-      <div class="plan-card"><div class="col"><div class="row sp"><h3>Free</h3><span class="tag">Бесплатный старт</span></div>
-        <div class="price-big">0 ₽</div>
-        <div class="feat-list"><div><i class="ri-check-line"></i>25 бесплатных запросов каждые 5ч</div><div><i class="ri-check-line"></i>Все стили ответа + HTML-песочница</div><div><i class="ri-check-line"></i>Работает в РФ без VPN</div></div></div>
+      <div class="plan-card"><div class="col"><div class="row sp"><h3>Free</h3><span class="tag">Бесплатный старт</span></div><div class="price-big">0 ₽</div>
+        <div class="feat-list"><div><i class="ri-check-line"></i>25 бесплатных запросов каждые 5ч</div><div><i class="ri-check-line"></i>Стили ответа и HTML-песочница</div><div><i class="ri-check-line"></i>Работает в РФ без VPN</div></div></div>
         <button class="w1" disabled>Базовый тариф</button></div>
-      <div class="plan-card pop"><div class="col"><div class="row sp"><h3>🔥 PRO</h3><span class="tag y">ХИТ • ВЫБОР 85%</span></div>
-        <div class="price-big" style="color:var(--y)">500 ₽ <span class="mut" style="font-size:13px;font-weight:500">/ 30 дн.</span></div>
-        <div class="feat-list"><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i><b>♾️ Вечная глобальная память</b> между моделями</div><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>PRO-модели (Qwen 27B и др.) • 190 ₽/мес</div><div><i class="ri-checkbox-circle-fill" style="color:var(--y)"></i>50 беспл. запросов / 5ч + сброс за 250 ₽</div></div></div>
-        <button class="btn-y w1" style="padding:12px" onclick="openPayModal('buy_pro','Подписка PRO','500 ₽')">🚀 Купить PRO за 500 ₽</button></div>
-      <div class="plan-card vip"><div class="col"><div class="row sp"><h3>👑 ULTRA</h3><span class="tag r">VIP МАКСИМУМ</span></div>
-        <div class="price-big">1490 ₽ <span class="mut" style="font-size:13px;font-weight:500">/ 30 дн.</span></div>
-        <div class="feat-list"><div><i class="ri-checkbox-circle-fill" style="color:var(--red)"></i><b>Все ULTRA + PRO нейросети</b> (550 ₽/мес)</div><div><i class="ri-checkbox-circle-fill" style="color:var(--red)"></i><b>♾️ Вечная память</b> + макс. контекст 30к</div><div><i class="ri-checkbox-circle-fill" style="color:var(--red)"></i>Режим 🔮 Гений + 100 беспл. запросов</div></div></div>
-        <button class="btn-red w1" style="padding:12px" onclick="openPayModal('buy_ultra','Подписка ULTRA','1490 ₽')">👑 Купить ULTRA за 1490 ₽</button></div>
+      <div class="plan-card pop"><div class="col"><div class="row sp"><h3>🔥 PRO</h3><span class="tag y">ХИТ • 50% РАЗРАБАМ</span></div><div class="price-big" style="color:var(--y)">500 ₽ <span class="mut" style="font-size:13px">/ 30 дн.</span></div>
+        <div class="feat-list"><div><i class="ri-checkbox-circle-fill"></i><b>♾️ Вечная глобальная память</b> (GPT / Qwen / Gemini)</div><div><i class="ri-checkbox-circle-fill"></i>Доступ ко всем <b>PRO-моделям</b> (25₽/5ч, 190₽/мес)</div><div><i class="ri-checkbox-circle-fill"></i>Character.AI Ролеплей + Код + Комбо</div></div></div>
+        <button class="btn-y w1" style="padding:12px" onclick="openPayModal('buy_pro','Подписка PRO','500 ₽')">🚀 Купить PRO — 500 ₽</button></div>
+      <div class="plan-card vip"><div class="col"><div class="row sp"><h3>👑 ULTRA</h3><span class="tag r">VIP МАКСИМУМ</span></div><div class="price-big">1490 ₽ <span class="mut" style="font-size:13px">/ 30 дн.</span></div>
+        <div class="feat-list"><div><i class="ri-checkbox-circle-fill" style="color:var(--red)"></i><b>♾️ Вечная память + макс. контекст</b></div><div><i class="ri-checkbox-circle-fill" style="color:var(--red)"></i>Все ULTRA + PRO модели (550₽/мес)</div><div><i class="ri-checkbox-circle-fill" style="color:var(--red)"></i>100 беспл. запросов и режим Гений</div></div></div>
+        <button class="btn-red w1" style="padding:12px" onclick="openPayModal('buy_ultra','Подписка ULTRA','1490 ₽')">👑 Купить ULTRA — 1490 ₽</button></div>
     </div>
-    <div class="card row sp" style="border-color:rgba(16,185,129,.35)"><div><h4>⚡ Сбросить лимит 5ч прямо сейчас</h4><p class="mut">250 ₽ (PRO) / 500 ₽ (ULTRA)</p></div><button class="btn-g" onclick="openPayModal('reset_5h','Сброс 5ч','250 / 500 ₽')">⚡ Сбросить 5ч</button></div>
-    <div class="card row sp" style="border-color:rgba(56,189,248,.35);background:rgba(56,189,248,.07)">
-      <div><h4>🎁 Розыгрыш PRO на 2 мес + Бот кассы</h4><p class="mut">Участвуй в конкурсе в <b>@asd_ai_lol</b> или оплачивай через <b>@NexusKassa_bot</b></p></div>
-      <div class="row"><a class="btn sm" target="_blank" rel="noopener noreferrer" href="https://t.me/asd_ai_lol">ТГК @asd_ai_lol</a><a class="sm btn-g" target="_blank" rel="noopener noreferrer" href="https://t.me/NexusKassa_bot">@NexusKassa_bot</a></div>
+    <div class="card row sp" style="border-color:rgba(16,185,129,.4)"><div><h4>⚡ Сброс 5-часового лимита</h4><p class="mut">250 ₽ (PRO) / 500 ₽ (ULTRA)</p></div><button class="btn-g" onclick="openPayModal('reset_5h','Сброс 5ч','250 / 500 ₽')">⚡ Сбросить 5ч</button></div>
+    <div class="card row sp" style="border-color:rgba(56,189,248,.4);background:rgba(56,189,248,.07)">
+      <div><h4>🎁 Скоро розыгрыш PRO на 2 месяца!</h4><p class="mut">Залетай в ТГК <b>@asd_ai_lol</b> или оплачивай через бота <b>@NexusKassa_bot</b></p></div>
+      <div class="row"><a class="sm btn" target="_blank" rel="noopener noreferrer" href="https://t.me/asd_ai_lol">ТГК @asd_ai_lol</a><a class="sm btn-g" target="_blank" rel="noopener noreferrer" href="https://t.me/NexusKassa_bot">@NexusKassa_bot</a></div>
     </div>
     <div class="row sp mut"><a onclick="openAccountModal()">🎟 Ввести промокод →</a><button class="sm btn-r" id="ca-b" onclick="canAuto()">Отменить автооплату (в 3 клика)</button></div></div>`;
 }
@@ -980,8 +959,7 @@ async function ordB(t, btn) {
   if (btn) btn.disabled = true;
   try {
     const { ok, data } = await api('/api/billing/order', { body: { itemType: t, customNick: $('bl-n').value, senderNote: $('bl-s').value } });
-    if (ok) closeMod();
-    toast(ok ? (data.message || '✅ Заявка отправлена!') : ('❌ ' + (data.error || 'Ошибка')));
+    if (ok) closeMod(); toast(ok ? (data.message || '✅ Заявка отправлена!') : ('❌ ' + (data.error || 'Ошибка')));
   } finally { if (btn) btn.disabled = false; }
 }
 async function canAuto() { S.cStep++; if (S.cStep < 3) $('ca-b').textContent = `Подтвердите отмену (${S.cStep + 1}/3)`; else { await pAct('/api/billing/cancel-auto', {}); S.cStep = 0; } }
@@ -994,7 +972,6 @@ async function adm(p, b, m = 'POST') {
   toast(msg); if (box) box.innerHTML = `<b style="color:${r.ok ? 'var(--g)' : 'var(--r)'}">${esc(msg)}</b>`;
   if (r.ok) { S.cat = []; await renderAdm(); }
 }
-
 const setPlan = (uid, plan, days = 30) => adm('user-plan', { targetUserId: String(uid), plan: String(plan).toLowerCase(), days: +days || 30 });
 const resOrder = (oid, approve) => adm('order-resolve', { orderId: String(oid), approve });
 const resAppeal = (aid, approve) => adm('appeal', { appealId: String(aid), approve });
@@ -1007,12 +984,10 @@ function drawAdmUsers() {
   const box = $('adm-ulist'); if (!box) return;
   box.innerHTML = users.map(u => `<div class="row sp mut" style="padding:6px 0;border-bottom:1px solid var(--b)">
     <span><b>${esc(u.username)}</b> <span class="tag">${esc(u.plan || 'free')}</span> <small>${esc(u.email || '')}</small></span>
-    <div class="row">
-      <button class="sm btn-g" data-id="${esc(u.id)}" onclick="setPlan(this.dataset.id,'pro',30)">+PRO</button>
+    <div class="row"><button class="sm btn-g" data-id="${esc(u.id)}" onclick="setPlan(this.dataset.id,'pro',30)">+PRO</button>
       <button class="sm btn-y" data-id="${esc(u.id)}" onclick="setPlan(this.dataset.id,'ultra',30)">+ULTRA</button>
       <button class="sm" data-id="${esc(u.id)}" onclick="setPlan(this.dataset.id,'free',30)">FREE</button>
-      <button class="sm btn-r" data-id="${esc(u.id)}" data-b="${!u.is_banned}" onclick="toggleBan(this.dataset.id,this.dataset.b==='true')">${u.is_banned ? 'Разбан' : 'Бан'}</button>
-    </div></div>`).join('') || '<span class="mut">Никого не найдено</span>';
+      <button class="sm btn-r" data-id="${esc(u.id)}" data-b="${!u.is_banned}" onclick="toggleBan(this.dataset.id,this.dataset.b==='true')">${u.is_banned ? 'Разбан' : 'Бан'}</button></div></div>`).join('') || '<span class="mut">Никого не найдено</span>';
 }
 
 async function renderAdm() {
@@ -1022,12 +997,12 @@ async function renderAdm() {
   S.admData = data || {};
   const d = S.admData, pc = d.payConfig || {}, users = d.users || [], appeals = d.appeals || [], keys = d.keys || [], alerts = d.alerts || [], ad = d.ad || {};
   $('view').innerHTML = `<div id="adm-msg" class="card" style="padding:10px 14px"><b>👑 Админ-панель asdcreator</b> • Юзеров: <b>${users.length}</b> • Тревог: <b>${alerts.length}</b></div>
-  <div class="card col" style="border-color:rgba(251,191,36,.4)">
-    <div class="row sp"><h3>👥 Все пользователи (${users.length}) — выдача в 1 клик</h3><input id="adm-uq" placeholder="Поиск по нику..." oninput="drawAdmUsers()" style="width:200px"></div>
+  <div class="card col" style="border-color:var(--y)">
+    <div class="row sp"><h3>👥 Все пользователи (${users.length})</h3><input id="adm-uq" placeholder="Поиск по нику..." oninput="drawAdmUsers()" style="width:200px"></div>
     <div id="adm-ulist" style="max-height:280px;overflow-y:auto"></div>
   </div>
   <div class="grid">
-    <div class="card col" style="border-color:rgba(239,68,68,.4)"><h4>📩 Письма / Апелляции (${appeals.length})</h4>
+    <div class="card col" style="border-color:var(--r)"><h4>📩 Письма / Апелляции (${appeals.length})</h4>
       ${appeals.map(a => `<div class="col mut" style="padding:8px;background:var(--s2);border-radius:8px"><div><b>${esc(a.username)}</b>: ${esc(a.message)}</div>
         <div class="row"><button class="sm btn-g" data-id="${esc(a.id)}" onclick="resAppeal(this.dataset.id,true)">✅ Разбанить</button><button class="sm btn-r" data-id="${esc(a.id)}" onclick="resAppeal(this.dataset.id,false)">🚫 Отклонить</button></div></div>`).join('') || '<span class="mut">Писем нет</span>'}</div>
     <div class="card col"><h4>📦 Заявки на оплату (${(d.orders || []).length})</h4>
@@ -1037,5 +1012,15 @@ async function renderAdm() {
       <div style="max-height:200px;overflow-y:auto">${alerts.map(a => `<div class="mut" style="padding:4px 0;border-bottom:1px solid var(--b)"><b>${esc(a.username)}</b>: ${esc(a.message)}</div>`).join('') || '<span class="mut">Всё чисто</span>'}</div></div>
     <div class="card col"><h4>🔑 Все ключи (${keys.length})</h4>
       ${keys.map(k => `<div class="row sp mut"><span><b>${esc(k.title || k.id)}</b> (${esc(k.provider)})</span><button class="sm btn-r" data-id="${esc(k.id)}" onclick="delKeyAdm(this.dataset.id)">🗑</button></div>`).join('') || '<span class="mut">Ключей нет</span>'}</div>
-    <div class="card col"><h4>🎟 Промокоды</h4><div class="row"><input id="pr-c" placeholder="Код" style="flex:1"><select id="pr-p"><option value="pro">PRO</option><option value="ultra">ULTRA</option></select><input id="pr-d" value="30" style="width:55px"><button class="sm btn-red" onclick="adm('promo',{code:$('pr-c').value,plan:$('pr-p').value,days:+$('pr-d').value})">+</button></div>
-      ${(d.promos || []).map(p => `<div class="row sp mut"><span><b>${esc(p.code)}</b> (${esc(p.plan)})</span><button class="sm btn-r" data-c="${esc(p.code)}" onclick="adm('promo/'+encodeURIComponent(this.dataset.c),null,'DELETE')">✕</button></di
+    <div class="card col"><h4>🎟 Промокоды</h4><div class="row"><input id="pr-c" placeholder="Код" style="flex:1"><select id="pr-p"><option value="pro">PRO</option><option value="ultra">ULTRA</option></select><input id="pr-d" value="60" style="width:55px" title="Дней"><button class="sm btn" onclick="adm('promo',{code:$('pr-c').value,plan:$('pr-p').value,days:+$('pr-d').value})">+</button></div>
+      ${(d.promos || []).map(p => `<div class="row sp mut"><span><b>${esc(p.code)}</b> (${esc(p.plan)}, ${p.days || 30}д)</span><button class="sm btn-r" data-c="${esc(p.code)}" onclick="adm('promo/'+encodeURIComponent(this.dataset.c),null,'DELETE')">✕</button></div>`).join('')}</div>
+    <div class="card col"><h4>🏦 Сбер и @NexusKassa_bot</h4><input id="ap-p" placeholder="Телефон Сбера" value="${esc(pc.phone || '')}"><input id="ap-b" placeholder="Банк" value="${esc(pc.bank || 'Сбербанк')}"><input id="ap-t" placeholder="TG Token" value="${esc(pc.tgToken || '')}"><input id="ap-c" placeholder="TG Chat ID" value="${esc(pc.tgChatId || '')}"><button class="btn sm" onclick="adm('pay-config',{phone:$('ap-p').value,bank:$('ap-b').value,tgToken:$('ap-t').value,tgChatId:$('ap-c').value})">Сохранить</button></div>
+    <div class="card col"><h4>📢 Реклама и 🏆 Реф-топ</h4><label class="row mut"><input type="checkbox" id="aa-e" ${ad.enabled ? 'checked' : ''}> Вкл</label><input id="aa-t" placeholder="Заголовок" value="${esc(ad.title || '')}"><input id="aa-x" placeholder="Текст" value="${esc(ad.text || '')}"><input id="aa-u" placeholder="URL" value="${esc(ad.url || '')}"><button class="btn sm" onclick="adm('ad',{enabled:$('aa-e').checked,title:$('aa-t').value,text:$('aa-x').value,url:$('aa-u').value})">Сохранить</button>
+      <div class="mut">Топ рефоводов: ${(d.refTop || []).map(r => esc(r.username) + ':' + r.valid_refs).join(', ') || 'пока нет'}</div></div>
+  </div>`;
+  drawAdmUsers();
+}
+loadStats(); loadMe();
+</script>
+</body>
+</html>
